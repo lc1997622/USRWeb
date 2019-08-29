@@ -1,2 +1,2 @@
 # USRWeb
-The Web of scientific research inuniversities
+The Web of Scientific Research Laboratories in Universities
