@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
@@ -10,12 +10,14 @@
     <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
-
-</head>
 <body>
     <div id="vue">
         {{text}}
         {{text1}}
+        <div v-if="0">
+            1111
+        </div>
+        <button v-on:click="setText">按钮</button>
     </div>
 
 </body>
@@ -36,7 +38,7 @@
 <!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
 
 <script>
-    var vue = new Vue({
+    var app = new Vue({
         el: "#vue",
         data: {
             text: "This is a demo!",
@@ -44,6 +46,11 @@
 
         },
         methods: {
+            setText() {
+                alert("sss")
+                this.text='hhh'
+
+            }
         },
         mounted(){
         }
