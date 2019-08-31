@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>首页</title>
 
 
     <!-- === CSS === -->
@@ -16,8 +16,7 @@
 <body>
 
 
-
-<main role="main">
+<div id="vue">
 
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -67,160 +66,75 @@
         </a>
     </div>
 
+    <div id="content">
+        <div id="dynamic_message" class="row">
+            <div class="col-4">
+                <p style="float: left">新闻动态</p>&nbsp
+                <a href="#" v-on:click="turnPage('views/news.html', 'views/dynamic_message.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
+                <div class="clearfix"></div>
+                <ul v-for="news in newsList.slice(0, 8)" style="margin: 0; padding-left: 0">
+                    <a href="#" v-on:click="turnPage('views/content.html')"
+                       style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{news.title}}</a>
+                    <span style="float: right;">{{news.id}}</span>
 
-    <!--<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">-->
-    <!--<div class="col-md-6 px-0">-->
-    <!--<h1 class="display-4 font-italic">Title of a longer featured blog post</h1>-->
-    <!--<p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>-->
-    <!--<p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="row mb-2">-->
-    <!--<div class="col-md-6">-->
-    <!--<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">-->
-    <!--<div class="col p-4 d-flex flex-column position-static">-->
-    <!--<strong class="d-inline-block mb-2 text-primary">World</strong>-->
-    <!--<h3 class="mb-0">Featured post</h3>-->
-    <!--<div class="mb-1 text-muted">Nov 12</div>-->
-    <!--<p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>-->
-    <!--<a href="#" class="stretched-link">Continue reading</a>-->
-    <!--</div>-->
-    <!--<div class="col-auto d-none d-lg-block">-->
-    <!--<svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>                    </div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-md-6">-->
-    <!--<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">-->
-    <!--<div class="col p-4 d-flex flex-column position-static">-->
-    <!--<strong class="d-inline-block mb-2 text-success">Design</strong>-->
-    <!--<h3 class="mb-0">Post title</h3>-->
-    <!--<div class="mb-1 text-muted">Nov 11</div>-->
-    <!--<p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>-->
-    <!--<a href="#" class="stretched-link">Continue reading</a>-->
-    <!--</div>-->
-    <!--<div class="col-auto d-none d-lg-block">-->
-    <!--<svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>                    </div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<main role="main" class="container">-->
-    <!--<div class="row">-->
-    <!--<div class="col-md-8 blog-main">-->
-    <!--<h3 class="pb-4 mb-4 font-italic border-bottom">-->
-    <!--From the Firehose-->
-    <!--</h3>-->
-
-    <!--<div class="blog-post">-->
-    <!--<h2 class="blog-post-title">Sample blog post</h2>-->
-    <!--<p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>-->
-
-    <!--<p>This blog post shows a few different types of content that’s supported and styled with Bootstrap. Basic typography, images, and code are all supported.</p>-->
-    <!--<hr>-->
-    <!--<p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>-->
-    <!--<blockquote>-->
-    <!--<p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>-->
-    <!--</blockquote>-->
-    <!--<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>-->
-    <!--<h2>Heading</h2>-->
-    <!--<p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>-->
-    <!--<h3>Sub-heading</h3>-->
-    <!--<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>-->
-    <!--<pre><code>Example code block</code></pre>-->
-    <!--<p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>-->
-    <!--<h3>Sub-heading</h3>-->
-    <!--<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>-->
-    <!--<ul>-->
-    <!--<li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>-->
-    <!--<li>Donec id elit non mi porta gravida at eget metus.</li>-->
-    <!--<li>Nulla vitae elit libero, a pharetra augue.</li>-->
-    <!--</ul>-->
-    <!--<p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>-->
-    <!--<ol>-->
-    <!--<li>Vestibulum id ligula porta felis euismod semper.</li>-->
-    <!--<li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>-->
-    <!--<li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>-->
-    <!--</ol>-->
-    <!--<p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>-->
-    <!--</div>&lt;!&ndash; /.blog-post &ndash;&gt;-->
-
-    <!--<div class="blog-post">-->
-    <!--<h2 class="blog-post-title">Another blog post</h2>-->
-    <!--<p class="blog-post-meta">December 23, 2013 by <a href="#">Jacob</a></p>-->
-
-    <!--<p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>-->
-    <!--<blockquote>-->
-    <!--<p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>-->
-    <!--</blockquote>-->
-    <!--<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>-->
-    <!--<p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>-->
-    <!--</div>&lt;!&ndash; /.blog-post &ndash;&gt;-->
-
-    <!--<div class="blog-post">-->
-    <!--<h2 class="blog-post-title">New feature</h2>-->
-    <!--<p class="blog-post-meta">December 14, 2013 by <a href="#">Chris</a></p>-->
-
-    <!--<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>-->
-    <!--<ul>-->
-    <!--<li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>-->
-    <!--<li>Donec id elit non mi porta gravida at eget metus.</li>-->
-    <!--<li>Nulla vitae elit libero, a pharetra augue.</li>-->
-    <!--</ul>-->
-    <!--<p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>-->
-    <!--<p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>-->
-    <!--</div>&lt;!&ndash; /.blog-post &ndash;&gt;-->
-
-    <!--<nav class="blog-pagination">-->
-    <!--<a class="btn btn-outline-primary" href="#">Older</a>-->
-    <!--<a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>-->
-    <!--</nav>-->
-
-    <!--</div>&lt;!&ndash; /.blog-main &ndash;&gt;-->
-
-    <!--<aside class="col-md-4 blog-sidebar">-->
-    <!--<div class="p-4 mb-3 bg-light rounded">-->
-    <!--<h4 class="font-italic">About</h4>-->
-    <!--<p class="mb-0">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>-->
-    <!--</div>-->
-
-    <!--<div class="p-4">-->
-    <!--<h4 class="font-italic">Archives</h4>-->
-    <!--<ol class="list-unstyled mb-0">-->
-    <!--<li><a href="#">March 2014</a></li>-->
-    <!--<li><a href="#">February 2014</a></li>-->
-    <!--<li><a href="#">January 2014</a></li>-->
-    <!--<li><a href="#">December 2013</a></li>-->
-    <!--<li><a href="#">November 2013</a></li>-->
-    <!--<li><a href="#">October 2013</a></li>-->
-    <!--<li><a href="#">September 2013</a></li>-->
-    <!--<li><a href="#">August 2013</a></li>-->
-    <!--<li><a href="#">July 2013</a></li>-->
-    <!--<li><a href="#">June 2013</a></li>-->
-    <!--<li><a href="#">May 2013</a></li>-->
-    <!--<li><a href="#">April 2013</a></li>-->
-    <!--</ol>-->
-    <!--</div>-->
-
-    <!--<div class="p-4">-->
-    <!--<h4 class="font-italic">Elsewhere</h4>-->
-    <!--<ol class="list-unstyled">-->
-    <!--<li><a href="#">GitHub</a></li>-->
-    <!--<li><a href="#">Twitter</a></li>-->
-    <!--<li><a href="#">Facebook</a></li>-->
-    <!--</ol>-->
-    <!--</div>-->
-    <!--</aside>&lt;!&ndash; /.blog-sidebar &ndash;&gt;-->
-
-    <!--</div>&lt;!&ndash; /.row &ndash;&gt;-->
-
-    <!--</main>&lt;!&ndash; /.container &ndash;&gt;-->
+                </ul>
 
 
+            </div>
+            <div class="col-4">
+                <p style="float: left">通知动态</p>&nbsp
+                <a href="#" v-on:click="turnPage('views/notice.html', 'views/dynamic_message.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
+                <div class="clearfix"></div>
+                <ul v-for="notice in noticeList.slice(0, 8)" style="margin: 0; padding-left: 0">
+                    <a href="#" v-on:click="turnPage('views/content.html')"
+                       style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{notice.title}}</a>
+                    <span style="float: right;">{{notice.id}}</span>
 
-</main>
+                </ul>
+            </div>
+            <div class="col-4">
+                <p style="float: left">学术活动</p>&nbsp
+                <a href="#" v-on:click="turnPage('views/academic_activities.html', 'views/dynamic_message.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
+                <div class="clearfix"></div>
+                <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
+                    <a href="#" v-on:click="turnPage('views/content.html')"
+                       style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{activities.title}}</a>
+                    <span style="float: right;">{{activities.id}}</span>
 
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div id="research_results" class="row">
+            <div class="col-6">
+                <p style="float: left">教学成果</p>&nbsp
+                <a href="#" v-on:click="turnPage('views/teaching_results.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
+                <div class="clearfix"></div>
+                <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
+                    <a href="#" v-on:click="turnPage('views/content.html')"
+                       style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{activities.title}}</a>
+                    <span style="float: right;">{{activities.id}}</span>
+                </ul>
+
+
+            </div>
+            <div class="col-6">
+                <p style="float: left">研究成果</p>&nbsp
+                <a href="#" v-on:click="turnPage('views/research_result.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
+                <div class="clearfix"></div>
+                <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
+                    <a href="#" v-on:click="turnPage('views/content.html')"
+                       style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{activities.title}}</a>
+                    <span style="float: right;">{{activities.id}}</span>
+
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 </body>
 <!-- === JS === -->
 <script src="../js/jquery-3.2.1.slim.min.js"></script>
@@ -234,6 +148,147 @@
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+<script>
+    var homepageVue = new Vue({
+        el: "#vue",
+        data: {
+            src: "homepage.html",
+            newsList: [
+                {
+                    title:"新闻1",
+                    id:1
+                },
+                {
+                    title:"新闻2",
+                    id:2
+                },
+                {
+                    title:"新闻3",
+                    id:3
+                },
+                {
+                    title:"新闻4",
+                    id:4
+                },
+                {
+                    title:"新闻5",
+                    id:5
+                },
+                {
+                    title:"新闻6",
+                    id:6
+                },{
+                    title:"新闻7",
+                    id:7
+                },
+                {
+                    title:"新闻8",
+                    id:8
+                },
+                {
+                    title:"新闻9",
+                    id:9
+                },{
+                    title:"新闻10",
+                    id:10
+                }
+            ],
+            noticeList: [
+                {
+                    title:"通知1",
+                    id:1
+                },
+                {
+                    title:"通知2",
+                    id:2
+                },
+                {
+                    title:"通知3",
+                    id:3
+                },
+                {
+                    title:"通知4",
+                    id:4
+                },
+                {
+                    title:"通知5",
+                    id:5
+                },
+                {
+                    title:"通知6",
+                    id:6
+                },{
+                    title:"通知7",
+                    id:7
+                },
+                {
+                    title:"通知8",
+                    id:8
+                },
+                {
+                    title:"通知9",
+                    id:9
+                },{
+                    title:"通知10",
+                    id:10
+                }
+            ],
+            activitiesList: [
+                {
+                    title:"活动1",
+                    id:1
+                },
+                {
+                    title:"活动2",
+                    id:2
+                },
+                {
+                    title:"活动3",
+                    id:3
+                },
+                {
+                    title:"活动4",
+                    id:4
+                },
+                {
+                    title:"活动5",
+                    id:5
+                },
+                {
+                    title:"活动6",
+                    id:6
+                },{
+                    title:"活动7",
+                    id:7
+                },
+                {
+                    title:"活动8",
+                    id:8
+                },
+                {
+                    title:"活动9",
+                    id:9
+                },{
+                    title:"活动10",
+                    id:10
+                }
+            ]
+        },
+        methods: {
+            turnPage(key, keyPath) {
+                console.log(key, keyPath);
+                window.parent.indexVue.currentPage = key;
+                window.parent.indexVue.turnPage(keyPath);
+                window.parent.document.getElementById("main-frame").contentWindow.childVue.childSrc = key.slice(6);
+                window.parent.document.getElementById("main-frame").contentWindow.childVue.childActiveIndex = key.slice(6);
+                window.parent.indexVue.activeIndex = key;
+            }
+        },
+        mounted(){
+            window.scrollTo(0, 0);
+        }
 
+    })
+</script>
 
 </html>

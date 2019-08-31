@@ -3,6 +3,15 @@ h1, h2, h3, h4, h5, h6 {
     font-family: "微软雅黑";
 }
 
+a{
+    text-decoration: none !important;
+    color:#6c757d!important
+}
+
+a:hover {
+    color: #1be611;!important;
+}
+
 .blog-header {
     line-height: 1;
     border-bottom: 1px solid #e5e5e5;

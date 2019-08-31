@@ -17,7 +17,7 @@
 
 <body>
 <div id="vue">
-    <div class="container">
+    <div class="container" style="min-width: 1000px">
         <header class="blog-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-2 pt-1">
@@ -41,20 +41,64 @@
             </div>
         </header>
 
-        <div class="nav-scroller py-1 mb-2">
-            <nav class="nav d-flex justify-content-between">
-                <a class="p-2 text-muted" href="#" v-on:click="turnPage('views/homepage.html')">首页</a>
-                <a class="p-2 text-muted" href="#" v-on:click="turnPage('views/about_us.html')">关于我们</a>
-                <a class="p-2 text-muted" href="#" v-on:click="turnPage('views/dynamic_message.html')">动态消息</a>
-                <a class="p-2 text-muted" href="#" v-on:click="turnPage('views/research_results.html')">研究成果</a>
-                <a class="p-2 text-muted" href="#" v-on:click="turnPage('views/teaching_research.html')">教学科研</a>
-                <a class="p-2 text-muted" href="#" v-on:click="turnPage('views/admissions_info.html')">招生信息</a>
-                <a class="p-2 text-muted" href="#" v-on:click="turnPage('views/global_cooperation.html')">国际合作</a>
-                <a class="p-2 text-muted" href="#" v-on:click="turnPage('views/internal_system.html')">内部系统</a>
+        <!--<div class="nav-scroller py-1 mb-2">-->
+            <!--<nav class="nav d-flex justify-content-between">-->
+                <!--<a class="p-2 text-muted text-hover" href="#" v-on:click="turnPage('views/homepage.html')">首页</a>-->
+                <!--<a class="p-2 text-muted" href="#" v-on:click="turnPage('views/about_us.html')">关于我们</a>-->
+                <!--<a class="p-2 text-muted" href="#" v-on:click="turnPage('views/dynamic_message.html')">动态消息</a>-->
+                <!--<a class="p-2 text-muted" href="#" v-on:click="turnPage('views/research_results.html')">研究成果</a>-->
+                <!--<a class="p-2 text-muted" href="#" v-on:click="turnPage('views/teaching_results.html')">教学科研</a>-->
+                <!--<a class="p-2 text-muted" href="#" v-on:click="turnPage('views/admissions_info.html')">招生信息</a>-->
+                <!--<a class="p-2 text-muted" href="#" v-on:click="turnPage('views/global_cooperation.html')">国际合作</a>-->
+                <!--<a class="p-2 text-muted" href="#" v-on:click="turnPage('views/internal_system.html')">内部系统</a>-->
 
-            </nav>
+            <!--</nav>-->
+        <!--</div>-->
+        <div id="nav">
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                <el-menu-item index="views/homepage.html">首页</el-menu-item>
+                <el-submenu index="views/about_us.html">
+                    <template slot="title" >关于我们</template>
+                    <el-menu-item index="views/laboratory_info.html">实验室简介</el-menu-item>
+                    <el-menu-item index="views/teacher_info.html">师资队伍</el-menu-item>
+                    <el-menu-item index="views/student_info.html">学生信息</el-menu-item>
+                    <el-menu-item index="views/contact_us.html">联系我们</el-menu-item>
+
+                    <!--<el-submenu index="2-4">-->
+                        <!--<template slot="title">选项4</template>-->
+                        <!--<el-menu-item index="2-4-1">选项1</el-menu-item>-->
+                        <!--<el-menu-item index="2-4-2">选项2</el-menu-item>-->
+                        <!--<el-menu-item index="2-4-3">选项3</el-menu-item>-->
+                    <!--</el-submenu>-->
+                </el-submenu>
+                <el-submenu index="views/dynamic_message.html" >
+                    <template slot="title">动态消息</template>
+                    <el-menu-item index="views/news.html">新闻动态</el-menu-item>
+                    <el-menu-item index="views/notice.html">通知公告</el-menu-item>
+                    <el-menu-item index="views/academic_activities.html">学术活动</el-menu-item>
+                </el-submenu>
+                <el-submenu index="4" >
+                    <template slot="title">教学科研</template>
+                    <el-menu-item index="views/teaching.html">教学工作</el-menu-item>
+                    <el-menu-item index="views/research.html">科研工作</el-menu-item>
+                </el-submenu>
+                <el-submenu index="5" >
+                    <template slot="title">研究成果</template>
+                    <el-menu-item index="views/teaching_results.html">教学成果</el-menu-item>
+                    <el-menu-item index="views/research_results.html">科研成果</el-menu-item>
+                </el-submenu>
+                <el-submenu index="6" >
+                    <template slot="title">招生信息</template>
+                    <el-menu-item index="views/undergraduate_admissions.html">本科生招生</el-menu-item>
+                    <el-menu-item index="views/master_admissions.html">硕士生招生</el-menu-item>
+                    <el-menu-item index="views/phd_admissions.html">博士生招生</el-menu-item>
+                    <el-menu-item index="views/international_admissions.html">留学生招生</el-menu-item>
+                </el-submenu>
+                <el-menu-item index="views/global_cooperation.html">国际合作</el-menu-item>
+                <el-menu-item index="views/internal_system.html">内部系统</el-menu-item>
+
+            </el-menu>
         </div>
-
 
         <iframe id="main-frame" name="main-frame" v-bind:src="src"
                 style="width: calc(100%)" frameborder="no" scrolling="no">
@@ -71,13 +115,12 @@
                         <p>
                             <a href="http://www.bit.edu.cn/m/index.htm" class="col-3">北京理工大学</a>
                             <a href="http://cs.bit.edu.cn/" class="col-3">计算机学院</a>
-
                             <a href="http://ss.bit.edu.cn/" class="col-3">软件学院</a>
                             <a href="http://grd.bit.edu.cn/" class="col-3">研究生院</a>
                         </p>
                     </div>
                     <div class="col-6" >
-                        <p>All rights Reserved | 2019 &copy; 谁当组长</p>
+                        <p>All rights Reserved | 2019 &copy; 高校科研实验室</p>
                         <p>京ICP备XXXXXXXX号　京公网安备XXXXXXXXXXXX号</p>
                         <p>
                             <a href="#">返回顶部</a>
@@ -124,18 +167,41 @@
 </script>
 
 <script>
-    var vue = new Vue({
+    var indexVue = new Vue({
         el: "#vue",
         data: {
-            src: "views/homepage.html"
+            src: "views/homepage.html",
+            activeIndex: "views/homepage.html",
+            currentPage: ""
         },
         methods: {
             turnPage(page) {
-                this.src = page
+                // const loading = this.$loading({
+                //     lock: true,
+                //     text: 'Loading',
+                //     spinner: 'el-icon-loading',
+                //     background: 'rgba(0, 0, 0, 0.7)',
+                //     target: document.querySelector('.div1')
+                // });
+                // setTimeout(() => {
+                //     loading.close();
+                // }, 3000);
+                console.log("index turnPage");
+                this.src = page;
+
+            },
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+                this.currentPage = key;
+                this.turnPage(keyPath[0]);
+                document.getElementById("main-frame").contentWindow.childVue.childSrc = key.slice(6);
+                document.getElementById("main-frame").contentWindow.childVue.childActiveIndex = key.slice(6);
+                indexVue.activeIndex = key
 
             }
         },
         mounted(){
+
         }
 
     })

@@ -3,10 +3,12 @@
 /* Padding below the footer and lighter body text */
 
 body {
-
   color: #5a5a5a;
 }
 
+#content {
+  margin: 1rem 0;
+}
 
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
