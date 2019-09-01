@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.usrweb.dao.UserDao">
+
+	<resultMap id="BaseResultMap" type="com.example.usrweb.entity.User">
+		<id column="id" property="id" />
+		<id column="user_id" property="userId" />
+		<id column="password" property="password" />
+		<id column="user_flag" property="userFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, password, user_flag
+	</sql>
+	
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.usrweb.dao.DictionaryTypeDao">
+
+	<resultMap id="BaseResultMap" type="com.example.usrweb.entity.DictionaryType">
+		<id column="id" property="id" />
+		<id column="dic_value" property="dicValue" />
+		<id column="dic_name" property="dicName" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, dic_value, dic_name
+	</sql>
+	
+</mapper>
