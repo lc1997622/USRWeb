@@ -36,7 +36,25 @@
                             <!--<title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/>-->
                         <!--</svg>-->
                     <!--</a>-->
-                    <a class="btn btn-sm btn-outline-secondary" href="sign_in.html">登录</a>
+                    <el-button plain @click="signInButton">登录</el-button>
+
+                    <el-dialog title="登 录" :visible.sync="dialogFormVisible" width="30%"
+                               center :destroy-on-close=true :close-on-click-modal=false @close="cancelSignIn" @closed="cancelSignIn">
+                        <el-form :model="form">
+                            <el-form-item label="用户名：" :label-width="formLabelWidth">
+                                <el-input v-model="form.username" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="密码：" :label-width="formLabelWidth">
+                                <el-input v-model="form.password" autocomplete="off" show-password></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <p style="text-align: center
+">用户名：admin 密码：admin</p>
+                        <div slot="footer" class="dialog-footer">
+                            <el-button @click="cancelSignIn">取 消</el-button>
+                            <el-button type="primary" @click="signIn">确 定</el-button>
+                        </div>
+                    </el-dialog>
                 </div>
             </div>
         </header>
@@ -170,9 +188,17 @@
     var indexVue = new Vue({
         el: "#vue",
         data: {
+            isSignIn: 0,
             src: "views/homepage.html",
             activeIndex: "views/homepage.html",
-            currentPage: ""
+            currentPage: "views/homepage.html",
+            dialogFormVisible: false,
+            form: {
+                username: "",
+                password: ""
+            },
+            formLabelWidth: '80px',
+            signInMethod: 0
         },
         methods: {
             turnPage(page) {
@@ -191,16 +217,62 @@
 
             },
             handleSelect(key, keyPath) {
-                console.log(key, keyPath);
-                this.currentPage = key;
-                this.turnPage(keyPath[0]);
-                document.getElementById("main-frame").contentWindow.childVue.childSrc = key.slice(6);
-                document.getElementById("main-frame").contentWindow.childVue.childActiveIndex = key.slice(6);
-                indexVue.activeIndex = key
+                if (key == "views/internal_system.html")
+                    this.signInLink();
+                else {
+                    console.log(key, keyPath);
+                    this.currentPage = key;
+                    this.turnPage(keyPath[0]);
+                    document.getElementById("main-frame").contentWindow.childVue.childSrc = key.slice(6);
+                    document.getElementById("main-frame").contentWindow.childVue.childActiveIndex = key.slice(6);
+                    this.activeIndex = key
+                }
+            },
+            signIn() {
+                if (this.form.username=="admin"&&this.form.password=="admin") {
+                    this.$message({
+                        message: '欢迎您：' + this.form.username,
+                        type: 'success'
+                    });
+                    if (this.signInMethod == 2) {
+                        this.turnPage("views/internal_system.html");
+                        // this.activeIndex = "views/internal_system.html";
+                    }
+                }
+                else {
+                    this.$message.error('用户名或密码错误');
+                    this.activeIndex = this.currentPage;
+
+                }
+                this.form.username="";
+                this.form.password="";
+                this.signInMethod = 0;
+                this.dialogFormVisible = false;
+
+            },
+            signInButton() {
+                this.signInMethod = 1;
+                this.dialogFormVisible = true
+            },
+            signInLink() {
+                this.signInMethod = 2;
+                this.dialogFormVisible = true
+            },
+            cancelSignIn() {
+                this.signInMethod = 0;
+                this.form.username="";
+                this.form.password="";
+                this.activeIndex = this.currentPage;
+                this.dialogFormVisible = false;
 
             }
+
         },
-        mounted(){
+        mounted() {
+
+        },
+        updated() {
+            indexVue.activeIndex = this.currentPage;
 
         }
 
