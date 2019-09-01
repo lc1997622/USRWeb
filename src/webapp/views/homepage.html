@@ -108,7 +108,7 @@
         <div id="research_results" class="row">
             <div class="col-6">
                 <p style="float: left">教学成果</p>&nbsp
-                <a href="#" v-on:click="turnPage('views/teaching_results.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
+                <a href="#" v-on:click="turnPage('views/teaching_results.html', 'views/teaching_research_results.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
                 <div class="clearfix"></div>
                 <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
                     <a href="#" v-on:click="turnPage('views/content.html')"
@@ -119,8 +119,8 @@
 
             </div>
             <div class="col-6">
-                <p style="float: left">研究成果</p>&nbsp
-                <a href="#" v-on:click="turnPage('views/research_result.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
+                <p style="float: left">科研成果</p>&nbsp
+                <a href="#" v-on:click="turnPage('views/research_results.html', 'views/teaching_research_results.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
                 <div class="clearfix"></div>
                 <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
                     <a href="#" v-on:click="turnPage('views/content.html')"
