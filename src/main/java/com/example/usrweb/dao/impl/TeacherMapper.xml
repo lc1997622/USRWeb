@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.usrweb.dao.TeacherDao">
+
+	<resultMap id="BaseResultMap" type="com.example.usrweb.entity.Teacher">
+		<id column="id" property="id" />
+		<id column="teacher_id" property="teacherId" />
+		<id column="chinese_name" property="chineseName" />
+		<id column="english_firstname" property="englishFirstname" />
+		<id column="english_lastname" property="englishLastname" />
+		<id column="sex" property="sex" />
+		<id column="type" property="type" />
+		<id column="nationality" property="nationality" />
+		<id column="department_type" property="departmentType" />
+		<id column="department_item" property="departmentItem" />
+		<id column="title" property="title" />
+		<id column="tutor_qualification" property="tutorQualification" />
+		<id column="lab_job" property="labJob" />
+		<id column="institute_job" property="instituteJob" />
+		<id column="part-time_job" property="part-timeJob" />
+		<id column="birthday" property="birthday" />
+		<id column="email" property="email" />
+		<id column="moblie_phone" property="mobliePhone" />
+		<id column="office_phone" property="officePhone" />
+		<id column="comment" property="comment" />
+		<id column="image_id" property="imageId" />
+		<id column="credit" property="credit" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, teacher_id, chinese_name, english_firstname, english_lastname, sex, type, nationality, department_type, department_item, title, tutor_qualification, lab_job, institute_job, part-time_job, birthday, email, moblie_phone, office_phone, comment, image_id, credit
+	</sql>
+	
+</mapper>

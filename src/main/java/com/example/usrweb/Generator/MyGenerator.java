@@ -48,27 +48,27 @@ public class MyGenerator {
         String CLASSCOMMENT = "";
         String AGILE = "";
         Map<String,String> tables = new HashMap<>();
-        tables.put("book","图书");
-        tables.put("course","课程");
-        tables.put("image","图片");
-        tables.put("achievement","成果");
-        tables.put("attendance","签到");
-        tables.put("borrow","借阅");
-        tables.put("contribution","稿件");
-        tables.put("copyright","著作权");
-        tables.put("data","资料");
-        tables.put("dictionary_item","字典项目");
-        tables.put("dictionary_type","字典类型");
-        tables.put("edu_reform","教改");
-        tables.put("international","国际交流信息");
-        tables.put("paper","论文");
-        tables.put("patent","专利");
-        tables.put("project","项目");
-        tables.put("recruit","招生信息");
-        tables.put("student","学生");
-        tables.put("teacher","教师");
-        tables.put("textbook","教材");
-        tables.put("user","用户");
+//        tables.put("book","图书");
+//        tables.put("course","课程");
+//        tables.put("image","图片");
+//        tables.put("achievement","成果");
+//        tables.put("attendance","签到");
+//        tables.put("borrow","借阅");
+//        tables.put("contribution","稿件");
+//        tables.put("copyright","著作权");
+//        tables.put("data","资料");
+//        tables.put("dictionary_item","字典项目");
+//        tables.put("dictionary_type","字典类型");
+//        tables.put("edu_reform","教改");
+//        tables.put("international","国际交流信息");
+//        tables.put("paper","论文");
+//        tables.put("patent","专利");
+//        tables.put("project","项目");
+//        tables.put("recruit","招生信息");
+//        tables.put("student","学生");
+//        tables.put("teacher","教师");
+//        tables.put("textbook","教材");
+//        tables.put("user","用户");
 
 
         for (Map.Entry<String,String> tablemap:tables.entrySet()){

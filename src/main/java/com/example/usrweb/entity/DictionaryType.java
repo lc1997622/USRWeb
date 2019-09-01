@@ -1,0 +1,46 @@
+/**
+ * @filename:DictionaryType 2019年9月1日
+ * @project USR Web  V1.0
+ * Copyright(c) 2020 LiChao Co. Ltd. 
+ * All right reserved. 
+ */
+package com.example.usrweb.entity;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.io.Serializable;
+
+/**   
+ * <p>自动生成工具：mybatis-dsc-generator</p>
+ * 
+ * <p>说明： 字典类型实体类</P>
+ * @version: V1.0
+ * @author: LiChao
+ * 
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+public class DictionaryType extends Model<DictionaryType> {
+
+	private static final long serialVersionUID = 1567339186114L;
+	
+	@TableId(value = "id", type = IdType.AUTO)
+	@ApiModelProperty(name = "id" , value = "id")
+	private Integer id;
+	@ApiModelProperty(name = "dicValue" , value = "类型id")
+	private Integer dicValue;
+	@ApiModelProperty(name = "dicName" , value = "类型名称")
+	private String dicName;
+	@Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+}
