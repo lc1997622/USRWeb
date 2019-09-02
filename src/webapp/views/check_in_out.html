@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 引入bootstrap样式 -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+    <!-- 引入element-ui样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../css/internal_system.css">
+</head>
+
+<body class="check_in_out">
+    <div id="app">
+        <ul>
+            <li>
+                <a class="list_a" href="#" v-on:click="showOrHiddenTable('selfCheckRecordTable')">查看签到/签出记录表</a>
+                <div id="selfCheckRecordTable" style="display:none">
+                    <template>
+                        <el-table class="table" :data="checkInOutData" stripe="true" border="true" height="500">
+                            <el-table-column label="签到/签出记录表" align="center">
+                                <el-table-column prop="date" label="日期" align="center"></el-table-column>
+                                <el-table-column prop="checkIn" label="签到" align="center"></el-table-column>
+                                <el-table-column prop="checkOut" label="签出" align="center"></el-table-column>
+                                <el-table-column prop="status" label="状态" align="center"></el-table-column>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
+            </li>
+            <li>
+                <a class="list_a" href="#" v-on:click="showOrHiddenTable('studentCheckRecordTable')">查看学生签到/签出记录表</a>
+                <div id="studentCheckRecordTable" style="display:none">
+                    <template>
+                        <el-table class="table" :data="selfCheckInOutData" stripe="true" border="true" height="500">
+                            <el-table-column label="签到/签出记录表" align="center">
+                                <el-table-column prop="date" label="日期" align="center"></el-table-column>
+                                <el-table-column prop="checkIn" label="签到" align="center"></el-table-column>
+                                <el-table-column prop="checkOut" label="签出" align="center"></el-table-column>
+                                <el-table-column prop="status" label="状态" align="center"></el-table-column>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+<!-- 引入bootstrap组件库 -->
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue组件库-->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script type="text/javascript">
+    new Vue
+        ({
+            el: '#app',
+            data:
+            {
+                selfCheckInOutData:
+                    [
+                        {
+                            date: '2019-08-31',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-30',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-29',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-28',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-27',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-26',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-25',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-24',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-23',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-22',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-20',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-19',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-18',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-17',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-16',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-15',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-14',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        },
+                        {
+                            date: '2019-08-13',
+                            checkIn: '8:00',
+                            checkOut: '17:00',
+                            status: '1'
+                        }
+                    ]
+            },
+            methods:
+            {
+                showOrHiddenTable: function (id) 
+                {
+                    var traget = document.getElementById(id);
+                    if (traget.style.display == "none") 
+                    {
+                        traget.style.display = "";
+                    } 
+                    else 
+                    {
+                        traget.style.display = "none";
+                    }
+                }
+            }
+        })
+</script>
+
+</html>

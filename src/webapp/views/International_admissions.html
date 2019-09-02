@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
 <head>
-    <!-- Required meta tags -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>demo</title>
+    <title>留学生招生</title>
+
 
     <!-- === CSS === -->
     <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <link rel="stylesheet" href="../css/homepage.css">
     <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+
+</head>
 <body>
-    <div id="vue">
-        {{text}}
-        {{text1}}
-        <div v-if="0">
-            1111
-        </div>
-        <button v-on:click="setText">按钮</button>
-    </div>
+
+
+<div id="vue">
+    留学生招生
+
+
+
+</div>
 
 </body>
-</html>
-
-
 <!-- === JS === -->
 <script src="../js/jquery-3.2.1.slim.min.js"></script>
 <script src="../js/popper.min.js"></script>
@@ -36,26 +36,33 @@
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
-
 <script>
-    var app = new Vue({
+    var internationalAdmissionsVue = new Vue({
         el: "#vue",
         data: {
-            text: "This is a demo!",
-            text1: "中文"
 
         },
         methods: {
-            setText() {
-                alert("sss")
-                this.text='hhh'
+            turnPage(page) {
+                window.parent.indexVue.turnPage(page)
+            },
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleSelect(key, keyPath) {
 
+                console.log(key, keyPath);
+                this.turnPage(key)
             }
         },
         mounted(){
+            window.parent.scrollTo(0, 0);
         }
 
     })
 </script>
-</html>
 
+</html>
