@@ -36,7 +36,8 @@
                             <!--<title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/>-->
                         <!--</svg>-->
                     <!--</a>-->
-                    <el-button plain @click="signInButton">登录</el-button>
+                    <el-button plain @click="signInButton" v-if="!isSignIn">登录</el-button>
+                    <el-button plain @click="signOutButton" v-if="isSignIn">登出</el-button>
 
                     <el-dialog title="登 录" :visible.sync="dialogFormVisible" width="30%"
                                center :destroy-on-close=true :close-on-click-modal=false @close="cancelSignIn" @closed="cancelSignIn">
@@ -234,6 +235,7 @@
                         message: '欢迎您：' + this.form.username,
                         type: 'success'
                     });
+                    this.isSignIn = 1;
                     if (this.signInMethod == 2) {
                         this.turnPage("views/internal_system.html");
                         // this.activeIndex = "views/internal_system.html";
@@ -248,6 +250,14 @@
                 this.form.password="";
                 this.signInMethod = 0;
                 this.dialogFormVisible = false;
+
+            },
+            signOutButton() {
+                this.$message({
+                    message: '已登出',
+                    type: 'success'
+                });
+                this.isSignIn = 0;
 
             },
             signInButton() {
