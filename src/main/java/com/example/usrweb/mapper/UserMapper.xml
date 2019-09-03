@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.usrweb.dao.UserDao">
+
+	<resultMap id="BaseResultMap" type="com.example.usrweb.entity.User">
+		<id column="id" property="id" />
+		<id column="user_id" property="userId" />
+		<id column="password" property="password" />
+		<id column="user_flag" property="userFlag" />
+		<id column="borrow_times" property="borrowTimes" />
+		<id column="creator" property="creator" />
+		<id column="create_time" property="createTime" />
+		<id column="modifier" property="modifier" />
+		<id column="modify_time" property="modifyTime" />
+		<id column="delete_flag" property="deleteFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, password, user_flag, borrow_times, creator, create_time, modifier, modify_time, delete_flag
+	</sql>
+	
+</mapper>
