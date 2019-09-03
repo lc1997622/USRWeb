@@ -17,7 +17,25 @@
 
 
 <div id="vue">
-    留学生招生
+    <h3 style="text-align: center">留学生招生</h3>
+    <br>
+    <hr>
+    <div class="text">
+        <h4>技术要求：</h4>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h4>工作时间：</h4>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h4>其他要求：</h4>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h4>联系人：</h4>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h4>联系方式：</h4>
+        <p>{{admissions.requirement}}</p>
+    </div>
 
 
 
@@ -40,7 +58,13 @@
     var internationalAdmissionsVue = new Vue({
         el: "#vue",
         data: {
-
+            admissions: {
+                requirement:'4',
+                workTime:'4',
+                others:'4',
+                contact:'4',
+                contactWay:'4'
+            }
         },
         methods: {
             turnPage(page) {
