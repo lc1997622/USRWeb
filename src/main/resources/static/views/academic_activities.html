@@ -17,7 +17,15 @@
 
 
 <div id="vue">
-    学术活动
+    <el-row :gutter="20" >
+        <el-col :span="12" v-for="item in activities">
+            <el-card shadow="hover" style="margin-bottom: 1rem">
+                <a href="#" style="text-decoration: none" @click="turnPage(item.id)">{{item.title}}</a>
+                <hr style="width: 30%;margin-left: 0;margin-bottom: 0; padding-left: 0">
+                <time style="font-size: 0.8rem;color: #999;">{{item.time}}</time>
+            </el-card>
+        </el-col>
+    </el-row>
 
 
 
@@ -40,25 +48,52 @@
     var academicVue = new Vue({
         el: "#vue",
         data: {
-
+            activities: [
+                {
+                    id:'1',
+                    title:'1',
+                    time:'1',
+                    userId:'1'
+                },
+                {
+                    id:'2',
+                    title:'2',
+                    time:'2',
+                    userId:'2'
+                },
+                {
+                    id:'3',
+                    title:'3',
+                    time:'3',
+                    userId:'3'
+                },
+                {
+                    id:'4',
+                    title:'4',
+                    time:'4',
+                    userId:'4'
+                }
+            ]
         },
         methods: {
-            turnPage(page) {
-                window.parent.indexVue.turnPage(page)
+            turnPage(id) {
+                window.parent.childVue.contentId = id;
+                window.parent.childVue.childSrc="messageContent.html";
+
             },
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleSelect(key, keyPath) {
-                console.log(key, keyPath);
-                this.turnPage(key)
-            }
         },
         mounted(){
             window.parent.scrollTo(0, 0);
+            $.ajax({
+                url: "",
+                type: "post",
+                data: {
+                    type: 2
+                },
+                success(res){
+                    console.log(res);
+                }
+            })
         }
 
     })

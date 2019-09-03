@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>教学成果</title>
+
+
+    <!-- === CSS === -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <link rel="stylesheet" href="../css/homepage.css">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+
+</head>
+<body>
+
+
+<div id="vue">
+    <el-radio v-model="teachingResultType" label="1">成果</el-radio>
+    <el-radio v-model="teachingResultType" label="2">论文</el-radio>
+    <el-radio v-model="teachingResultType" label="3">教材</el-radio>
+    <el-radio v-model="teachingResultType" label="4">教改</el-radio>
+    <!--成果-->
+    <div v-if="teachingResultType=='1'">
+        <el-table
+                :data="achievement"
+                style="width: 100%">
+            <el-table-column
+                    prop="year"
+                    label="获奖年份">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="名称">
+            </el-table-column>
+            <el-table-column
+                    prop="type"
+                    label="层次">
+                <template slot-scope="scope">
+                    <el-tag>{{scope.row.type}}</el-tag>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+    <!--论文-->
+    <div v-if="teachingResultType=='2'">
+        <el-table
+                :data="paper"
+                style="width: 100%">
+            <el-table-column
+                    prop="year"
+                    label="发表年份">
+            </el-table-column>
+            <el-table-column
+                    prop="title"
+                    label="论文题目">
+            </el-table-column>
+            <el-table-column
+                    prop="journal"
+                    label="期刊/会议名称">
+            </el-table-column>
+            <el-table-column
+                    prop="number"
+                    label="刊号/会议时间">
+            </el-table-column>
+        </el-table>
+    </div>
+    <!--教材-->
+    <div v-if="teachingResultType=='3'">
+        <el-table
+                :data="textbook"
+                style="width: 100%">
+            <el-table-column
+                    prop="year"
+                    label="获奖年份">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="名称">
+            </el-table-column>
+            <el-table-column
+                    prop="prize"
+                    label="获奖情况">
+            </el-table-column>
+        </el-table>
+    </div>
+    <!--教改-->
+    <div v-if="teachingResultType=='4'">
+        <el-table
+                :data="eduReform"
+                style="width: 100%">
+            <el-table-column
+                    prop="year"
+                    label="获批年份">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="名称">
+            </el-table-column>
+            <el-table-column
+                    prop="type"
+                    label="层次">
+                <template slot-scope="scope">
+                    <el-tag>{{scope.row.type}}</el-tag>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+</div>
+
+</body>
+<!-- === JS === -->
+<script src="../js/jquery-3.2.1.slim.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+<script>
+    var teachingResultVue = new Vue({
+        el: "#vue",
+        data: {
+            teachingResultType: "1",
+            achievement: [
+                {
+                    year:'',
+                    name:'',
+                    type:''
+                }
+            ],
+            paper: [
+                {
+                    year:'',
+                    title:'',
+                    journal:'',
+                    number:''
+                }
+            ],
+            textbook: [
+                {
+                    year:'',
+                    name:'',
+                    prize:''
+                }
+            ],
+            eduReform: [
+                {
+                    year:'',
+                    name:'',
+                    type:''
+                }
+            ]
+
+        },
+        methods: {
+
+        },
+        mounted(){
+            window.parent.scrollTo(0, 0);
+        }
+
+    })
+</script>
+
+</html>

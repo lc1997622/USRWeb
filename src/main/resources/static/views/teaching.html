@@ -2,7 +2,7 @@
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>学生信息</title>
+    <title>教学工作</title>
 
 
     <!-- === CSS === -->
@@ -17,7 +17,41 @@
 
 
 <div id="vue">
-    学生信息
+    <el-table
+            :data="teaching"
+            style="width: 100%">
+        <el-table-column
+                prop="courseId"
+                label="课程编号">
+        </el-table-column>
+        <el-table-column
+                prop="name"
+                label="课程名称">
+        </el-table-column>
+        <el-table-column
+                prop="type"
+                label="课程性质">
+            <template slot-scope="scope">
+                <el-tag>{{scope.row.type}}</el-tag>
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="studentType"
+                label="学生层次">
+            <template slot-scope="scope">
+                <el-tag type="success">{{scope.row.studentType}}</el-tag>
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="courseTime"
+                label="上课时间">
+        </el-table-column>
+        <el-table-column
+                prop="teacher"
+                label="主讲教师">
+        </el-table-column>
+    </el-table>
+
 
 
 </div>
@@ -36,26 +70,22 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
 <script>
-    var studentInfoVue = new Vue({
+    var teachingVue = new Vue({
         el: "#vue",
         data: {
-
+            teaching:[
+                {
+                    courseId:'1',
+                    name:'1',
+                    type:'1',
+                    studentType:'1',
+                    courseTime:'1',
+                    teacher:'1'
+                }
+            ]
         },
         methods: {
-            turnPage(page) {
-                window.parent.indexVue.turnPage(page)
-            },
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleSelect(key, keyPath) {
 
-                console.log(key, keyPath);
-                this.turnPage(key)
-            }
         },
         mounted(){
             window.parent.scrollTo(0, 0);

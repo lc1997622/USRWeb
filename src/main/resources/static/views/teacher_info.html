@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>师资队伍</title>
+
+
+    <!-- === CSS === -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <link rel="stylesheet" href="../css/homepage.css">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+
+</head>
+<body>
+
+
+<div id="vue">
+    <el-radio v-model="isFullTime" label="1">全职教师</el-radio>
+    <el-radio v-model="isFullTime" label="0">兼职教师</el-radio>
+    <el-table
+            :data="fullTime"
+            style="width: 100%"
+            v-if="isFullTime=='1'">
+        <el-table-column
+                prop="name"
+                label="姓名">
+        </el-table-column>
+        <el-table-column
+                prop="title"
+                label="职称">
+            <template slot-scope="scope">
+                <el-tag>{{scope.row.title}}</el-tag>
+            </template>
+        </el-table-column>
+
+
+        <el-table-column
+                prop="labJob"
+                label="实验室职务">
+        </el-table-column>
+        <el-table-column
+                prop="tutorQualification"
+                label="导师资格">
+            <template slot-scope="scope">
+                <el-tag type="success">{{scope.row.tutorQualification}}</el-tag>
+            </template>
+        </el-table-column>
+
+        <el-table-column
+                prop="parttimeJob"
+                label="社会兼职">
+        </el-table-column>
+        <el-table-column
+                prop="instituteJob"
+                label="学院行政职务">
+        </el-table-column>
+    </el-table>
+    <el-table
+            :data="partTime"
+            style="width: 100%"
+            v-if="isFullTime=='0'">
+        <el-table-column
+                prop="name"
+                label="姓名">
+        </el-table-column>
+        <el-table-column
+                prop="title"
+                label="职称">
+            <template slot-scope="scope">
+                <el-tag>{{scope.row.title}}</el-tag>
+            </template>
+        </el-table-column>
+
+        <el-table-column
+                prop="departmentItem"
+                label="工作单位">
+        </el-table-column>
+
+    </el-table>
+
+</div>
+
+</body>
+<!-- === JS === -->
+<script src="../js/jquery-3.2.1.slim.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+<script>
+    var teacherInfoVue = new Vue({
+        el: "#vue",
+        data: {
+            isFullTime: '1',
+            fullTime:[
+                {
+                    name:'0',
+                    title:'0',
+                    tutorQualification:'0',
+                    labJob:'0',
+                    parttimeJob:'0',
+                    instituteJob:'0'
+                },
+                {
+                    name:'1',
+                    title:'1',
+                    tutorQualification:'1',
+                    labJob:'1',
+                    parttimeJob:'1',
+                    instituteJob:'1'
+                },
+                {
+                    name:'2',
+                    title:'2',
+                    tutorQualification:'2',
+                    labJob:'2',
+                    parttimeJob:'2',
+                    instituteJob:'2'
+                },
+                {
+                    name:'3',
+                    title:'3',
+                    tutorQualification:'3',
+                    labJob:'3',
+                    parttimeJob:'3',
+                    instituteJob:'3'
+                },
+                {
+                    name:'4',
+                    title:'4',
+                    tutorQualification:'4',
+                    labJob:'4',
+                    parttimeJob:'4',
+                    instituteJob:'4'
+                }
+
+            ],
+            partTime:[
+                {
+                    name:'0',
+                    title:'0',
+                    departmentItem:'0'
+                },
+                {
+                    name:'1',
+                    title:'1',
+                    departmentItem:'1'
+                },
+                {
+                    name:'2',
+                    title:'2',
+                    departmentItem:'2'
+                },
+                {
+                    name:'3',
+                    title:'3',
+                    departmentItem:'3'
+                },
+                {
+                    name:'4',
+                    title:'4',
+                    departmentItem:'4'
+                }
+            ],
+        },
+        methods: {
+            turnPage(page) {
+                window.parent.indexVue.turnPage(page)
+            },
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleSelect(key, keyPath) {
+
+                console.log(key, keyPath);
+                this.turnPage(key)
+            }
+        },
+        mounted(){
+            window.parent.scrollTo(0, 0);
+            $.ajax({
+                url: "/teacher/getPages",
+                type: "get",
+                success(res) {
+                    console.log(res)
+                }
+            })
+        }
+
+    })
+</script>
+
+</html>

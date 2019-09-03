@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内容页</title>
+
+    <!-- === CSS === -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <link rel="stylesheet" href="../css/content.css">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+</head>
+<body>
+
+<div id="vue">
+
+    <h3 style="text-align: center">{{news.title}}</h3>
+    <br>
+    <p style="text-align: center">发布时间：{{news.time}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;供稿：{{news.writer}}</p>
+    <hr>
+    <div class="text">
+        <p>{{news.content}}</p>
+    </div>
+
+</div>
+
+
+<!-- === JS === -->
+<script src="../js/jquery-3.2.1.slim.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+<script>
+    function setIframeHeight(iframe) {
+        if (iframe) {
+            var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+            if (iframeWin.document.body) {
+                iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+            }
+        }
+    };
+
+    window.onload = function () {
+        setIframeHeight(document.getElementById('main-frame'));
+    };
+</script>
+<script>
+    var contentVue = new Vue({
+        el: "#vue",
+        data: {
+            news: {
+                id:'1',
+                title:'北理工机械学院赴方山县开展2019年度常态化科技扶贫工作',
+                time:'2019-08-21',
+                writer:'机械与车辆学院',
+                content: "2019年4月18日山西省人民政府发布通知，包括北京理工大学定点扶贫的山西省吕梁市方山县在内的17个县（区）正式脱贫摘帽！北京理工大学机械与车辆学院在科技扶贫方面始终坚持精准对接、精准施策，努力做到脱贫攻坚“摘帽”不摘责任，进一步巩固脱贫成效，构筑科技扶贫常态化模式。学院党委于8月16日至18日组织科研骨干教师一行5人赴方山县开展精准扶贫工作，胡堡村挂职第一书记吴克友负责此次扶贫对接工作。学院制造工程系刘佳教授、车辆工程系李惠彬副教授、工程训练中心李占龙、李春阳、学院办公室刘芳熙参与此次科技扶贫工作，就企业技术管理培训、工程实训、产品研发等开展培训和扶贫相关工作。"
+            }
+        },
+        methods: {
+
+        },
+        mounted(){
+            window.parent.parent.scrollTo(0, 0);
+            console.log(window.parent.childVue.contentId);
+            $.ajax({
+                url: "",
+                type: "post",
+                data: {
+                    id: ''
+                },
+                success(res){
+                    console.log(res);
+                }
+            })
+        }
+
+    })
+</script>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>教学工作</title>
+    <title>科研工作</title>
 
 
     <!-- === CSS === -->
@@ -17,7 +17,27 @@
 
 
 <div id="vue">
-    教学工作
+    <el-table
+            :data="research"
+            style="width: 100%">
+        <el-table-column
+                prop="teacher"
+                label="老师">
+        </el-table-column>
+        <el-table-column
+                prop="id"
+                label="项目编号">
+        </el-table-column>
+        <el-table-column
+                prop="name"
+                label="项目名称">
+        </el-table-column>
+        <el-table-column
+                prop="type"
+                label="项目性质">
+        </el-table-column>
+
+    </el-table>
 
 
 
@@ -37,26 +57,20 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
 <script>
-    var teachingVue = new Vue({
+    var researchVue = new Vue({
         el: "#vue",
         data: {
-
+            research:[
+                {
+                    teacher:'1',
+                    id:'1',
+                    name:'1',
+                    type:'1'
+                }
+            ]
         },
         methods: {
-            turnPage(page) {
-                window.parent.indexVue.turnPage(page)
-            },
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleSelect(key, keyPath) {
 
-                console.log(key, keyPath);
-                this.turnPage(key)
-            }
         },
         mounted(){
             window.parent.scrollTo(0, 0);
