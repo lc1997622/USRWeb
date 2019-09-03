@@ -66,7 +66,7 @@ public class MyGenerator {
 //        tables.put("project","项目");
 //        tables.put("recruit","招生信息");
 //        tables.put("student","学生");
-//        tables.put("teacher","教师");
+        tables.put("teacher","教师");
 //        tables.put("textbook","教材");
 //        tables.put("user","用户");
 

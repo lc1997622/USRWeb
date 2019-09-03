@@ -30,7 +30,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Teacher extends Model<Teacher> {
 
-	private static final long serialVersionUID = 1567339186271L;
+	private static final long serialVersionUID = 1567480396300L;
 	
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(name = "id" , value = "")
@@ -61,8 +61,8 @@ public class Teacher extends Model<Teacher> {
 	private String labJob;
 	@ApiModelProperty(name = "instituteJob" , value = "学院行政职务")
 	private String instituteJob;
-	@ApiModelProperty(name = "part-timeJob" , value = "兼职职务")
-	private String partTimeJob;
+	@ApiModelProperty(name = "parttimeJob" , value = "兼职职务")
+	private String parttimeJob;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
 	@ApiModelProperty(name = "birthday" , value = "生日")
