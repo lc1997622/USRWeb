@@ -32,7 +32,7 @@ public class SwaggerConfig {
 	@Value("${server.port}")
     private static String port;
 	
-	public static String CONTROLLER_URL="com.example.usrweb.web";    //Swagger扫描的接口路径
+	public static String CONTROLLER_URL="com.example.usrweb.controller";    //Swagger扫描的接口路径
 	public static String SWAGGER_TITLE="API文档-LiChao"; 	    		//Swagger接口文档标题
 	public static String SWAGGER_DESCRIPTION="API文档";   				//Swagger接口文档描述
 	public static String SWAGGER_VERSION="1.0";                         //Swagger接口文档版本

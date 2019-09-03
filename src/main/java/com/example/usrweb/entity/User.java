@@ -30,7 +30,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class User extends Model<User> {
 
-	private static final long serialVersionUID = 1567339186744L;
+	private static final long serialVersionUID = 1567498643171L;
 	
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(name = "id" , value = "")
@@ -41,6 +41,22 @@ public class User extends Model<User> {
 	private String password;
 	@ApiModelProperty(name = "userFlag" , value = "0：管理员，1：学生，2：老师，3：办公室主任，4：资料管理员")
 	private Integer userFlag;
+	@ApiModelProperty(name = "borrowTimes" , value = "借阅次数，默认为0，系统限制为2")
+	private Integer borrowTimes;
+	@ApiModelProperty(required = false, hidden = true)
+	private String creator;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date createTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private String modifier;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date modifyTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private Integer deleteFlag;
 	@Override
     protected Serializable pkVal() {
         return this.id;

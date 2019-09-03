@@ -33,10 +33,10 @@ public class MyGenerator {
     // 路径信息，分开路径方便聚合工程项目，微服务项目
     public static final String ENTITY_URL = "com.example.usrweb.entity";
     public static final String DAO_URL = "com.example.usrweb.dao";
-    public static final String XML_URL = "com.example.usrweb.dao.impl";
+    public static final String XML_URL = "com.example.usrweb.mapper";
     public static final String SERVICE_URL = "com.example.usrweb.service";
     public static final String SERVICE_IMPL_URL = "com.example.usrweb.service.impl";
-    public static final String CONTROLLER_URL = "com.example.usrweb.web";
+    public static final String CONTROLLER_URL = "com.example.usrweb.controller";
 
     //是否是Swagger配置
     public static final String IS_SWAGGER = "true";
@@ -56,7 +56,7 @@ public class MyGenerator {
 //        tables.put("borrow","借阅");
 //        tables.put("contribution","稿件");
 //        tables.put("copyright","著作权");
-//        tables.put("data","资料");
+//        tables.put("document","资料");
 //        tables.put("dictionary_item","字典项目");
 //        tables.put("dictionary_type","字典类型");
 //        tables.put("edu_reform","教改");
@@ -66,10 +66,27 @@ public class MyGenerator {
 //        tables.put("project","项目");
 //        tables.put("recruit","招生信息");
 //        tables.put("student","学生");
-        tables.put("teacher","教师");
+//        tables.put("teacher","教师");
 //        tables.put("textbook","教材");
 //        tables.put("user","用户");
 
+        tables.put("contribution_has_document","稿件资料关联");
+        tables.put("contribution_has_image","稿件图片关联");
+        tables.put("course_has_student","学生课程关联");
+        tables.put("student_has_teacher","老师学生关联");
+        tables.put("teacher_has_course","老师课程关联");
+        tables.put("user_has_textbook","用户教材管理");
+        tables.put("user_has_recruit","用户招生信息关联");
+        tables.put("user_has_project","用户项目关联");
+        tables.put("user_has_patent","用户专利关联");
+        tables.put("user_has_paper","用户论文关联");
+//        tables.put("user_has_introduction","用户");
+        tables.put("user_has_international","用户国际交流信息关联");
+//        tables.put("user_has_handbook","用户");
+        tables.put("user_has_edu_reform","用户教改关联");
+        tables.put("user_has_document","用户资料关联");
+        tables.put("user_has_copyright","用户著作权关联");
+        tables.put("user_has_achievement","用户成果关联");
 
         for (Map.Entry<String,String> tablemap:tables.entrySet()){
             TABLE = tablemap.getKey();
