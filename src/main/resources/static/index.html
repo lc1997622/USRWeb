@@ -120,7 +120,7 @@
         </div>
 
         <iframe id="main-frame" name="main-frame" v-bind:src="src"
-                style="width: calc(100%)" frameborder="no" scrolling="no">
+                style="width: calc(100%);" frameborder="no" scrolling="no">
         </iframe>
 
 
@@ -219,7 +219,10 @@
             },
             handleSelect(key, keyPath) {
                 if (key == "views/internal_system.html")
-                    this.signInLink();
+                    if (this.isSignIn == 1)
+                        this.turnPage(key);
+                    else
+                        this.signInLink();
                 else {
                     console.log(key, keyPath);
                     this.currentPage = key;

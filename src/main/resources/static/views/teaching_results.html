@@ -17,10 +17,96 @@
 
 
 <div id="vue">
-    教学成果
-
-
-
+    <el-radio v-model="teachingResultType" label="1">成果</el-radio>
+    <el-radio v-model="teachingResultType" label="2">论文</el-radio>
+    <el-radio v-model="teachingResultType" label="3">教材</el-radio>
+    <el-radio v-model="teachingResultType" label="4">教改</el-radio>
+    <!--成果-->
+    <div v-if="teachingResultType=='1'">
+        <el-table
+                :data="achievement"
+                style="width: 100%">
+            <el-table-column
+                    prop="year"
+                    label="获奖年份">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="名称">
+            </el-table-column>
+            <el-table-column
+                    prop="type"
+                    label="层次">
+                <template slot-scope="scope">
+                    <el-tag>{{scope.row.type}}</el-tag>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+    <!--论文-->
+    <div v-if="teachingResultType=='2'">
+        <el-table
+                :data="paper"
+                style="width: 100%">
+            <el-table-column
+                    prop="year"
+                    label="发表年份">
+            </el-table-column>
+            <el-table-column
+                    prop="title"
+                    label="论文题目">
+            </el-table-column>
+            <el-table-column
+                    prop="journal"
+                    label="期刊/会议名称">
+            </el-table-column>
+            <el-table-column
+                    prop="number"
+                    label="刊号/会议时间">
+            </el-table-column>
+        </el-table>
+    </div>
+    <!--教材-->
+    <div v-if="teachingResultType=='3'">
+        <el-table
+                :data="textbook"
+                style="width: 100%">
+            <el-table-column
+                    prop="year"
+                    label="获奖年份">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="名称">
+            </el-table-column>
+            <el-table-column
+                    prop="prize"
+                    label="获奖情况">
+            </el-table-column>
+        </el-table>
+    </div>
+    <!--教改-->
+    <div v-if="teachingResultType=='4'">
+        <el-table
+                :data="eduReform"
+                style="width: 100%">
+            <el-table-column
+                    prop="year"
+                    label="获批年份">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="名称">
+            </el-table-column>
+            <el-table-column
+                    prop="type"
+                    label="层次">
+                <template slot-scope="scope">
+                    <el-tag>{{scope.row.type}}</el-tag>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
 </div>
 
 </body>
@@ -40,23 +126,40 @@
     var teachingResultVue = new Vue({
         el: "#vue",
         data: {
+            teachingResultType: "1",
+            achievement: [
+                {
+                    year:'',
+                    name:'',
+                    type:''
+                }
+            ],
+            paper: [
+                {
+                    year:'',
+                    title:'',
+                    journal:'',
+                    number:''
+                }
+            ],
+            textbook: [
+                {
+                    year:'',
+                    name:'',
+                    prize:''
+                }
+            ],
+            eduReform: [
+                {
+                    year:'',
+                    name:'',
+                    type:''
+                }
+            ]
 
         },
         methods: {
-            turnPage(page) {
-                window.parent.indexVue.turnPage(page)
-            },
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleSelect(key, keyPath) {
 
-                console.log(key, keyPath);
-                this.turnPage(key)
-            }
         },
         mounted(){
             window.parent.scrollTo(0, 0);

@@ -17,7 +17,54 @@
 
 
 <div id="vue">
-    学生信息
+    <el-radio v-model="isGraduated" label="0">在校生</el-radio>
+    <el-radio v-model="isGraduated" label="1">毕业生</el-radio>
+    <!--在校生-->
+    <div v-if="isGraduated == '0'">
+        在校生
+    </div>
+    <!--毕业生-->
+    <div v-if="isGraduated == '1'">
+        <el-table
+                :data="graduated"
+                style="width: 100%">
+            <el-table-column
+                    prop="name"
+                    label="姓名">
+            </el-table-column>
+            <el-table-column
+                    prop="studentId"
+                    label="学号">
+            </el-table-column>
+            <el-table-column
+                    prop="sex"
+                    label="性别">
+                <template slot-scope="scope">
+                    <el-tag>{{scope.row.sex}}</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="type"
+                    label="学历">
+                <template slot-scope="scope">
+                    <el-tag type="success">{{scope.row.type}}</el-tag>
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                    prop="enrollmentTime"
+                    label="入学时间">
+            </el-table-column>
+            <el-table-column
+                    prop="graduationTime"
+                    label="毕业时间">
+            </el-table-column>
+            <el-table-column
+                    prop="firstCompany"
+                    label="初次就业单位">
+            </el-table-column>
+        </el-table>
+    </div>
 
 
 </div>
@@ -39,7 +86,27 @@
     var studentInfoVue = new Vue({
         el: "#vue",
         data: {
-
+            isGraduated: '0',
+            graduated: [
+                {
+                    name:'1',
+                    studentId:'1',
+                    sex:'1',
+                    type:'1',
+                    enrollmentTime:'1',
+                    graduationTime:'1',
+                    firstCompany:'1'
+                },
+                {
+                    name:'2',
+                    studentId:'2',
+                    sex:'2',
+                    type:'2',
+                    enrollmentTime:'2',
+                    graduationTime:'2',
+                    firstCompany:'2'
+                }
+            ]
         },
         methods: {
             turnPage(page) {
@@ -59,6 +126,13 @@
         },
         mounted(){
             window.parent.scrollTo(0, 0);
+            $.ajax({
+                url: "/student/getPages",
+                type: "get",
+                success(res) {
+                    console.log(res)
+                }
+            })
         }
 
     })

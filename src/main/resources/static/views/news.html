@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
-    <link rel="stylesheet" href="../css/homepage.css">
+    <link rel="stylesheet" href="css/index.css">
     <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
 
 </head>
@@ -17,7 +17,15 @@
 
 
 <div id="vue">
-    新闻动态
+    <el-row :gutter="20" >
+        <el-col :span="12" v-for="item in news">
+            <el-card shadow="hover" style="margin-bottom: 1rem">
+                <a href="#" style="text-decoration: none" @click="turnPage(item.id)">{{item.title}}</a>
+                <hr style="width: 30%;margin-left: 0;margin-bottom: 0; padding-left: 0">
+                <time style="font-size: 0.8rem;color: #999;">{{item.time}}</time>
+            </el-card>
+        </el-col>
+    </el-row>
 
 
 
@@ -40,26 +48,52 @@
     var newsVue = new Vue({
         el: "#vue",
         data: {
-
+            news: [
+                {
+                    id:'1',
+                    title:'1',
+                    time:'1',
+                    userId:'1'
+                },
+                {
+                    id:'2',
+                    title:'2',
+                    time:'2',
+                    userId:'2'
+                },
+                {
+                    id:'3',
+                    title:'3',
+                    time:'3',
+                    userId:'3'
+                },
+                {
+                    id:'4',
+                    title:'4',
+                    time:'4',
+                    userId:'4'
+                }
+            ]
         },
         methods: {
-            turnPage(page) {
-                window.parent.indexVue.turnPage(page)
-            },
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleSelect(key, keyPath) {
+            turnPage(id) {
+                window.parent.childVue.contentId = id;
+                window.parent.childVue.childSrc="messageContent.html";
 
-                console.log(key, keyPath);
-                this.turnPage(key)
-            }
+            },
         },
         mounted(){
             window.parent.scrollTo(0, 0);
+            $.ajax({
+                url: "",
+                type: "post",
+                data: {
+                    type: 0
+                },
+                success(res){
+                    console.log(res);
+                }
+            })
         }
 
     })

@@ -17,7 +17,27 @@
 
 
 <div id="vue">
-    科研工作
+    <el-table
+            :data="research"
+            style="width: 100%">
+        <el-table-column
+                prop="teacher"
+                label="老师">
+        </el-table-column>
+        <el-table-column
+                prop="id"
+                label="项目编号">
+        </el-table-column>
+        <el-table-column
+                prop="name"
+                label="项目名称">
+        </el-table-column>
+        <el-table-column
+                prop="type"
+                label="项目性质">
+        </el-table-column>
+
+    </el-table>
 
 
 
@@ -40,23 +60,17 @@
     var researchVue = new Vue({
         el: "#vue",
         data: {
-
+            research:[
+                {
+                    teacher:'1',
+                    id:'1',
+                    name:'1',
+                    type:'1'
+                }
+            ]
         },
         methods: {
-            turnPage(page) {
-                window.parent.indexVue.turnPage(page)
-            },
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleSelect(key, keyPath) {
 
-                console.log(key, keyPath);
-                this.turnPage(key)
-            }
         },
         mounted(){
             window.parent.scrollTo(0, 0);

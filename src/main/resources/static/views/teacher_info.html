@@ -17,9 +17,68 @@
 
 
 <div id="vue">
-    师资队伍
+    <el-radio v-model="isFullTime" label="1">全职教师</el-radio>
+    <el-radio v-model="isFullTime" label="0">兼职教师</el-radio>
+    <el-table
+            :data="fullTime"
+            style="width: 100%"
+            v-if="isFullTime=='1'">
+        <el-table-column
+                prop="name"
+                label="姓名">
+        </el-table-column>
+        <el-table-column
+                prop="title"
+                label="职称">
+            <template slot-scope="scope">
+                <el-tag>{{scope.row.title}}</el-tag>
+            </template>
+        </el-table-column>
 
 
+        <el-table-column
+                prop="labJob"
+                label="实验室职务">
+        </el-table-column>
+        <el-table-column
+                prop="tutorQualification"
+                label="导师资格">
+            <template slot-scope="scope">
+                <el-tag type="success">{{scope.row.tutorQualification}}</el-tag>
+            </template>
+        </el-table-column>
+
+        <el-table-column
+                prop="parttimeJob"
+                label="社会兼职">
+        </el-table-column>
+        <el-table-column
+                prop="instituteJob"
+                label="学院行政职务">
+        </el-table-column>
+    </el-table>
+    <el-table
+            :data="partTime"
+            style="width: 100%"
+            v-if="isFullTime=='0'">
+        <el-table-column
+                prop="name"
+                label="姓名">
+        </el-table-column>
+        <el-table-column
+                prop="title"
+                label="职称">
+            <template slot-scope="scope">
+                <el-tag>{{scope.row.title}}</el-tag>
+            </template>
+        </el-table-column>
+
+        <el-table-column
+                prop="departmentItem"
+                label="工作单位">
+        </el-table-column>
+
+    </el-table>
 
 </div>
 
@@ -40,7 +99,77 @@
     var teacherInfoVue = new Vue({
         el: "#vue",
         data: {
+            isFullTime: '1',
+            fullTime:[
+                {
+                    name:'0',
+                    title:'0',
+                    tutorQualification:'0',
+                    labJob:'0',
+                    parttimeJob:'0',
+                    instituteJob:'0'
+                },
+                {
+                    name:'1',
+                    title:'1',
+                    tutorQualification:'1',
+                    labJob:'1',
+                    parttimeJob:'1',
+                    instituteJob:'1'
+                },
+                {
+                    name:'2',
+                    title:'2',
+                    tutorQualification:'2',
+                    labJob:'2',
+                    parttimeJob:'2',
+                    instituteJob:'2'
+                },
+                {
+                    name:'3',
+                    title:'3',
+                    tutorQualification:'3',
+                    labJob:'3',
+                    parttimeJob:'3',
+                    instituteJob:'3'
+                },
+                {
+                    name:'4',
+                    title:'4',
+                    tutorQualification:'4',
+                    labJob:'4',
+                    parttimeJob:'4',
+                    instituteJob:'4'
+                }
 
+            ],
+            partTime:[
+                {
+                    name:'0',
+                    title:'0',
+                    departmentItem:'0'
+                },
+                {
+                    name:'1',
+                    title:'1',
+                    departmentItem:'1'
+                },
+                {
+                    name:'2',
+                    title:'2',
+                    departmentItem:'2'
+                },
+                {
+                    name:'3',
+                    title:'3',
+                    departmentItem:'3'
+                },
+                {
+                    name:'4',
+                    title:'4',
+                    departmentItem:'4'
+                }
+            ],
         },
         methods: {
             turnPage(page) {
@@ -60,6 +189,13 @@
         },
         mounted(){
             window.parent.scrollTo(0, 0);
+            $.ajax({
+                url: "/teacher/getPages",
+                type: "get",
+                success(res) {
+                    console.log(res)
+                }
+            })
         }
 
     })
