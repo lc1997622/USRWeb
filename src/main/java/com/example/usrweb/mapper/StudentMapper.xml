@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.usrweb.dao.StudentDao">
+
+	<resultMap id="BaseResultMap" type="com.example.usrweb.entity.Student">
+		<id column="id" property="id" />
+		<id column="student_id" property="studentId" />
+		<id column="level" property="level" />
+		<id column="training" property="training" />
+		<id column="chinese_name" property="chineseName" />
+		<id column="english_firstname" property="englishFirstname" />
+		<id column="english_lastname" property="englishLastname" />
+		<id column="sex" property="sex" />
+		<id column="type" property="type" />
+		<id column="nationality" property="nationality" />
+		<id column="enrollment_time" property="enrollmentTime" />
+		<id column="graduation_time" property="graduationTime" />
+		<id column="tutor" property="tutor" />
+		<id column="vice_tutor" property="viceTutor" />
+		<id column="birthday" property="birthday" />
+		<id column="email" property="email" />
+		<id column="moblie_phone" property="mobliePhone" />
+		<id column="comment" property="comment" />
+		<id column="image_id" property="imageId" />
+		<id column="graduation_flag" property="graduationFlag" />
+		<id column="credit" property="credit" />
+		<id column="first_company" property="firstCompany" />
+		<id column="creator" property="creator" />
+		<id column="create_time" property="createTime" />
+		<id column="modifier" property="modifier" />
+		<id column="modify_time" property="modifyTime" />
+		<id column="delete_flag" property="deleteFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, student_id, level, training, chinese_name, english_firstname, english_lastname, sex, type, nationality, enrollment_time, graduation_time, tutor, vice_tutor, birthday, email, moblie_phone, comment, image_id, graduation_flag, credit, first_company, creator, create_time, modifier, modify_time, delete_flag
+	</sql>
+	
+</mapper>
