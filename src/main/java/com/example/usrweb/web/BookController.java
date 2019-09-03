@@ -7,14 +7,19 @@
 package com.example.usrweb.web;
 
 import com.example.usrweb.aid.AbstractController;
+import com.example.usrweb.dao.BookDao;
 import com.example.usrweb.entity.Book;
 import com.example.usrweb.service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-/**   
+
+import java.util.List;
+
+/**
  * <p>自动生成工具：mybatis-dsc-generator</p>
  * 
  * <p>说明： 图书API接口层</P>
@@ -28,5 +33,13 @@ import org.slf4j.LoggerFactory;
 public class BookController extends AbstractController<BookService,Book>{
 
 	Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
+	@Autowired
+	private BookService bookService;
+
+	@RequestMapping("/book")
+	public void select(){
+		List<Book> books = bookService.list();
+		System.out.println(books);
+	}
 }

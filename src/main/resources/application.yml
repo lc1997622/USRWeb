@@ -30,5 +30,5 @@ logging:
     com.example.usrweb: debug
 #  path: "D:/Projects/Log/test.log"
 
-mybatis-plus.mapper-locations=classpath: /impl/*Mapper.xml
+mybatis-plus.mapper-locations=classpath: /dao/impl/*Mapper.xml
 mybatis-plus.type-aliases-package: com.example.usrweb.dao

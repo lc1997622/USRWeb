@@ -17,7 +17,7 @@
 		<id column="tutor_qualification" property="tutorQualification" />
 		<id column="lab_job" property="labJob" />
 		<id column="institute_job" property="instituteJob" />
-		<id column="part-time_job" property="part-timeJob" />
+		<id column="parttime_job" property="parttimeJob" />
 		<id column="birthday" property="birthday" />
 		<id column="email" property="email" />
 		<id column="moblie_phone" property="mobliePhone" />
@@ -27,7 +27,7 @@
 		<id column="credit" property="credit" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, teacher_id, chinese_name, english_firstname, english_lastname, sex, type, nationality, department_type, department_item, title, tutor_qualification, lab_job, institute_job, part-time_job, birthday, email, moblie_phone, office_phone, comment, image_id, credit
+		id, teacher_id, chinese_name, english_firstname, english_lastname, sex, type, nationality, department_type, department_item, title, tutor_qualification, lab_job, institute_job, parttime_job, birthday, email, moblie_phone, office_phone, comment, image_id, credit
 	</sql>
 	
 </mapper>
