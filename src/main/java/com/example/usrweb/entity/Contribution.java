@@ -30,7 +30,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Contribution extends Model<Contribution> {
 
-	private static final long serialVersionUID = 1567339186181L;
+	private static final long serialVersionUID = 1567498642104L;
 	
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(name = "id" , value = "稿件id")
@@ -43,6 +43,20 @@ public class Contribution extends Model<Contribution> {
 	private Date time;
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
+	@ApiModelProperty(required = false, hidden = true)
+	private String creator;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date createTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private String modifier;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date modifyTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private Integer deleteFlag;
 	@Override
     protected Serializable pkVal() {
         return this.id;

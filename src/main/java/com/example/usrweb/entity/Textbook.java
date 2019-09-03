@@ -30,7 +30,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Textbook extends Model<Textbook> {
 
-	private static final long serialVersionUID = 1567339185220L;
+	private static final long serialVersionUID = 1567498641558L;
 	
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(name = "id" , value = "教材id")
@@ -43,6 +43,20 @@ public class Textbook extends Model<Textbook> {
 	private Date year;
 	@ApiModelProperty(name = "type" , value = "层次。0：校级，1：省部，2：国家")
 	private Integer type;
+	@ApiModelProperty(required = false, hidden = true)
+	private String creator;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date createTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private String modifier;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date modifyTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private Integer deleteFlag;
 	@Override
     protected Serializable pkVal() {
         return this.id;

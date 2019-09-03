@@ -30,13 +30,17 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Student extends Model<Student> {
 
-	private static final long serialVersionUID = 1567339185929L;
+	private static final long serialVersionUID = 1567498641837L;
 	
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(name = "id" , value = "id")
 	private Integer id;
 	@ApiModelProperty(name = "studentId" , value = "学生学号，10位")
 	private String studentId;
+	@ApiModelProperty(name = "level" , value = "学号第1位，学生层次。1：本科，2：硕士，3：博士")
+	private Integer level;
+	@ApiModelProperty(name = "training" , value = "学号第2位，培养类别。1：学术，2：专业，3：交换生，8：留学生")
+	private String training;
 	@ApiModelProperty(name = "chineseName" , value = "中文名")
 	private String chineseName;
 	@ApiModelProperty(name = "englishFirstname" , value = "中国学生填汉语拼音")
@@ -73,10 +77,26 @@ public class Student extends Model<Student> {
 	private String comment;
 	@ApiModelProperty(name = "imageId" , value = "照片，2M限制")
 	private Integer imageId;
+	@ApiModelProperty(name = "graduationFlag" , value = "0：未毕业，1：毕业")
+	private Integer graduationFlag;
 	@ApiModelProperty(name = "credit" , value = "未按时还书的次数，默认为0")
 	private Integer credit;
 	@ApiModelProperty(name = "firstCompany" , value = "初次就业单位")
 	private String firstCompany;
+	@ApiModelProperty(required = false, hidden = true)
+	private String creator;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date createTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private String modifier;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date modifyTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private Integer deleteFlag;
 	@Override
     protected Serializable pkVal() {
         return this.id;

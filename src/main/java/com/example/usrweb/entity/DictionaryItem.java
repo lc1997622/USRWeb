@@ -30,7 +30,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class DictionaryItem extends Model<DictionaryItem> {
 
-	private static final long serialVersionUID = 1567339186948L;
+	private static final long serialVersionUID = 1567498643502L;
 	
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(name = "id" , value = "id")
@@ -41,6 +41,20 @@ public class DictionaryItem extends Model<DictionaryItem> {
 	private Integer itemValue;
 	@ApiModelProperty(name = "itemName" , value = "配置项名称")
 	private String itemName;
+	@ApiModelProperty(required = false, hidden = true)
+	private String creator;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date createTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private String modifier;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date modifyTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private Integer deleteFlag;
 	@Override
     protected Serializable pkVal() {
         return this.id;

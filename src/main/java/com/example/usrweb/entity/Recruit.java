@@ -30,14 +30,14 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Recruit extends Model<Recruit> {
 
-	private static final long serialVersionUID = 1567339186433L;
+	private static final long serialVersionUID = 1567498642611L;
 	
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(name = "id" , value = "招生信息id")
 	private Integer id;
 	@ApiModelProperty(name = "type" , value = "0：本科生，1：硕士生，2：博士生，3：留学生")
 	private Integer type;
-	@ApiModelProperty(name = "requirement" , value = "500字以内")
+	@ApiModelProperty(name = "requirement" , value = "招生要求")
 	private String requirement;
 	@ApiModelProperty(name = "workTime" , value = "工作时间（100字以内）")
 	private String workTime;
@@ -47,6 +47,20 @@ public class Recruit extends Model<Recruit> {
 	private String contact;
 	@ApiModelProperty(name = "contactWay" , value = "联系方式")
 	private String contactWay;
+	@ApiModelProperty(required = false, hidden = true)
+	private String creator;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date createTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private String modifier;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@ApiModelProperty(required = false, hidden = true)
+	private Date modifyTime;
+	@ApiModelProperty(required = false, hidden = true)
+	private Integer deleteFlag;
 	@Override
     protected Serializable pkVal() {
         return this.id;
