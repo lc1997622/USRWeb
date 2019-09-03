@@ -1,0 +1,11 @@
+.check_in_out .table
+{
+    width: 80%;
+    height: 100%;
+    text-align: center;
+    margin: 10px auto;
+}
+.check_in_out .list_a
+{
+    color: black;
+}

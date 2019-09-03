@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>内部系统</title>
+	<!-- 引入bootstrap样式 -->
+	<link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+	<!-- 引入element-ui样式 -->
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<link rel="stylesheet" href="../css/internal_system.css">
+</head>
+
+<body>
+	<div id="internalSystemSidebarVue">
+		<el-row class="tac">
+			<el-col :span="4">
+				<el-menu class="el-menu-vertical-demo" class="el-menu-demo" default-active="activeIndex"
+					@select="handleSelect">
+					<el-submenu index="check_in_out.html">
+						<template slot="title">内部管理</template>
+						<el-menu-item index="check_in_out.html">签到/签出</el-menu-item>
+						<el-menu-item index="book_lending.html">图书借阅</el-menu-item>
+					</el-submenu>
+					<el-menu-item index="download.html">下载专区</el-menu-item>
+					<el-menu-item index="user_help.html">用户帮助</el-menu-item>
+				</el-menu>
+			</el-col>
+			<el-col :span="20">
+				<iframe id="main-frame" name="main-frame" v-bind:src="src" style="width: calc(100%)" frameborder="no"
+					scrolling="no"></iframe>
+			</el-col>
+		</el-row>
+	</div>
+</body>
+<!-- 引入bootstrap组件库 -->
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue组件库-->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+	window.onload = function () {
+		window.parent.setIframeHeight(window.parent.document.getElementById('main-frame'));
+	};
+</script>
+<script>
+
+	var indexVue = new Vue
+		({
+			el: '#internalSystemSidebarVue',
+			data:
+			{
+				src: "download.html",
+				activeIndex: "download.html",
+				currentPage: ""
+			},
+			methods:
+			{
+				turnPage: function (page) {
+					this.src = page;
+				},
+				handleSelect(key, keyPath) {
+					this.currentPage = key;
+					this.turnPage(keyPath[0]);
+					document.getElementById("main-frame").contentWindow.childVue.childSrc = key.slice(6);
+					document.getElementById("main-frame").contentWindow.childactiveIndex = key.slice(6);
+					indexVue.activeIndex = key;
+				}
+			}
+		})
+</script>
+
+</html>
