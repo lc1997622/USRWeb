@@ -8,6 +8,7 @@ package com.example.usrweb.entity.mapEntiry;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.example.usrweb.aid.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,33 +29,12 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class UserHasCopyright extends Model<UserHasCopyright> {
+public class UserHasCopyright extends AbstractEntity<UserHasCopyright> {
 
 	private static final long serialVersionUID = 1567498746460L;
-	
-	@TableId(value = "id", type = IdType.AUTO)
-	@ApiModelProperty(name = "id" , value = "id")
-	private Integer id;
+
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "copyrightId" , value = "著作权id")
 	private Integer copyrightId;
-	@ApiModelProperty(required = false, hidden = true)
-	private String creator;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	@ApiModelProperty(required = false, hidden = true)
-	private Date createTime;
-	@ApiModelProperty(required = false, hidden = true)
-	private String modifier;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	@ApiModelProperty(required = false, hidden = true)
-	private Date modifyTime;
-	@ApiModelProperty(required = false, hidden = true)
-	private Integer deleteFlag;
-	@Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 }
