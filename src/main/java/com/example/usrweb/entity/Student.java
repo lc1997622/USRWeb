@@ -8,6 +8,7 @@ package com.example.usrweb.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.example.usrweb.aid.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,13 +29,10 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Student extends Model<Student> {
+public class Student extends AbstractEntity<Student> {
 
 	private static final long serialVersionUID = 1567498641837L;
-	
-	@TableId(value = "id", type = IdType.AUTO)
-	@ApiModelProperty(name = "id" , value = "id")
-	private Integer id;
+
 	@ApiModelProperty(name = "studentId" , value = "学生学号，10位")
 	private String studentId;
 	@ApiModelProperty(name = "level" , value = "学号第1位，学生层次。1：本科，2：硕士，3：博士")
@@ -83,22 +81,4 @@ public class Student extends Model<Student> {
 	private Integer credit;
 	@ApiModelProperty(name = "firstCompany" , value = "初次就业单位")
 	private String firstCompany;
-	@ApiModelProperty(required = false, hidden = true)
-	private String creator;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	@ApiModelProperty(required = false, hidden = true)
-	private Date createTime;
-	@ApiModelProperty(required = false, hidden = true)
-	private String modifier;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	@ApiModelProperty(required = false, hidden = true)
-	private Date modifyTime;
-	@ApiModelProperty(required = false, hidden = true)
-	private Integer deleteFlag;
-	@Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 }
