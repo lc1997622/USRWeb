@@ -1,4 +1,9 @@
-.text {
+.text p {
     text-indent:2rem;
     line-height: 2rem;
+
 }
+/*.text hr {*/
+    /*width: 30%;*/
+    /*margin-left: 0;*/
+/*}*/

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
-    <link rel="stylesheet" href="../css/homepage.css">
+    <link rel="stylesheet" href="../css/content.css">
     <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
 
 </head>
@@ -17,8 +17,25 @@
 
 
 <div id="vue">
-    本科生招生
-
+    <h3 style="text-align: center">本科生招生</h3>
+    <br>
+    <hr>
+    <div class="text">
+        <h4>技术要求：</h4>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h4>工作时间：</h4>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h4>其他要求：</h4>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h4>联系人：</h4>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h4>联系方式：</h4>
+        <p>{{admissions.requirement}}</p>
+    </div>
 
 
 </div>
@@ -40,7 +57,13 @@
     var undergraduateAdmissionsVue = new Vue({
         el: "#vue",
         data: {
-
+            admissions: {
+                requirement:'1',
+                workTime:'1',
+                others:'1',
+                contact:'1',
+                contactWay:'1'
+            }
         },
         methods: {
             turnPage(page) {
