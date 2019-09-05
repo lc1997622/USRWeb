@@ -67,6 +67,8 @@ public class BookController extends AbstractController<BookService,Book>{
 
 		Page<Book> page = new Page<>(1,2);
 		List<Book> bookList;
+
+		List<Book> bookLis;
 		try {
 			IPage<Book> iPage = bookDao.selectPage(page,queryWrapper);
 			System.out.println("总页数："+iPage.getPages());
