@@ -6,6 +6,9 @@
  */
 package com.example.usrweb.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.usrweb.aid.AbstractController;
 import com.example.usrweb.config.MsgType;
 import com.example.usrweb.config.ResponseFormat;
@@ -56,5 +59,24 @@ public class BookController extends AbstractController<BookService,Book>{
 		}
 	    return ResponseFormat.retParam(200,null);
 	}
-	
+
+	@PostMapping("/selectPage")
+	@ApiOperation(value = "分页查询", notes = "作者：LiChao")
+	public Object selectPage(Book book){
+		QueryWrapper<Book> queryWrapper = new QueryWrapper<Book>();
+
+		Page<Book> page = new Page<>(1,2);
+		List<Book> bookList;
+		try {
+			IPage<Book> iPage = bookDao.selectPage(page,queryWrapper);
+			System.out.println("总页数："+iPage.getPages());
+			System.out.println("总记录数"+iPage.getTotal());
+			bookList=iPage.getRecords();
+			bookList.forEach(System.out::println);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000,null);
+		}
+		return ResponseFormat.retParam(200,bookList);
+	}
 }

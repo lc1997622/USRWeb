@@ -32,10 +32,7 @@ import java.io.Serializable;
 public class UserHasPatent extends AbstractEntity<UserHasPatent> {
 
 	private static final long serialVersionUID = 1567498746584L;
-	
-	@TableId(value = "id", type = IdType.AUTO)
-	@ApiModelProperty(name = "id" , value = "id")
-	private Integer id;
+
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "patentId" , value = "专利id")
