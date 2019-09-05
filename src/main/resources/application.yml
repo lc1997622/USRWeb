@@ -8,10 +8,12 @@ spring:
   resources:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/lab?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    #driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    #url: jdbc:mysql://localhost:3306/lab?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    url: jdbc:p6spy:mysql://localhost:3306/lab?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
     username: root
-    password: 123456
+    password: lc1997622
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
@@ -27,8 +29,14 @@ spring:
 
 logging:
   level:
-    com.example.usrweb: debug
+    root: warn
+    com.example.usrweb.dao: trace
+  pattern:
+    console: '%p%m%n'
 #  path: "D:/Projects/Log/test.log"
 
-mybatis-plus.mapper-locations=classpath: /dao/impl/*Mapper.xml
-mybatis-plus.type-aliases-package: com.example.usrweb.dao
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
