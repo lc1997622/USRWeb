@@ -6,6 +6,7 @@
  */
 package com.example.usrweb.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.example.usrweb.aid.AbstractEntity;
@@ -75,6 +76,9 @@ public class Teacher extends AbstractEntity<Teacher> {
 	private String comment;
 	@ApiModelProperty(name = "imageId" , value = "照片，2M限制")
 	private Integer imageId;
+	@ApiModelProperty(name = "imagePath",value = "照片，链接")
+	@TableField(exist = false)
+	private String imagePath;
 	@ApiModelProperty(name = "credit" , value = "未按时还书的次数，默认为0")
 	private Integer credit;
 }
