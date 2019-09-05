@@ -15,13 +15,12 @@ import com.example.usrweb.config.ResponseFormat;
 import com.example.usrweb.dao.BookDao;
 import com.example.usrweb.entity.Book;
 import com.example.usrweb.service.BookService;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.flying.cattle.mdg.aid.PageParam;
 import io.swagger.annotations.ApiOperation;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,15 +61,31 @@ public class BookController extends AbstractController<BookService,Book>{
 
 	@PostMapping("/selectPage")
 	@ApiOperation(value = "分页查询", notes = "作者：LiChao")
-	public Object selectPage(Book book){
+	public Object selectPage(Book book,int pageNum,int pageSize){
 		QueryWrapper<Book> queryWrapper = new QueryWrapper<Book>();
-
-		Page<Book> page = new Page<>(1,2);
+		queryWrapper.setEntity(book);
+		Page<Book> page = new Page<>(pageNum,pageSize);
 		List<Book> bookList;
 		try {
 			IPage<Book> iPage = bookDao.selectPage(page,queryWrapper);
-			System.out.println("总页数："+iPage.getPages());
-			System.out.println("总记录数"+iPage.getTotal());
+			bookList=iPage.getRecords();
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000,null);
+		}
+		return ResponseFormat.retParam(200,bookList);
+	}
+
+	@PostMapping("/selectPageWP")
+	@ApiOperation(value = "分页查询带参数", notes = "作者：LiChao")
+	public Object selectPageWP(@RequestBody PageParam<Book> param){
+		QueryWrapper<Book> queryWrapper = new QueryWrapper<Book>();
+		System.out.println(param);
+		Page<Book> page = new Page<>(param.getPageNum(),param.getPageSize());
+		List<Book> bookList;
+		try {
+			queryWrapper.setEntity(param.getParam());
+			IPage<Book> iPage = bookDao.selectPage(page,queryWrapper);
 			bookList=iPage.getRecords();
 			bookList.forEach(System.out::println);
 		}catch (Exception e){
