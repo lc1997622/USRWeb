@@ -11,6 +11,8 @@ import com.example.usrweb.entity.Teacher;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * <p>自动生成工具：mybatis-dsc-generator</p>
  * 
@@ -20,5 +22,5 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  */
 public interface TeacherService extends IService<Teacher> {
-
+    public List<Teacher> getTeacherInfo();
 }
