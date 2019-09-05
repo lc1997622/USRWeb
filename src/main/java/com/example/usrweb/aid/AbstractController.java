@@ -135,12 +135,12 @@ public class AbstractController<S extends IService<T>,T>{
 	 * @time    2019年5月20日
 	 */
 	@GetMapping("/getPages")
-	@ApiOperation(value = "分页查询", notes = "分页查询返回[IPage<T>],作者：边鹏")
-	public JsonResult<IPage<T>> getUserPages(PageParam<T> param){
+	@ApiOperation(value = "分页查询", notes = "分页查询返回[IPage<T>],作者：LiChao")
+	public JsonResult<IPage<T>> getUserPages(T entity,int pageNum,int pageSize){
 		JsonResult<IPage<T>> returnPage=new JsonResult<IPage<T>>();
-		Page<T> page=new Page<T>(param.getPageNum(),param.getPageSize());
+		Page<T> page=new Page<T>(pageNum,pageSize);
 		QueryWrapper<T> queryWrapper =new QueryWrapper<T>();
-		queryWrapper.setEntity(param.getParam());
+		queryWrapper.setEntity(entity);
 		//分页数据
 		IPage<T> pageData=baseService.page(page, queryWrapper);
 		returnPage.success(pageData);
