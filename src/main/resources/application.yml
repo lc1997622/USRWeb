@@ -8,8 +8,10 @@ spring:
   resources:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/lab?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    #driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    #url: jdbc:mysql://localhost:3306/lab?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    url: jdbc:p6spy:mysql://localhost:3306/lab?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
     username: root
     password: lc1997622
   thymeleaf:
@@ -27,7 +29,10 @@ spring:
 
 logging:
   level:
-    com.example.usrweb: debug
+    root: warn
+    com.example.usrweb.dao: trace
+  pattern:
+    console: '%p%m%n'
 #  path: "D:/Projects/Log/test.log"
 
 mybatis-plus:
