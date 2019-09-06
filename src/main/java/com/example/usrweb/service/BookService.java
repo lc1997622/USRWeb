@@ -8,7 +8,11 @@ package com.example.usrweb.service;
 
 import com.example.usrweb.entity.Book;
 import com.baomidou.mybatisplus.extension.service.IService;
-/**   
+import com.example.usrweb.entity.Teacher;
+
+import java.util.List;
+
+/**
  * <p>自动生成工具：mybatis-dsc-generator</p>
  * 
  * <p>说明： 图书服务层</P>
@@ -17,5 +21,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 
  */
 public interface BookService extends IService<Book> {
-	
+
 }

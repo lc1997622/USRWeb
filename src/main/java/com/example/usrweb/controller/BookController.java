@@ -61,7 +61,7 @@ public class BookController extends AbstractController<BookService,Book>{
 
 	@PostMapping("/selectPage")
 	@ApiOperation(value = "分页查询", notes = "作者：LiChao")
-	public Object selectPage(Book book,int pageNum,int pageSize){
+	public Object selectPage(Book book,Integer pageNum,Integer pageSize){
 		QueryWrapper<Book> queryWrapper = new QueryWrapper<Book>();
 		queryWrapper.setEntity(book);
 		Page<Book> page = new Page<>(pageNum,pageSize);
