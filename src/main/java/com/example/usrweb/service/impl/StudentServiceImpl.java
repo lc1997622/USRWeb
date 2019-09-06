@@ -76,4 +76,12 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
 
         return studentList;
     }
+
+    public Student getStudentByXuehao(String studentID){
+        QueryWrapper<Student> queryWrapper = new QueryWrapper<Student>();
+        queryWrapper.eq("student_id",studentID);
+        Student student = studentDao.selectOne(queryWrapper);
+
+        return student;
+    }
 }
