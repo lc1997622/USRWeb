@@ -74,44 +74,8 @@
         },
         mounted (){
             window.parent.scrollTo(0, 0);
-            $.ajax({
-                url: "/project/getPages",
-                type: "get",
-                success(res){
-                    console.log("研究工作");
-                    console.log(res.data.records);
-                    let tmp = res.data.records;
-                    for (var i=0; i<tmp.length; i++) {
-                        let tmpResearch = {
-                            id:'',
-                            name:'',
-                            type:''
-                        };
-                        tmpResearch.id = tmp[i].id;
-                        tmpResearch.name = tmp[i].name;
-                        switch (tmp[i].type) {
-                            case 0:
-                                tmpResearch.type = "性质1";
-                                break;
-                            case 1:
-                                tmpResearch.type = "性质2";
-                                break;
-                            case 2:
-                                tmpResearch.type = "性质3";
-                                break;
-                            case 3:
-                                tmpResearch.type = "性质4";
-                                break;
-                            default:
-                                tmpResearch.type = "无记载";
-                                break;
-                        }
+            this.$set(this.$data, 'research', window.parent.childVue.research);
 
-                        researchVue.research[i] = tmpResearch;
-                    }
-                    console.log(researchVue.research);
-                }
-            })
         }
 
     })

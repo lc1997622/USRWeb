@@ -87,7 +87,9 @@
         el: "#vue",
         data: {
             childSrc: "",
-            childActiveIndex: ""
+            childActiveIndex: "",
+            teaching: [],
+            research: []
         },
         methods: {
             // turnPage(page) {
@@ -107,15 +109,105 @@
 
             }
         },
-        mounted(){
+        mounted() {
             window.parent.scrollTo(0, 0);
             let childPage = window.parent.indexVue.currentPage.slice(6);
             this.childSrc = childPage;
             this.childActiveIndex = childPage;
             window.parent.indexVue.activeIndex = "views/" + childPage;
             console.log("about us mounted");
-        }
+            $.ajax({
+                url: "/course/getPages",
+                type: "get",
+                success(res) {
+                    console.log("教学工作");
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+                    for (var i = 0; i < tmp.length; i++) {
+                        let tmpTeaching = {
+                            courseId: '',
+                            name: '',
+                            type: '',
+                            studentType: '',
+                            courseTime: '',
+                            teacher: ''
+                        };
+                        tmpTeaching.courseId = tmp[i].courseId;
+                        tmpTeaching.name = tmp[i].name;
+                        switch (tmp[i].type) {
+                            case 0:
+                                tmpTeaching.type = "选修";
+                                break;
+                            case 1:
+                                tmpTeaching.type = "必修";
+                                break;
+                            default:
+                                tmpTeaching.type = "无记载";
+                                break;
+                        }
+                        switch (tmp[i].studentType) {
+                            case 0:
+                                tmpTeaching.studentType = "本科生";
+                                break;
+                            case 1:
+                                tmpTeaching.studentType = "硕士研究生";
+                                break;
+                            case 2:
+                                tmpTeaching.studentType = "博士研究生";
+                                break;
+                            default:
+                                tmpTeaching.studentType = "无记载";
+                                break;
+                        }
+                        tmpTeaching.courseTime = tmp[i].courseTime;
+                        tmpTeaching.teacher = "";
 
+                        childVue.teaching[i] = tmpTeaching;
+                    }
+                    console.log(childVue.teaching);
+                    $.ajax({
+                        url: "/project/getPages",
+                        type: "get",
+                        success(res){
+                            console.log("研究工作");
+                            console.log(res.data.records);
+                            let tmp = res.data.records;
+                            for (var i=0; i<tmp.length; i++) {
+                                let tmpResearch = {
+                                    id:'',
+                                    name:'',
+                                    type:''
+                                };
+                                tmpResearch.id = tmp[i].id;
+                                tmpResearch.name = tmp[i].name;
+                                switch (tmp[i].type) {
+                                    case 0:
+                                        tmpResearch.type = "性质1";
+                                        break;
+                                    case 1:
+                                        tmpResearch.type = "性质2";
+                                        break;
+                                    case 2:
+                                        tmpResearch.type = "性质3";
+                                        break;
+                                    case 3:
+                                        tmpResearch.type = "性质4";
+                                        break;
+                                    default:
+                                        tmpResearch.type = "无记载";
+                                        break;
+                                }
+
+                                childVue.research[i] = tmpResearch;
+                            }
+                            console.log(childVue.research);
+                        }
+                    })
+                }
+
+            });
+
+        }
     })
 </script>
 
