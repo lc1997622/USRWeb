@@ -6,11 +6,17 @@
  */
 package com.example.usrweb.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.usrweb.entity.Attendance;
 import com.example.usrweb.dao.AttendanceDao;
 import com.example.usrweb.service.AttendanceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import java.util.List;
 
 /**   
  * <p>自动生成工具：mybatis-dsc-generator</p> 
@@ -22,5 +28,24 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  */
 @Service
 public class AttendanceServiceImpl  extends ServiceImpl<AttendanceDao, Attendance> implements AttendanceService  {
-	
+    @Autowired
+    AttendanceDao attendanceDao;
+
+    public List<Attendance> selectPageWP(Attendance attendance, Integer pageNum, Integer pageSize){
+        if(pageNum == null){
+            pageNum = 1;
+        }
+        if(pageSize == null){
+            pageSize = 10;
+        }
+        QueryWrapper<Attendance> queryWrapper = new QueryWrapper<Attendance>();
+        Page<Attendance> page = new Page<>(pageNum, pageSize);
+        List<Attendance> attendanceList;
+        queryWrapper.setEntity(attendance);
+        IPage<Attendance> iPage = attendanceDao.selectPage(page, queryWrapper);
+        attendanceList = iPage.getRecords();
+        attendanceList.forEach(System.out::println);
+
+        return attendanceList;
+    }
 }
