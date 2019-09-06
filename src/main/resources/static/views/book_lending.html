@@ -1,12 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <!-- 引入element-ui样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <title>图书借阅页面</title>
 </head>
+
 <body>
-        <h5>图书借阅页面</h5>
+    <div id="bookLendingVue">
+        <el-table ref="multipleTable" :data="getCurrentPageBookData()" tooltip-effect="dark" style="width:100%">
+            <el-table-column label="实验室图书清单" align="center">
+                <el-table-column label="书名" align="center">
+                    <template slot-scope="scope">
+                        <el-popover trigger="hover" placement="top">
+                            <div>
+                                <p>书名：《{{scope.row.name}}》</p>
+                                <p>作者：{{scope.row.author}}</p>
+                                <p>图书类型：{{scope.row.genreItem}}</p>
+                                <p>存放地点：{{scope.row.location}}</p>
+                            </div>
+                            <div slot="reference" class="name-wrapper">
+                                <el-tag size="medium">《{{scope.row.name}}》</el-tag>
+                            </div>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="author" label="作者" align="center"></el-table-column>
+                <el-table-column prop="publicationYear" label="出版年份" align="center"></el-table-column>
+                <el-table-column align="center">
+                    <template slot="header" slot-scope="scope">
+                        <el-input v-model="search" size="mini" placeholder="输入关键字搜索" @change="getCurrentBookData" />
+                    </template>
+                    <template slot-scope="scope">
+                        <el-button v-if="scope.row.borrowFlag==0" type="text" 
+                            @click="handleLending(scope.$index,scope.row)">借阅</el-button>
+                        <el-button v-if="scope.row.borrowFlag==1" type="text" disabled>已借出</el-button>
+                    </template>
+                </el-table-column>
+            </el-table-column>
+        </el-table>
+        <div style="text-align: center;margin-top:30px;">
+            <el-pagination background layout="prev,pager,next" :total="total" @current-change="current_change">
+            </el-pagination>
+        </div>
+    </div>
 </body>
+<!--引入vue组件库-->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    var indexVue = new Vue({
+        el: '#bookLendingVue',
+        data: {
+            bookArray: [],
+            currentPage: 1,
+            pageSize: 10,
+            total: 0,
+            search: '',
+            currentBookData: [] //使用搜索框匹配的图书数据
+        },
+        created() {
+            this.getBookArray();
+        },
+        methods: {
+            getBookArray() {
+                var that = this;
+                $.ajax({
+                    url: '/book/getPages',
+                    type: 'get',
+                    async: false, //此处同步主要是为了给for循环留出时间，避免在调用onload时，计算页面高度出现问题
+                    success(res) {
+                        that.bookArray = res.data.records;
+                        for (var i = 0; i < that.bookArray.length; i++) {
+                            that.bookArray[i].publicationYear = that.bookArray[i].publicationYear.split(
+                                " ")[0];
+                        }
+                        that.currentBookData=that.bookArray;
+                    }
+                })
+            },
+            getCurrentBookData(search) {
+                this.currentBookData=this.bookArray.filter(data => !search || data.name.includes(search));
+                console.log(this.currentBookData);
+            },
+            getCurrentPageBookData() {
+                return this.currentBookData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this
+                    .pageSize);
+            },
+            current_change: function (currentPage) {
+                this.currentPage = currentPage;
+            },
+            handleLending(index, row) {
+                this.$message({
+                    message: '申请成功！',
+                    type: 'success'
+                });
+            }
+        }
+    });
+    $(document).ready(function () {
+        //indexVue.getBookArray();
+    });
+    window.onload = function () {
+        window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
+    };
+    window.onpageshow = function () {
+        indexVue.getBookArray();
+        //window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
+    };
+</script>
+
 </html>
