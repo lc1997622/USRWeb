@@ -36,5 +36,5 @@ public class UserHasEduReform extends AbstractEntity<UserHasEduReform> {
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "eduReformId" , value = "教改id")
-	private Integer eduReformId;
+	private Long eduReformId;
 }

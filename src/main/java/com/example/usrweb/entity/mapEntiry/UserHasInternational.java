@@ -36,5 +36,5 @@ public class UserHasInternational extends AbstractEntity<UserHasInternational> {
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "internationalId" , value = "国际合作项目id")
-	private Integer internationalId;
+	private Long internationalId;
 }

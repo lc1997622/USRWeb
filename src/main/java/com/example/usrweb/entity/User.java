@@ -44,4 +44,7 @@ public class User extends AbstractEntity<User> {
 	@ApiModelProperty(name = "borrowTimes" , value = "借阅次数，默认为0，系统限制为2")
 	private Integer borrowTimes;
 
+	@ApiModelProperty(name = "credit" , value = "未按时还书的次数，默认为0")
+	private Integer credit;
+
 }

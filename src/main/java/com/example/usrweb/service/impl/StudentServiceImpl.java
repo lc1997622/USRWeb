@@ -39,10 +39,10 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
     @Autowired
     ImageDao imageDao;
 
-    public Student getStudentById(Integer id){
+    public Student getStudentById(String id){
 
         Student student=studentDao.selectById(id);
-        Integer imgId = student.getImageId();
+        Long imgId = student.getImageId();
         String imgPath = imageDao.selectById(imgId).getPath();
         student.setImagePath(imgPath);
 
@@ -53,7 +53,7 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         Image image = new Image();
         image.setPath(student.getImagePath());
         imageDao.insert(image);
-        Integer imagId = image.getId();
+        Long imagId = image.getId();
         student.setImageId(imagId);
         studentDao.insert(student);
         return 1;
