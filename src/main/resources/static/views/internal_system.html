@@ -20,13 +20,32 @@
 				<el-row class="tac">
 					<el-col>
 						<el-menu class="el-menu-vertical-demo" default-active="activeIndex" @select="handleSelect">
-							<el-submenu index="check_in_out.html">
-								<template slot="title">内部管理</template>
-								<el-menu-item index="check_in_out.html">签到/签出</el-menu-item>
-								<el-menu-item index="book_lending.html">图书借阅</el-menu-item>
+							<el-submenu index="用户管理">
+								<template slot="title">用户管理</template>
+								<el-menu-item index="user_management.html">用户列表</el-menu-item>
+								<!--el-menu-item-- index="">新增用户</!--el-menu-item-->
 							</el-submenu>
+							<el-submenu index="新闻动态管理">
+								<template slot="title">新闻动态管理</template>
+								<el-menu-item index="news_management.html">新闻列表</el-menu-item>
+								<!--el-menu-item-- index="">新闻推送</!--el-menu-item-->
+								<!--el-menu-item-- index="">动态推送</!--el-menu-item-->
+							</el-submenu>
+							<el-submenu index="资料管理">
+								<template slot="title">资料管理</template>
+								<el-menu-item index="data_management.html">资料列表</el-menu-item>
+								<!--el-menu-item-- index=""></!--el-menu-item-->
+							</el-submenu>
+							<el-submenu index="图书管理">
+								<template slot="title">图书管理</template>
+								<el-menu-item index="book_management.html">图书列表</el-menu-item>
+								<el-menu-item index="book_lending_record.html">借阅记录</el-menu-item>
+							</el-submenu>
+							<el-menu-item index="check_in_out.html">签到/签出</el-menu-item>
+							<el-menu-item index="book_lending.html">图书借阅</el-menu-item>
 							<el-menu-item index="download.html">下载专区</el-menu-item>
 							<el-menu-item index="user_help.html">用户帮助</el-menu-item>
+							<el-menu-item index="about_me.html">我</el-menu-item>
 						</el-menu>
 					</el-col>
 				</el-row>
