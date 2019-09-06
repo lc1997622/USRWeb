@@ -1,12 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 引入element-ui样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!--引入CSS样式-->
+    <link rel="stylesheet" href="../css/internal_system.css">
     <title>我</title>
 </head>
-<body>
-    <h5>个人信息页</h5>
+
+<body class="about_me">
+    <div id="aboutMeVueId" class="info">
+        <el-row>
+            <el-col :span="6"><div></div></el-col>
+            <el-col :span="6">
+                <p>姓名</p>
+            </el-col>
+            <el-col :span="6">
+                <p>:{{selfInformation.name}}</p>
+            </el-col>
+            <el-col :span="6"><div></div></el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6"><div></div></el-col>
+            <el-col :span="6">
+                <p>学号</p>
+            </el-col>
+            <el-col :span="6">
+                <p>:{{selfInformation.id}}</p>
+            </el-col>
+            <el-col :span="6"><div></div></el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="6"><div></div></el-col>
+            <el-col :span="6">
+                <p>身份</p>
+            </el-col>
+            <el-col :span="6">
+                <p>:{{selfInformation.identity}}</p>
+            </el-col>
+            <el-col :span="6"><div></div></el-col>
+        </el-row>
+    </div>
 </body>
+<!--引入vue组件库-->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    var aboutMeVue = new Vue({
+        el: '#aboutMeVueId',
+        data: {
+            length: 10,
+            selfInformation: {
+                name: '张三',//姓名
+                id: '1120190001',//学号、工号
+                identity:'学生',//学生、教师、图书管理员、资料管理员、系统管理员
+                book_lending_record:[]
+            }
+        },
+        methods: {
+
+        }
+    })
+</script>
+
 </html>

@@ -18,13 +18,13 @@
                     <template slot-scope="scope">
                         <el-popover trigger="hover" placement="top">
                             <div>
-                                <p>书名：《{{scope.row.name}}》</p>
+                                <p>书名：{{scope.row.name}}</p>
                                 <p>作者：{{scope.row.author}}</p>
                                 <p>图书类型：{{scope.row.genreItem}}</p>
                                 <p>存放地点：{{scope.row.location}}</p>
                             </div>
                             <div slot="reference" class="name-wrapper">
-                                <el-tag size="medium">《{{scope.row.name}}》</el-tag>
+                                <el-tag size="medium">{{scope.row.name}}</el-tag>
                             </div>
                         </el-popover>
                     </template>
