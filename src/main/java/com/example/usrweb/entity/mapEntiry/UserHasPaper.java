@@ -36,5 +36,5 @@ public class UserHasPaper extends AbstractEntity<UserHasPaper> {
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "paperId" , value = "论文id")
-	private Integer paperId;
+	private Long paperId;
 }

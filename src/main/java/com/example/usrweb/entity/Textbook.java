@@ -45,5 +45,8 @@ public class Textbook extends AbstractEntity<Textbook> {
 	@ApiModelProperty(name = "type" , value = "层次。0：校级，1：省部，2：国家")
 	private Integer type;
 
+	@ApiModelProperty(name = "awardInfo" , value = "层次。0：校级，1：省部，2：国家")
+	private Integer awardInfo;
+
 
 }

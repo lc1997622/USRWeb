@@ -79,6 +79,4 @@ public class Teacher extends AbstractEntity<Teacher> {
 	@ApiModelProperty(name = "imagePath",value = "照片，链接")
 	@TableField(exist = false)
 	private String imagePath;
-	@ApiModelProperty(name = "credit" , value = "未按时还书的次数，默认为0")
-	private Integer credit;
 }

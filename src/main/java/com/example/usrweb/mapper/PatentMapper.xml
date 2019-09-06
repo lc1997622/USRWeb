@@ -6,6 +6,7 @@
 		<id column="id" property="id" />
 		<id column="number" property="number" />
 		<id column="name" property="name" />
+		<id column="applicant" property="applicant" />
 		<id column="creator" property="creator" />
 		<id column="create_time" property="createTime" />
 		<id column="modifier" property="modifier" />
@@ -13,7 +14,7 @@
 		<id column="delete_flag" property="deleteFlag" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, number, name, creator, create_time, modifier, modify_time, delete_flag
+		id, number, name, applicant, creator, create_time, modifier, modify_time, delete_flag
 	</sql>
 	
 </mapper>

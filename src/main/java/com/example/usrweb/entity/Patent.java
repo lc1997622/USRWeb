@@ -37,5 +37,6 @@ public class Patent extends AbstractEntity<Patent> {
 	private String number;
 	@ApiModelProperty(name = "name" , value = "发明创造名")
 	private String name;
-
+	@ApiModelProperty(name = "applicant" , value = "专利申请人")
+	private String applicant;
 }

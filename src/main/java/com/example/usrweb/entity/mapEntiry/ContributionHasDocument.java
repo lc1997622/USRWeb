@@ -34,8 +34,8 @@ public class ContributionHasDocument extends AbstractEntity<ContributionHasDocum
 	private static final long serialVersionUID = 1567498746540L;
 
 	@ApiModelProperty(name = "contributionId" , value = "稿件id")
-	private Integer contributionId;
+	private Long contributionId;
 	@ApiModelProperty(name = "documentId" , value = "资料id")
-	private Integer documentId;
+	private Long documentId;
 
 }
