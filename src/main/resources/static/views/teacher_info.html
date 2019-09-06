@@ -19,6 +19,7 @@
 <div id="vue">
     <el-radio v-model="isFullTime" label="1">全职教师</el-radio>
     <el-radio v-model="isFullTime" label="0">兼职教师</el-radio>
+    <hr>
     <el-table
             :data="fullTime"
             style="width: 100%"
@@ -192,14 +193,12 @@
             window.parent.scrollTo(0, 0);
             $.ajax({
                 url: "/teacher/getPages",
-                type: "post",
+                type: "get",
                 data: {
-                    pageNum:1,
-                    pageSize:2
+                    type: 1
                 },
                 success(res) {
                     console.log("全职");
-                    console.log(res);
                     console.log(res.data.records);
                     let tmp = res.data.records;
                     for (var i=0; i<tmp.length; i++) {
@@ -218,26 +217,36 @@
                         switch (tmp[i].title) {
                             case 0:
                                 tmpFullTime.title = "无";
+                                break;
                             case 1:
                                 tmpFullTime.title = "初级";
+                                break;
                             case 2:
                                 tmpFullTime.title = "中级";
+                                break;
                             case 3:
                                 tmpFullTime.title = "副高";
+                                break;
                             case 4:
                                 tmpFullTime.title = "正级";
+                                break;
                             default:
                                 tmpFullTime.title = "无记载";
+                                break;
                         }
                         switch (tmp[i].tutorQualification) {
                             case 0:
                                 tmpFullTime.tutorQualification = "无";
+                                break;
                             case 1:
                                 tmpFullTime.tutorQualification = "硕导";
+                                break;
                             case 2:
                                 tmpFullTime.tutorQualification = "博导";
+                                break;
                             default:
                                 tmpFullTime.tutorQualification = "无记载";
+                                break;
                         }
                         tmpFullTime.labJob = tmp[i].labJob;
                         tmpFullTime.instituteJob = tmp[i].instituteJob;
@@ -251,13 +260,12 @@
             });
             $.ajax({
                 url: "/teacher/getPages",
-                type: "post",
+                type: "get",
                 data: {
                     type: 0
                 },
                 success(res) {
                     console.log("兼职");
-                    console.log(res);
                     console.log(res.data.records);
                     let tmp = res.data.records;
 
@@ -274,16 +282,22 @@
                         switch (tmp[i].title) {
                             case 0:
                                 tmpPartTime.title = "无";
+                                break;
                             case 1:
                                 tmpPartTime.title = "初级";
+                                break;
                             case 2:
                                 tmpPartTime.title = "中级";
+                                break;
                             case 3:
                                 tmpPartTime.title = "副高";
+                                break;
                             case 4:
                                 tmpPartTime.title = "正级";
+                                break;
                             default:
                                 tmpPartTime.title = "无记载";
+                                break;
                         }
 
                         tmpPartTime.departmentItem = tmp[i].departmentItem;
