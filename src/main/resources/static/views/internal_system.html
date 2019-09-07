@@ -20,11 +20,7 @@
 				<el-row class="tac">
 					<el-col>
 						<el-menu class="el-menu-vertical-demo" default-active="activeIndex" @select="handleSelect">
-							<el-submenu index="用户管理">
-								<template slot="title">用户管理</template>
-								<el-menu-item index="user_management.html">用户列表</el-menu-item>
-								<!--el-menu-item-- index="">新增用户</!--el-menu-item-->
-							</el-submenu>
+							<el-menu-item index="user_management.html">用户管理</el-menu-item>
 							<el-submenu index="新闻动态管理">
 								<template slot="title">新闻动态管理</template>
 								<el-menu-item index="news_management.html">新闻列表</el-menu-item>
@@ -51,7 +47,7 @@
 				</el-row>
 			</el-aside>
 			<el-main>
-				<iframe id="child-frame" name="child-frame" v-bind:src="activeIndex" style="width: calc(100%)"
+				<iframe id="child-frame" name="child-frame" v-bind:src="activeIndex" style="width: calc(100%);min-height: 1000px"
 					frameborder="no" scrolling="no"></iframe>
 			</el-main>
 		</el-container>

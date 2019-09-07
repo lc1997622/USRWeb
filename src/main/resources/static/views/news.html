@@ -48,30 +48,30 @@
         el: "#vue",
         data: {
             news: [
-                {
-                    id:'1',
-                    title:'1',
-                    time:'1',
-                    userId:'1'
-                },
-                {
-                    id:'2',
-                    title:'2',
-                    time:'2',
-                    userId:'2'
-                },
-                {
-                    id:'3',
-                    title:'3',
-                    time:'3',
-                    userId:'3'
-                },
-                {
-                    id:'4',
-                    title:'4',
-                    time:'4',
-                    userId:'4'
-                }
+                // {
+                //     id:'1',
+                //     title:'1',
+                //     time:'1',
+                //     userId:'1'
+                // },
+                // {
+                //     id:'2',
+                //     title:'2',
+                //     time:'2',
+                //     userId:'2'
+                // },
+                // {
+                //     id:'3',
+                //     title:'3',
+                //     time:'3',
+                //     userId:'3'
+                // },
+                // {
+                //     id:'4',
+                //     title:'4',
+                //     time:'4',
+                //     userId:'4'
+                // }
             ]
         },
         methods: {
@@ -84,13 +84,14 @@
         mounted(){
             window.parent.scrollTo(0, 0);
             $.ajax({
-                url: "",
-                type: "post",
+                url: "/contribution/getNewsInfo",
+                type: "get",
                 data: {
                     type: 0
                 },
                 success(res){
-                    console.log(res);
+                    console.log(res.datas);
+                    newsVue.news = res.datas;
                 }
             })
         }

@@ -112,35 +112,35 @@
         data: {
             isGraduated: '2',
             graduated: [
-                {
-                    name:'1',
-                    studentId:'1',
-                    sex:'1',
-                    type:'1',
-                    enrollmentTime:'1',
-                    graduationTime:'1',
-                    firstCompany:'1'
-                }
+                // {
+                //     name:'1',
+                //     studentId:'1',
+                //     sex:'1',
+                //     type:'1',
+                //     enrollmentTime:'1',
+                //     graduationTime:'1',
+                //     firstCompany:'1'
+                // }
             ],
             student:[
-                {
-                    name:'1',
-                    studentId:'1',
-                    sex:'1',
-                    type:'1',
-                    nationality:'1',
-                    tutor:'1',
-                    url:'../images/1.jpg'
-                },
-                {
-                    name:'2',
-                    studentId:'2',
-                    sex:'2',
-                    type:'2',
-                    nationality:'2',
-                    tutor:'2',
-                    url:'../images/1.jpg'
-                }
+                // {
+                //     name:'1',
+                //     studentId:'1',
+                //     sex:'1',
+                //     type:'1',
+                //     nationality:'1',
+                //     tutor:'1',
+                //     url:'../images/1.jpg'
+                // },
+                // {
+                //     name:'2',
+                //     studentId:'2',
+                //     sex:'2',
+                //     type:'2',
+                //     nationality:'2',
+                //     tutor:'2',
+                //     url:'../images/1.jpg'
+                // }
             ]
         },
         methods: {
@@ -215,7 +215,7 @@
                         }
                         tmpStudent.nationality = tmp[i].nationality;
                         tmpStudent.tutor = tmp[i].tutor;
-                        tmpStudent.url = "../images/1.jpg";
+                        tmpStudent.url = tmp[i].imagePath;
 
                         studentInfoVue.student[i] = tmpStudent;
                     }
