@@ -39,7 +39,7 @@ public class Recruit extends AbstractEntity<Recruit> {
 	private String requirement;
 	@ApiModelProperty(name = "workTime" , value = "工作时间（100字以内）")
 	private String workTime;
-	@ApiModelProperty(name = "others" , value = "其他要求，500字以内")
+	@ApiModelProperty(name = "others" , value = "其他要求")
 	private String others;
 	@ApiModelProperty(name = "contact" , value = "联系人")
 	private String contact;

@@ -43,7 +43,7 @@ public class Book extends AbstractEntity<Book> {
 	@ApiModelProperty(name = "author" , value = "作者")
 	private String author;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
 	@ApiModelProperty(name = "publicationYear" , value = "出版年份")
 	private Date publicationYear;
 	@ApiModelProperty(name = "location" , value = "存放地点")
