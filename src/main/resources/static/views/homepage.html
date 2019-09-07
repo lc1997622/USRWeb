@@ -73,9 +73,9 @@
                 <a href="#" v-on:click="turnPage('views/news.html', 'views/dynamic_message.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
                 <div class="clearfix"></div>
                 <ul v-for="news in newsList.slice(0, 8)" style="margin: 0; padding-left: 0">
-                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/news.html', 'views/messageContent.html')"
+                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/news.html', 'views/message_content1.html', news.id)"
                        style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{news.title}}</a>
-                    <span style="float: right;">{{news.id}}</span>
+                    <span style="float: right;">{{news.time}}</span>
 
                 </ul>
 
@@ -86,9 +86,9 @@
                 <a href="#" v-on:click="turnPage('views/notice.html', 'views/dynamic_message.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
                 <div class="clearfix"></div>
                 <ul v-for="notice in noticeList.slice(0, 8)" style="margin: 0; padding-left: 0">
-                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/notice.html', 'views/messageContent.html')"
+                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/notice.html', 'views/message_content1.html', notice.id)"
                        style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{notice.title}}</a>
-                    <span style="float: right;">{{notice.id}}</span>
+                    <span style="float: right;">{{notice.time}}</span>
 
                 </ul>
             </div>
@@ -97,9 +97,9 @@
                 <a href="#" v-on:click="turnPage('views/academic_activities.html', 'views/dynamic_message.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
                 <div class="clearfix"></div>
                 <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
-                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/academic_activities.html', 'views/messageContent.html')"
+                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/academic_activities.html', 'views/message_content1.html', activities.id)"
                        style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{activities.title}}</a>
-                    <span style="float: right;">{{activities.id}}</span>
+                    <span style="float: right;">{{activities.time}}</span>
 
                 </ul>
             </div>
@@ -113,7 +113,7 @@
                 <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
                     <a href="#" v-on:click="turnPage('views/messageContent.html')"
                        style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{activities.title}}</a>
-                    <span style="float: right;">{{activities.id}}</span>
+                    <span style="float: right;">{{activities.time}}</span>
                 </ul>
 
 
@@ -125,7 +125,7 @@
                 <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
                     <a href="#" v-on:click="turnPage('views/messageContent.html')"
                        style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{activities.title}}</a>
-                    <span style="float: right;">{{activities.id}}</span>
+                    <span style="float: right;">{{activities.time}}</span>
 
                 </ul>
             </div>
@@ -272,11 +272,12 @@
                     title:"活动10",
                     id:10
                 }
-            ]
+            ],
         },
         methods: {
-            turnIntoContent(grandpa, father, son) {
-                console.log(grandpa, father, son);
+            turnIntoContent(grandpa, father, son, id) {
+                console.log(grandpa, father, son, id);
+                window.parent.indexVue.messageId = id;
                 window.parent.indexVue.currentPage = son;
                 window.parent.indexVue.turnPage(grandpa);
                 window.parent.document.getElementById("main-frame").contentWindow.childVue.childSrc = father.slice(6);
@@ -294,6 +295,39 @@
         },
         mounted(){
             window.scrollTo(0, 0);
+            $.ajax({
+                url: "/contribution/getContributionInfo",
+                type: "get",
+                data: {
+                    type: 0
+                },
+                success(res){
+                    console.log(res.datas);
+                    homepageVue.newsList = res.datas;
+                }
+            });
+            $.ajax({
+                url: "/contribution/getContributionInfo",
+                type: "get",
+                data: {
+                    type: 1
+                },
+                success(res){
+                    console.log(res.datas);
+                    homepageVue.noticeList = res.datas;
+                }
+            });
+            $.ajax({
+                url: "/contribution/getContributionInfo",
+                type: "get",
+                data: {
+                    type: 2
+                },
+                success(res){
+                    console.log(res.datas);
+                    homepageVue.activitiesList = res.datas;
+                }
+            })
         }
 
     })

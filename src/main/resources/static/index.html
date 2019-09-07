@@ -180,6 +180,7 @@
     };
 
     window.onload = function () {
+        console.log(document.getElementById('main-frame'));
         setIframeHeight(document.getElementById('main-frame'));
     };
 </script>
@@ -200,7 +201,9 @@
             formLabelWidth: '80px',
             signInMethod: 0,
             user: {},
-            attendance: {}
+            attendanceId: 0,
+            messageId: 0
+
         },
         methods: {
             turnPage(page) {
@@ -268,7 +271,7 @@
                                 },
                                 success(res) {
                                     console.log(res);
-
+                                    indexVue.attendanceId = res.datas;
                                 },
                                 error(res) {
                                     console.log(res);
@@ -292,9 +295,7 @@
                     url: "/attendance/updateAttendance",
                     type: "post",
                     data: {
-                        id: indexVue.user.id,
-                        userId: indexVue.user.userId,
-                        startTime: indexVue.user.startTime
+                        id: indexVue.attendanceId
                     },
                     success(res) {
                         console.log(res);

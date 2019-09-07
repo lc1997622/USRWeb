@@ -28,11 +28,18 @@
                 <p>{{ scope.row.userId }}</p>
             </template>
         </el-table-column>
+        <!--<el-table-column-->
+                <!--label="姓名"-->
+                <!--width="180">-->
+            <!--<template slot-scope="scope">-->
+                <!--<p>{{ scope.row.name }}</p>-->
+            <!--</template>-->
+        <!--</el-table-column>-->
         <el-table-column
-                label="姓名"
+                label="角色"
                 width="180">
             <template slot-scope="scope">
-                <p>{{ scope.row.name }}</p>
+                <p>{{ scope.row.userFlag }}</p>
             </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -81,9 +88,32 @@
         mounted() {
             $.ajax({
                 url: "/user/getPages",
-                type: "",
+                type: "get",
                 success(res) {
                     console.log(res);
+                    userVue.userList = res.data.records;
+                    for (var i=0; i<userVue.userList.length; i++) {
+                        switch (userVue.userList[i].userFlag) {
+                            case 0:
+                                userVue.userList[i].userFlag = "管理员";
+                                break;
+                            case 1:
+                                userVue.userList[i].userFlag = "学生";
+                                break;
+                            case 2:
+                                userVue.userList[i].userFlag = "老师";
+                                break;
+                            case 3:
+                                userVue.userList[i].userFlag = "办公室主任";
+                                break;
+                            case 4:
+                                userVue.userList[i].userFlag = "资料管理员";
+                                break;
+                            default:
+                                userVue.userList[i].userFlag = "无记载";
+                                break;
+                        }
+                    }
                 },
                 error(res) {
                     console.log(res);

@@ -20,9 +20,9 @@
     <p style="text-align: center">发布时间：{{news.time}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;供稿：{{news.userName}}</p>
     <hr>
     <!--<div v-for="pic in news.imagePathList">-->
-        <!--<el-image style="width: 600px; height: 450px; display: block; margin: 0 auto;"-->
-                <!--:src="pic">-->
-        <!--</el-image>-->
+    <!--<el-image style="width: 600px; height: 450px; display: block; margin: 0 auto;"-->
+    <!--:src="pic">-->
+    <!--</el-image>-->
     <!--</div>-->
     <el-image style="width: 600px; height: 450px; display: block; margin: 0 auto;" :src="news.imagePathList[0]">
     </el-image>
@@ -76,12 +76,12 @@
         },
         mounted(){
             window.parent.parent.scrollTo(0, 0);
-            console.log(window.parent.childVue.contentId);
+            console.log(window.parent.parent.indexVue.messageId);
             $.ajax({
                 url: "/contribution/getContributionById",
                 type: "post",
                 data: {
-                    id: window.parent.childVue.contentId
+                    id: window.parent.parent.indexVue.messageId
                 },
                 success(res){
                     console.log(res.datas);
