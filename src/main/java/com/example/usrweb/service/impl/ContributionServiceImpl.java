@@ -70,6 +70,16 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
         Contribution contribution = contributionDao.selectById(id);
         String userId = contribution.getUserId();
 
+        // 获取图片
+        QueryWrapper<ContributionHasImage> queryWrapper0 = new QueryWrapper<>();
+        queryWrapper0.eq("contribution_id", id);
+        List<ContributionHasImage> contributionHasImageList = contributionHasImageDao.selectList(queryWrapper0);
+        contribution.setImagePathList(null);
+        for (ContributionHasImage hasImage:contributionHasImageList){
+            contribution.getImagePathList().add(imageDao.selectById(hasImage.getImageId()).getPath());
+        }
+
+        // 获取用户名
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
 
@@ -97,12 +107,12 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
         queryWrapper.setEntity(contr);
 
         List<Contribution> contributionList = contributionDao.selectList(queryWrapper);
-        /*List<Contribution> contributions = null;
+        List<Contribution> contributions = null;
         for (Contribution contribution:contributionList){
             contributions.add(getContributionById(contribution.getId()));
         }
-        return contributions;*/
-        return contributionList;
+
+        return contributions;
     }
 
 }

@@ -7,6 +7,7 @@
 package com.example.usrweb.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.usrweb.entity.Attendance;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.Date;
 import java.util.List;
 
 /**   
@@ -47,5 +49,25 @@ public class AttendanceServiceImpl  extends ServiceImpl<AttendanceDao, Attendanc
         attendanceList.forEach(System.out::println);
 
         return attendanceList;
+    }
+
+    public Integer insertAttendance(Attendance attendance){
+        Attendance attendance1 = new Attendance();
+        attendance1.setUserId(attendance.getUserId());
+        attendance1.setStartTime(new Date());
+        attendanceDao.insert(attendance1);
+
+        return 1;
+    }
+
+    public Integer updateAttendance(Attendance attendance){
+        /*UpdateWrapper<Attendance> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.set("end_time", new Date());
+        attendanceDao.update(attendance, updateWrapper);*/
+
+        attendance.setEndTime(new Date());
+        attendanceDao.updateById(attendance);
+
+        return 1;
     }
 }
