@@ -17,7 +17,7 @@
     <br>
     <h3 style="text-align: center">{{news.title}}</h3>
     <br>
-    <p style="text-align: center">发布时间：{{news.time}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;供稿：{{news.writer}}</p>
+    <p style="text-align: center">发布时间：{{news.time}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;供稿：{{news.userName}}</p>
     <hr>
     <div class="text">
         <p>{{news.content}}</p>
@@ -57,11 +57,10 @@
         el: "#vue",
         data: {
             news: {
-                id:'1',
-                title:'北理工机械学院赴方山县开展2019年度常态化科技扶贫工作',
-                time:'2019-08-21',
-                writer:'机械与车辆学院',
-                content: "2019年4月18日山西省人民政府发布通知，包括北京理工大学定点扶贫的山西省吕梁市方山县在内的17个县（区）正式脱贫摘帽！北京理工大学机械与车辆学院在科技扶贫方面始终坚持精准对接、精准施策，努力做到脱贫攻坚“摘帽”不摘责任，进一步巩固脱贫成效，构筑科技扶贫常态化模式。学院党委于8月16日至18日组织科研骨干教师一行5人赴方山县开展精准扶贫工作，胡堡村挂职第一书记吴克友负责此次扶贫对接工作。学院制造工程系刘佳教授、车辆工程系李惠彬副教授、工程训练中心李占龙、李春阳、学院办公室刘芳熙参与此次科技扶贫工作，就企业技术管理培训、工程实训、产品研发等开展培训和扶贫相关工作。"
+                // title:'北理工机械学院赴方山县开展2019年度常态化科技扶贫工作',
+                // time:'2019-08-21',
+                // writer:'机械与车辆学院',
+                // content: "2019年4月18日山西省人民政府发布通知，包括北京理工大学定点扶贫的山西省吕梁市方山县在内的17个县（区）正式脱贫摘帽！北京理工大学机械与车辆学院在科技扶贫方面始终坚持精准对接、精准施策，努力做到脱贫攻坚“摘帽”不摘责任，进一步巩固脱贫成效，构筑科技扶贫常态化模式。学院党委于8月16日至18日组织科研骨干教师一行5人赴方山县开展精准扶贫工作，胡堡村挂职第一书记吴克友负责此次扶贫对接工作。学院制造工程系刘佳教授、车辆工程系李惠彬副教授、工程训练中心李占龙、李春阳、学院办公室刘芳熙参与此次科技扶贫工作，就企业技术管理培训、工程实训、产品研发等开展培训和扶贫相关工作。"
             }
         },
         methods: {
@@ -71,13 +70,14 @@
             window.parent.parent.scrollTo(0, 0);
             console.log(window.parent.childVue.contentId);
             $.ajax({
-                url: "",
+                url: "/contribution/getContributionById",
                 type: "post",
                 data: {
-                    id: ''
+                    id: window.parent.childVue.contentId
                 },
                 success(res){
-                    console.log(res);
+                    console.log(res.datas);
+                    contentVue.news = res.datas;
                 }
             })
         }
