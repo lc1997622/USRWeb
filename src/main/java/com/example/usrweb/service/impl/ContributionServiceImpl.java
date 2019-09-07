@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,10 +75,11 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
         QueryWrapper<ContributionHasImage> queryWrapper0 = new QueryWrapper<>();
         queryWrapper0.eq("contribution_id", id);
         List<ContributionHasImage> contributionHasImageList = contributionHasImageDao.selectList(queryWrapper0);
-        contribution.setImagePathList(null);
+        List<String> list = new ArrayList<>();
         for (ContributionHasImage hasImage:contributionHasImageList){
-            contribution.getImagePathList().add(imageDao.selectById(hasImage.getImageId()).getPath());
+            list.add(imageDao.selectById(hasImage.getImageId()).getPath());
         }
+        contribution.setImagePathList(list);
 
         // 获取用户名
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -107,7 +109,7 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
         queryWrapper.setEntity(contr);
 
         List<Contribution> contributionList = contributionDao.selectList(queryWrapper);
-        List<Contribution> contributions = null;
+        List<Contribution> contributions = new ArrayList<>();
         for (Contribution contribution:contributionList){
             contributions.add(getContributionById(contribution.getId()));
         }
