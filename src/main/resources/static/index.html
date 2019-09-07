@@ -199,9 +199,8 @@
             },
             formLabelWidth: '80px',
             signInMethod: 0,
-            user: {
-
-            }
+            user: {},
+            attendance: {}
         },
         methods: {
             turnPage(page) {
@@ -262,13 +261,14 @@
                                 type: 'success'
                             });
                             $.ajax({
-                                url: "/attendance/insert",
+                                url: "/attendance/insertAttendance",
                                 type: "post",
                                 data: {
                                     userId: indexVue.user.userId
                                 },
                                 success(res) {
                                     console.log(res);
+
                                 },
                                 error(res) {
                                     console.log(res);
@@ -289,7 +289,7 @@
             },
             signOutButton() {
                 $.ajax({
-                    url: "/attendance/update",
+                    url: "/attendance/updateAttendance",
                     type: "post",
                     data: {
                         id: indexVue.user.id,

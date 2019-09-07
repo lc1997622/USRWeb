@@ -52,11 +52,9 @@ public class AttendanceServiceImpl  extends ServiceImpl<AttendanceDao, Attendanc
     }
 
     public Integer insertAttendance(Attendance attendance){
-        Attendance attendance1 = new Attendance();
-        attendance1.setUserId(attendance.getUserId());
-        attendance1.setStartTime(new Date());
-        attendanceDao.insert(attendance1);
-
+        attendance.setStartTime(new Date());
+        attendanceDao.insert(attendance);
+        System.out.println("1111111111111111" + attendance.getStartTime());
         return 1;
     }
 
