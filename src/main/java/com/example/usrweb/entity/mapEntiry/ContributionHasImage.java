@@ -34,8 +34,8 @@ public class ContributionHasImage extends AbstractEntity<ContributionHasImage> {
 	private static final long serialVersionUID = 1567498746216L;
 
 	@ApiModelProperty(name = "contributionId" , value = "稿件id")
-	private Integer contributionId;
+	private Long contributionId;
 	@ApiModelProperty(name = "imageId" , value = "图片id")
-	private Integer imageId;
+	private Long imageId;
 
 }

@@ -43,12 +43,12 @@ public class Book extends AbstractEntity<Book> {
 	@ApiModelProperty(name = "author" , value = "作者")
 	private String author;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
 	@ApiModelProperty(name = "publicationYear" , value = "出版年份")
 	private Date publicationYear;
 	@ApiModelProperty(name = "location" , value = "存放地点")
 	private String location;
-	@ApiModelProperty(name = "borrowFlag" , value = "1：已被借出，0：未被借出")
+	@ApiModelProperty(name = "borrowFlag" , value = "1：已被借出，0：未被借出，2：申请未同意")
 	private Integer borrowFlag;
 	@ApiModelProperty(name = "genreType" , value = "图书类型id，与字典类型表对应，默认为2")
 	private Integer genreType;

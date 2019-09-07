@@ -36,6 +36,6 @@ public class UserHasProject extends AbstractEntity<UserHasProject> {
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "projectId" , value = "项目id")
-	private Integer projectId;
+	private Long projectId;
 
 }

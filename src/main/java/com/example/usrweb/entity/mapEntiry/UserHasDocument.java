@@ -36,5 +36,5 @@ public class UserHasDocument extends AbstractEntity<UserHasDocument> {
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "documentId" , value = "资料id")
-	private Integer documentId;
+	private Long documentId;
 }

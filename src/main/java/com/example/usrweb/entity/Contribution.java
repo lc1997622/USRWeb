@@ -6,6 +6,7 @@
  */
 package com.example.usrweb.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.example.usrweb.aid.AbstractEntity;
@@ -17,6 +18,7 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
+import java.util.List;
 
 /**   
  * <p>自动生成工具：mybatis-dsc-generator</p>
@@ -41,4 +43,9 @@ public class Contribution extends AbstractEntity<Contribution> {
 	private Date time;
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
+	@ApiModelProperty(name = "content" , value = "内容")
+	private String content;
+	@TableField(exist = false)
+	@ApiModelProperty(hidden = true)
+	private List<String> imagePathList;
 }

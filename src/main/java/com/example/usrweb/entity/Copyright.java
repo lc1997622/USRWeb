@@ -39,5 +39,6 @@ public class Copyright extends AbstractEntity<Copyright> {
 	private String registerNumber;
 	@ApiModelProperty(name = "name" , value = "软件名称信息")
 	private String name;
-
+	@ApiModelProperty(name = "applicant" , value = "著作权人")
+	private String applicant;
 }

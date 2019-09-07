@@ -75,14 +75,12 @@ public class Student extends AbstractEntity<Student> {
 	@ApiModelProperty(name = "comment" , value = "备注（100字符以内）")
 	private String comment;
 	@ApiModelProperty(hidden = true)
-	private Integer imageId;
+	private Long imageId;
 	@ApiModelProperty(name = "imagePath",value = "照片，链接，2M限制")
 	@TableField(exist = false)
 	private String imagePath;
 	@ApiModelProperty(name = "graduationFlag" , value = "0：未毕业，1：毕业")
 	private Integer graduationFlag;
-	@ApiModelProperty(name = "credit" , value = "未按时还书的次数，默认为0")
-	private Integer credit;
 	@ApiModelProperty(name = "firstCompany" , value = "初次就业单位")
 	private String firstCompany;
 }

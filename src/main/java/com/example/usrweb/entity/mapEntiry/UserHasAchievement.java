@@ -36,6 +36,6 @@ public class UserHasAchievement extends AbstractEntity<UserHasAchievement> {
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "achievementId" , value = "成果id")
-	private Integer achievementId;
+	private Long achievementId;
 
 }

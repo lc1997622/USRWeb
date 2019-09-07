@@ -41,7 +41,7 @@ public class StudentController extends AbstractController<StudentService,Student
 
 	@ApiOperation(value = "根据id查询学生信息", notes = "作者：ZhuDengji")
 	@GetMapping("/getStudentById")
-	public Object getStudentById(@RequestParam @ApiParam(value = "学生Id") Integer id){
+	public Object getStudentById(@RequestParam @ApiParam(value = "学生Id") Long id){
 		Student student;
 		try {
 			student = studentService.getStudentById(id);
@@ -75,5 +75,18 @@ public class StudentController extends AbstractController<StudentService,Student
 			return ResponseFormat.retParam(1000,null);
 		}
 		return ResponseFormat.retParam(200, studentList);
+	}
+
+	@ApiOperation(value = "根据学号查询学生信息", notes = "作者：SuPeisen")
+	@GetMapping("/getStudentByXuehao")
+	public Object getStudentByXuehao(@RequestParam @ApiParam(value = "学生学号") String studentID){
+		Student student;
+		try {
+			student = studentService.getStudentByXuehao(studentID);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000,null);
+		}
+		return ResponseFormat.retParam(200,student);
 	}
 }

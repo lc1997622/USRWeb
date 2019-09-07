@@ -7,6 +7,7 @@
 		<id column="name" property="name" />
 		<id column="year" property="year" />
 		<id column="type" property="type" />
+		<id column="awardInfo" property="awardInfo" />
 		<id column="creator" property="creator" />
 		<id column="create_time" property="createTime" />
 		<id column="modifier" property="modifier" />
@@ -14,7 +15,7 @@
 		<id column="delete_flag" property="deleteFlag" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, name, year, type, creator, create_time, modifier, modify_time, delete_flag
+		id, name, year, type, awardInfo, creator, create_time, modifier, modify_time, delete_flag
 	</sql>
 	
 </mapper>

@@ -39,10 +39,10 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
     @Autowired
     ImageDao imageDao;
 
-    public Student getStudentById(Integer id){
+    public Student getStudentById(Long id){
 
-        Student student=studentDao.selectById(id);
-        Integer imgId = student.getImageId();
+        Student student = studentDao.selectById(id);
+        Long imgId = student.getImageId();
         String imgPath = imageDao.selectById(imgId).getPath();
         student.setImagePath(imgPath);
 
@@ -53,7 +53,7 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         Image image = new Image();
         image.setPath(student.getImagePath());
         imageDao.insert(image);
-        Integer imagId = image.getId();
+        Long imagId = image.getId();
         student.setImageId(imagId);
         studentDao.insert(student);
         return 1;
@@ -75,5 +75,13 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         studentList.forEach(System.out::println);
 
         return studentList;
+    }
+
+    public Student getStudentByXuehao(String studentID){
+        QueryWrapper<Student> queryWrapper = new QueryWrapper<Student>();
+        queryWrapper.eq("student_id",studentID);
+        Student student = studentDao.selectOne(queryWrapper);
+
+        return student;
     }
 }
