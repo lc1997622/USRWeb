@@ -51,13 +51,13 @@ public class AttendanceServiceImpl  extends ServiceImpl<AttendanceDao, Attendanc
         return attendanceList;
     }
 
-    public Integer insertAttendance(Attendance attendance){
+    public Long insertAttendance(Attendance attendance){
         Attendance attendance1 = new Attendance();
         attendance1.setUserId(attendance.getUserId());
         attendance1.setStartTime(new Date());
         attendanceDao.insert(attendance1);
 
-        return 1;
+        return attendance1.getId();
     }
 
     public Integer updateAttendance(Attendance attendance){

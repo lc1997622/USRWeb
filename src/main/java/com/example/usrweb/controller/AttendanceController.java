@@ -58,14 +58,14 @@ public class AttendanceController extends AbstractController<AttendanceService,A
 	@ApiOperation(value = "插入签到记录", notes = "作者：ZhuDengji")
 	@PostMapping("/insertAttendance")
 	public Object insertAttendance(Attendance attendance){
-		Integer i;
+		Long i;
 		try {
 			i = attendanceService.insertAttendance(attendance);
 		}catch (Exception e){
 			System.out.println(e);
 			return ResponseFormat.retParam(1000,null);
 		}
-		return ResponseFormat.retParam(200,null);
+		return ResponseFormat.retParam(200, i);
 	}
 
 	@ApiOperation(value = "更新签到记录", notes = "作者：ZhuDengji")
