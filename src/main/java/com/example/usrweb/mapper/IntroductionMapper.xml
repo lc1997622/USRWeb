@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.usrweb.dao.BorrowDao">
+<mapper namespace="com.example.usrweb.dao.IntroductionDao">
 
-	<resultMap id="BaseResultMap" type="com.example.usrweb.entity.Borrow">
+	<resultMap id="BaseResultMap" type="com.example.usrweb.entity.Introduction">
 		<id column="id" property="id" />
-		<id column="user_id" property="userId" />
-		<id column="book_id" property="bookId" />
-		<id column="start_time" property="startTime" />
-		<id column="end_time" property="endTime" />
-		<id column="flag" property="flag" />
+		<id column="type" property="type" />
+		<id column="content" property="content" />
 		<id column="creator" property="creator" />
 		<id column="create_time" property="createTime" />
 		<id column="modifier" property="modifier" />
@@ -16,7 +13,7 @@
 		<id column="delete_flag" property="deleteFlag" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, user_id, book_id, start_time, end_time, flag, creator, create_time, modifier, modify_time, delete_flag
+		id, type, content, creator, create_time, modifier, modify_time, delete_flag
 	</sql>
 	
 </mapper>

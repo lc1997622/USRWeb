@@ -45,4 +45,6 @@ public class Borrow extends AbstractEntity<Borrow> {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@ApiModelProperty(name = "endTime" , value = "还书时间")
 	private Date endTime;
+	@ApiModelProperty(name = "flag" , value = "0：借出，1：归还，2：申请")
+	private String flag;
 }
