@@ -102,25 +102,26 @@
             childSrc: "",
             childActiveIndex: "",
             cooperation: [
-                {
-                    name:'1',
-                    nation:'1',
-                    project:'1'
-                },
-                {
-                    name:'2',
-                    nation:'2',
-                    project:'2'
-                },{
-                    name:'3',
-                    nation:'3',
-                    project:'3'
-                },
-                {
-                    name:'4',
-                    nation:'4',
-                    project:'4'
-                }
+                // {
+                //     name:'1',
+                //     nation:'1',
+                //     project:'1'
+                // },
+                // {
+                //     name:'2',
+                //     nation:'2',
+                //     project:'2'
+                // },
+                // {
+                //     name:'3',
+                //     nation:'3',
+                //     project:'3'
+                // },
+                // {
+                //     name:'4',
+                //     nation:'4',
+                //     project:'4'
+                // }
             ]
         },
         methods: {
@@ -148,6 +149,14 @@
             this.childActiveIndex = childPage;
             window.parent.indexVue.activeIndex = "views/" + childPage;
             console.log("about us mounted");
+            $.ajax({
+                url: "/international/getPages",
+                type: "get",
+                success(res) {
+                    console.log(res.data.records);
+                    childVue.cooperation = res.data.records;
+                }
+            })
         }
 
     })

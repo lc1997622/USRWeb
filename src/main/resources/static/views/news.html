@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
-    <link rel="stylesheet" href="css/index.css">
     <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
 
 </head>
@@ -49,49 +48,50 @@
         el: "#vue",
         data: {
             news: [
-                {
-                    id:'1',
-                    title:'1',
-                    time:'1',
-                    userId:'1'
-                },
-                {
-                    id:'2',
-                    title:'2',
-                    time:'2',
-                    userId:'2'
-                },
-                {
-                    id:'3',
-                    title:'3',
-                    time:'3',
-                    userId:'3'
-                },
-                {
-                    id:'4',
-                    title:'4',
-                    time:'4',
-                    userId:'4'
-                }
+                // {
+                //     id:'1',
+                //     title:'1',
+                //     time:'1',
+                //     userId:'1'
+                // },
+                // {
+                //     id:'2',
+                //     title:'2',
+                //     time:'2',
+                //     userId:'2'
+                // },
+                // {
+                //     id:'3',
+                //     title:'3',
+                //     time:'3',
+                //     userId:'3'
+                // },
+                // {
+                //     id:'4',
+                //     title:'4',
+                //     time:'4',
+                //     userId:'4'
+                // }
             ]
         },
         methods: {
             turnPage(id) {
                 window.parent.childVue.contentId = id;
-                window.parent.childVue.childSrc="messageContent.html";
+                window.parent.childVue.childSrc="message_content.html";
 
             },
         },
         mounted(){
             window.parent.scrollTo(0, 0);
             $.ajax({
-                url: "",
-                type: "post",
+                url: "/contribution/getNewsInfo",
+                type: "get",
                 data: {
                     type: 0
                 },
                 success(res){
-                    console.log(res);
+                    console.log(res.datas);
+                    newsVue.news = res.datas;
                 }
             })
         }

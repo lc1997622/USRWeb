@@ -17,23 +17,23 @@
 
 
 <div id="vue">
-    <h3 style="text-align: center">留学生招生</h3>
+    <h4 style="text-align: center">留学生招生</h4>
     <br>
     <hr>
     <div class="text">
-        <h4>技术要求：</h4>
+        <h5>技术要求：</h5>
         <p>{{admissions.requirement}}</p>
         <hr>
-        <h4>工作时间：</h4>
+        <h5>工作时间：</h5>
         <p>{{admissions.requirement}}</p>
         <hr>
-        <h4>其他要求：</h4>
+        <h5>其他要求：</h5>
         <p>{{admissions.requirement}}</p>
         <hr>
-        <h4>联系人：</h4>
+        <h5>联系人：</h5>
         <p>{{admissions.requirement}}</p>
         <hr>
-        <h4>联系方式：</h4>
+        <h5>联系方式：</h5>
         <p>{{admissions.requirement}}</p>
     </div>
 
@@ -59,11 +59,11 @@
         el: "#vue",
         data: {
             admissions: {
-                requirement:'4',
-                workTime:'4',
-                others:'4',
-                contact:'4',
-                contactWay:'4'
+                // requirement:'4',
+                // workTime:'4',
+                // others:'4',
+                // contact:'4',
+                // contactWay:'4'
             }
         },
         methods: {
@@ -84,6 +84,21 @@
         },
         mounted(){
             window.parent.scrollTo(0, 0);
+            $.ajax({
+                url: "/recruit/getPages",
+                type: "get",
+                data: {
+                    type: 0
+                },
+                success(res) {
+                    console.log(res.data.records);
+                    internationalAdmissionsVue.admissions = res.data.records[0];
+                    console.log(internationalAdmissionsVue.admissions);
+                },
+                error(res) {
+                    console.log(res);
+                }
+            })
         }
 
     })

@@ -37,9 +37,6 @@
             <el-table-column
                     prop="type"
                     label="层次">
-                <template slot-scope="scope">
-                    <el-tag>{{scope.row.type}}</el-tag>
-                </template>
             </el-table-column>
         </el-table>
     </div>
@@ -101,9 +98,7 @@
             <el-table-column
                     prop="type"
                     label="层次">
-                <template slot-scope="scope">
-                    <el-tag>{{scope.row.type}}</el-tag>
-                </template>
+
             </el-table-column>
         </el-table>
     </div>
@@ -126,7 +121,7 @@
     var teachingResultVue = new Vue({
         el: "#vue",
         data: {
-            teachingResultType: "1",
+            teachingResultType: "0",
             achievement: [
                 {
                     year:'',
@@ -161,10 +156,143 @@
         methods: {
 
         },
-        mounted(){
+        mounted() {
             window.parent.scrollTo(0, 0);
-        }
+            //成果
+            $.ajax({
+                url: "/achievement/getPages",
+                type: "get",
+                data: {
+                    achievementFlag: 0
+                },
+                success(res) {
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+                    for (var i = 0; i < tmp.length; i++) {
+                        let tmpAchievement = {
+                            year: '',
+                            name: '',
+                            type: ''
+                        };
+                        tmpAchievement.name = tmp[i].name;
+                        tmpAchievement.year = tmp[i].year;
+                        switch (tmp[i].type) {
+                            case 0:
+                                tmpAchievement.type = "校级";
+                                break;
+                            case 1:
+                                tmpAchievement.type = "省级";
+                                break;
+                            case 2:
+                                tmpAchievement.type = "国家级";
+                                break;
+                            default:
+                                tmpAchievement.type = "无记载";
+                                break;
+                        }
 
+                        teachingResultVue.achievement[i] = tmpAchievement;
+                    }
+                    console.log(teachingResultVue.achievement);
+                },
+                error(res) {
+                    console.log(res)
+                }
+
+            });
+            //论文
+            $.ajax({
+                url: "/paper/getPages",
+                type: "get",
+                data: {
+                    paperFlag: 0
+                },
+                success(res) {
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+                    for (var i = 0; i < tmp.length; i++) {
+                        let tmpPaper = {
+                            year:'',
+                            title:'',
+                            journal:'',
+                            number:''
+                        };
+                        tmpPaper.title = tmp[i].title;
+                        tmpPaper.year = tmp[i].year;
+                        tmpPaper.journal = tmp[i].journal;
+                        tmpPaper.number = tmp[i].number;
+
+                        teachingResultVue.paper[i] = tmpPaper;
+                    }
+                    console.log(teachingResultVue.paper);
+                },
+                error(res) {
+                    console.log(res)
+                }
+
+            });
+            //教材
+            $.ajax({
+                url: "/textbook/getPages",
+                type: "get",
+                success(res) {
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+                    for (var i = 0; i < tmp.length; i++) {
+                        let tmpTextbook = {
+                            year:'',
+                            name:'',
+                            prize:''
+                        };
+                        tmpTextbook.name = tmp[i].name;
+                        tmpTextbook.year = tmp[i].year;
+                        tmpTextbook.prize = tmp[i].prize;
+
+                        teachingResultVue.textbook[i] = tmpTextbook;
+                    }
+                    console.log(teachingResultVue.textbook);
+                },
+                error(res) {
+                    console.log(res)
+                }
+
+            });
+            //教改
+            $.ajax({
+                url: "/eduReform/getPages",
+                type: "get",
+                success(res) {
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+                    for (var i = 0; i < tmp.length; i++) {
+                        let tmpEduReform = {
+                            year:'',
+                            name:'',
+                            type:''
+                        };
+                        tmpEduReform.name = tmp[i].name;
+                        tmpEduReform.year = tmp[i].year;
+                        switch (tmp[i].type) {
+                            case 0:
+                                tmpEduReform.type = "省部级";
+                                break;
+                            case 1:
+                                tmpEduReform.type = "国家级";
+                                break;
+                            default:
+                                tmpEduReform.type = "无记载";
+                                break;
+                        }
+                        teachingResultVue.eduReform[i] = tmpEduReform;
+                    }
+                    console.log(teachingResultVue.eduReform);
+                },
+                error(res) {
+                    console.log(res)
+                }
+
+            });
+        }
     })
 </script>
 
