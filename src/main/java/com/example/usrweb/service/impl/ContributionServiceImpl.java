@@ -7,11 +7,9 @@
 package com.example.usrweb.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.usrweb.dao.ImageDao;
+import com.example.usrweb.dao.*;
 import com.example.usrweb.dao.mapDao.ContributionHasImageDao;
-import com.example.usrweb.entity.Contribution;
-import com.example.usrweb.dao.ContributionDao;
-import com.example.usrweb.entity.Image;
+import com.example.usrweb.entity.*;
 import com.example.usrweb.entity.mapEntiry.ContributionHasImage;
 import com.example.usrweb.service.ContributionService;
 import org.checkerframework.checker.units.qual.C;
@@ -40,6 +38,12 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
     ImageDao imageDao;
     @Autowired
     ContributionHasImageDao contributionHasImageDao;
+    @Autowired
+    UserDao userDao;
+    @Autowired
+    StudentDao studentDao;
+    @Autowired
+    TeacherDao teacherDao;
 
     public Integer insertContribution(Contribution contribution){
         List<String> imagePathList = contribution.getImagePathList();
@@ -62,20 +66,31 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
         return 1;
     }
 
-    /*public Contribution getContributionById(Long id){
-
+    public Contribution getContributionById(Long id){
         Contribution contribution = contributionDao.selectById(id);
+        String userId = contribution.getUserId();
 
-        QueryWrapper<ContributionHasImage> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id", id);
-        List<ContributionHasImage> contributionHasImageList = contributionHasImageDao.selectList(queryWrapper);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
 
-        contribution.setImagePathList(null);
-        for (ContributionHasImage hasImage:contributionHasImageList){
-            contribution.getImagePathList().add(imageDao.selectById(hasImage.getImageId()).getPath());
+        User user = userDao.selectOne(queryWrapper);
+        Integer type = user.getUserFlag();
+
+        // 学生
+        if (type == 1){
+            QueryWrapper<Student> queryWrapper1 = new QueryWrapper<>();
+            queryWrapper1.eq("student_id", userId);
+            contribution.setUserName(
+                    studentDao.selectOne(queryWrapper1).getChineseName());
+        }else {
+            QueryWrapper<Teacher> queryWrapper2 = new QueryWrapper<>();
+            queryWrapper2.eq("teacher_id", userId);
+            contribution.setUserName(
+                    teacherDao.selectOne(queryWrapper2).getChineseName());
         }
+
         return contribution;
-    }*/
+    }
 
     public List<Contribution> getContributionInfo(Contribution contr){
         QueryWrapper<Contribution> queryWrapper = new QueryWrapper<>();
