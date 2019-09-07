@@ -74,21 +74,24 @@
         el: "#vue",
         data: {
             teaching:[
-                {
-                    courseId:'1',
-                    name:'1',
-                    type:'1',
-                    studentType:'1',
-                    courseTime:'1',
-                    teacher:'1'
-                }
+                // {
+                //     courseId:'1',
+                //     name:'1',
+                //     type:'1',
+                //     studentType:'1',
+                //     courseTime:'1',
+                //     teacher:'1'
+                // }
             ]
         },
         methods: {
 
         },
-        mounted(){
+        mounted () {
             window.parent.scrollTo(0, 0);
+            this.$set(this.$data, 'teaching', window.parent.childVue.teaching);
+
+            // teachingVue.teaching = window.parent.childVue.teaching;
         }
 
     })

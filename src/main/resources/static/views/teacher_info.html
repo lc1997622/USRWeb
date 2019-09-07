@@ -19,6 +19,7 @@
 <div id="vue">
     <el-radio v-model="isFullTime" label="1">全职教师</el-radio>
     <el-radio v-model="isFullTime" label="0">兼职教师</el-radio>
+    <hr>
     <el-table
             :data="fullTime"
             style="width: 100%"
@@ -99,76 +100,77 @@
     var teacherInfoVue = new Vue({
         el: "#vue",
         data: {
-            isFullTime: '1',
+            isFullTime: '2',
+
             fullTime:[
-                {
-                    name:'0',
-                    title:'0',
-                    tutorQualification:'0',
-                    labJob:'0',
-                    parttimeJob:'0',
-                    instituteJob:'0'
-                },
-                {
-                    name:'1',
-                    title:'1',
-                    tutorQualification:'1',
-                    labJob:'1',
-                    parttimeJob:'1',
-                    instituteJob:'1'
-                },
-                {
-                    name:'2',
-                    title:'2',
-                    tutorQualification:'2',
-                    labJob:'2',
-                    parttimeJob:'2',
-                    instituteJob:'2'
-                },
-                {
-                    name:'3',
-                    title:'3',
-                    tutorQualification:'3',
-                    labJob:'3',
-                    parttimeJob:'3',
-                    instituteJob:'3'
-                },
-                {
-                    name:'4',
-                    title:'4',
-                    tutorQualification:'4',
-                    labJob:'4',
-                    parttimeJob:'4',
-                    instituteJob:'4'
-                }
+                // {
+                //     name:'0',
+                //     title:'0',
+                //     tutorQualification:'0',
+                //     labJob:'0',
+                //     parttimeJob:'0',
+                //     instituteJob:'0'
+                // },
+                // {
+                //     name:'1',
+                //     title:'1',
+                //     tutorQualification:'1',
+                //     labJob:'1',
+                //     parttimeJob:'1',
+                //     instituteJob:'1'
+                // },
+                // {
+                //     name:'2',
+                //     title:'2',
+                //     tutorQualification:'2',
+                //     labJob:'2',
+                //     parttimeJob:'2',
+                //     instituteJob:'2'
+                // },
+                // {
+                //     name:'3',
+                //     title:'3',
+                //     tutorQualification:'3',
+                //     labJob:'3',
+                //     parttimeJob:'3',
+                //     instituteJob:'3'
+                // },
+                // {
+                //     name:'4',
+                //     title:'4',
+                //     tutorQualification:'4',
+                //     labJob:'4',
+                //     parttimeJob:'4',
+                //     instituteJob:'4'
+                // }
 
             ],
             partTime:[
-                {
-                    name:'0',
-                    title:'0',
-                    departmentItem:'0'
-                },
-                {
-                    name:'1',
-                    title:'1',
-                    departmentItem:'1'
-                },
-                {
-                    name:'2',
-                    title:'2',
-                    departmentItem:'2'
-                },
-                {
-                    name:'3',
-                    title:'3',
-                    departmentItem:'3'
-                },
-                {
-                    name:'4',
-                    title:'4',
-                    departmentItem:'4'
-                }
+                // {
+                //     name:'0',
+                //     title:'0',
+                //     departmentItem:'0'
+                // },
+                // {
+                //     name:'1',
+                //     title:'1',
+                //     departmentItem:'1'
+                // },
+                // {
+                //     name:'2',
+                //     title:'2',
+                //     departmentItem:'2'
+                // },
+                // {
+                //     name:'3',
+                //     title:'3',
+                //     departmentItem:'3'
+                // },
+                // {
+                //     name:'4',
+                //     title:'4',
+                //     departmentItem:'4'
+                // }
             ],
         },
         methods: {
@@ -192,8 +194,118 @@
             $.ajax({
                 url: "/teacher/getPages",
                 type: "get",
+                data: {
+                    type: 1
+                },
                 success(res) {
-                    console.log(res.record())
+                    console.log("全职");
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+                    for (var i=0; i<tmp.length; i++) {
+                        let tmpFullTime = {
+                            name:'',
+                            title:'',
+                            tutorQualification:'',
+                            labJob:'',
+                            parttimeJob:'',
+                            instituteJob:''
+                        };
+                        if (tmp[i].chineseName == ""||null)
+                            tmpFullTime.name = tmp[i].englishFirstname + tmp[i].englishLastname;
+                        else
+                            tmpFullTime.name = tmp[i].chineseName;
+                        switch (tmp[i].title) {
+                            case 0:
+                                tmpFullTime.title = "无";
+                                break;
+                            case 1:
+                                tmpFullTime.title = "初级";
+                                break;
+                            case 2:
+                                tmpFullTime.title = "中级";
+                                break;
+                            case 3:
+                                tmpFullTime.title = "副高";
+                                break;
+                            case 4:
+                                tmpFullTime.title = "正级";
+                                break;
+                            default:
+                                tmpFullTime.title = "无记载";
+                                break;
+                        }
+                        switch (tmp[i].tutorQualification) {
+                            case 0:
+                                tmpFullTime.tutorQualification = "无";
+                                break;
+                            case 1:
+                                tmpFullTime.tutorQualification = "硕导";
+                                break;
+                            case 2:
+                                tmpFullTime.tutorQualification = "博导";
+                                break;
+                            default:
+                                tmpFullTime.tutorQualification = "无记载";
+                                break;
+                        }
+                        tmpFullTime.labJob = tmp[i].labJob;
+                        tmpFullTime.instituteJob = tmp[i].instituteJob;
+                        tmpFullTime.parttimeJob = tmp[i].parttimeJob;
+
+                        teacherInfoVue.fullTime[i] = tmpFullTime;
+                    }
+                    console.log(teacherInfoVue.fullTime);
+
+                }
+            });
+            $.ajax({
+                url: "/teacher/getPages",
+                type: "get",
+                data: {
+                    type: 0
+                },
+                success(res) {
+                    console.log("兼职");
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+
+                    for (var i=0; i<tmp.length; i++) {
+                        let tmpPartTime = {
+                            name:'',
+                            title:'',
+                            departmentItem:''
+                        };
+                        if (tmp[i].chineseName == ""||null)
+                            tmpPartTime.name = tmp[i].englishFirstname + tmp[i].englishLastname;
+                        else
+                            tmpPartTime.name = tmp[i].chineseName;
+                        switch (tmp[i].title) {
+                            case 0:
+                                tmpPartTime.title = "无";
+                                break;
+                            case 1:
+                                tmpPartTime.title = "初级";
+                                break;
+                            case 2:
+                                tmpPartTime.title = "中级";
+                                break;
+                            case 3:
+                                tmpPartTime.title = "副高";
+                                break;
+                            case 4:
+                                tmpPartTime.title = "正级";
+                                break;
+                            default:
+                                tmpPartTime.title = "无记载";
+                                break;
+                        }
+
+                        tmpPartTime.departmentItem = tmp[i].departmentItem;
+
+                        teacherInfoVue.partTime[i] = tmpPartTime;
+                    }
+                    console.log(teacherInfoVue.partTime);
+
                 }
             })
         }

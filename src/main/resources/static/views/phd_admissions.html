@@ -17,23 +17,23 @@
 
 
 <div id="vue">
-    <h3 style="text-align: center">博士生招生</h3>
+    <h4 style="text-align: center">博士生招生</h4>
     <br>
     <hr>
     <div class="text">
-        <h4>技术要求：</h4>
+        <h5>技术要求：</h5>
         <p>{{admissions.requirement}}</p>
         <hr>
-        <h4>工作时间：</h4>
+        <h5>工作时间：</h5>
         <p>{{admissions.requirement}}</p>
         <hr>
-        <h4>其他要求：</h4>
+        <h5>其他要求：</h5>
         <p>{{admissions.requirement}}</p>
         <hr>
-        <h4>联系人：</h4>
+        <h5>联系人：</h5>
         <p>{{admissions.requirement}}</p>
         <hr>
-        <h4>联系方式：</h4>
+        <h5>联系方式：</h5>
         <p>{{admissions.requirement}}</p>
     </div>
 </div>
@@ -56,11 +56,11 @@
         el: "#vue",
         data: {
             admissions: {
-                requirement:'3',
-                workTime:'3',
-                others:'3',
-                contact:'3',
-                contactWay:'3'
+                // requirement:'3',
+                // workTime:'3',
+                // others:'3',
+                // contact:'3',
+                // contactWay:'3'
             }
         },
         methods: {
@@ -81,6 +81,21 @@
         },
         mounted(){
             window.parent.scrollTo(0, 0);
+            $.ajax({
+                url: "/recruit/getPages",
+                type: "get",
+                data: {
+                    type: 2
+                },
+                success(res) {
+                    console.log(res.data.records);
+                    phdAdmissionsVue.admissions = res.data.records[0];
+                    console.log(phdAdmissionsVue.admissions);
+                },
+                error(res) {
+                    console.log(res);
+                }
+            })
         }
 
     })
