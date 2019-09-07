@@ -37,9 +37,6 @@
             <el-table-column
                     prop="type"
                     label="层次">
-                <template slot-scope="scope">
-                    <el-tag>{{scope.row.type}}</el-tag>
-                </template>
             </el-table-column>
         </el-table>
     </div>
@@ -125,7 +122,7 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
 <script>
-    var teachingResultVue = new Vue({
+    var researchResultVue = new Vue({
         el: "#vue",
         data: {
             researchResultType: "1",
@@ -165,6 +162,132 @@
         },
         mounted(){
             window.parent.scrollTo(0, 0);
+            //成果
+            $.ajax({
+                url: "/achievement/getPages",
+                type: "get",
+                data: {
+                    achievementFlag: 1
+                },
+                success(res) {
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+                    for (var i = 0; i < tmp.length; i++) {
+                        let tmpAchievement = {
+                            year: '',
+                            name: '',
+                            type: ''
+                        };
+                        tmpAchievement.name = tmp[i].name;
+                        tmpAchievement.year = tmp[i].year;
+                        switch (tmp[i].type) {
+                            case 0:
+                                tmpAchievement.type = "校级";
+                                break;
+                            case 1:
+                                tmpAchievement.type = "省级";
+                                break;
+                            case 2:
+                                tmpAchievement.type = "国家级";
+                                break;
+                            default:
+                                tmpAchievement.type = "无记载";
+                                break;
+                        }
+
+                        researchResultVue.achievement[i] = tmpAchievement;
+                    }
+                    console.log(researchResultVue.achievement);
+                },
+                error(res) {
+                    console.log(res)
+                }
+
+            });
+            //论文
+            $.ajax({
+                url: "/paper/getPages",
+                type: "get",
+                data: {
+                    paperFlag: 1
+                },
+                success(res) {
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+                    for (var i = 0; i < tmp.length; i++) {
+                        let tmpPaper = {
+                            year:'',
+                            title:'',
+                            journal:'',
+                            number:''
+                        };
+                        tmpPaper.title = tmp[i].title;
+                        tmpPaper.year = tmp[i].year;
+                        tmpPaper.journal = tmp[i].journal;
+                        tmpPaper.number = tmp[i].number;
+
+                        researchResultVue.paper[i] = tmpPaper;
+                    }
+                    console.log(researchResultVue.paper);
+                },
+                error(res) {
+                    console.log(res)
+                }
+
+            });
+            //专利
+            $.ajax({
+                url: "/patent/getPages",
+                type: "get",
+                success(res) {
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+                    for (var i = 0; i < tmp.length; i++) {
+                        let tmpPatent = {
+                            number:'',
+                            person:'',
+                            name:''
+                        };
+                        tmpPatent.number = tmp[i].number;
+                        tmpPatent.person = tmp[i].person;
+                        tmpPatent.name = tmp[i].name;
+
+                        researchResultVue.patent[i] = tmpPatent;
+                    }
+                    console.log(researchResultVue.textbook);
+                },
+                error(res) {
+                    console.log(res)
+                }
+
+            });
+            //著作权
+            $.ajax({
+                url: "/copyright/getPages",
+                type: "get",
+                success(res) {
+                    console.log(res.data.records);
+                    let tmp = res.data.records;
+                    for (var i = 0; i < tmp.length; i++) {
+                        let tmpCopyright = {
+                            number:'',
+                            registerNumber:'',
+                            person:'',
+                            name:''
+                        };
+                        tmpCopyright.name = tmp[i].name;
+                        tmpCopyright.number = tmp[i].number;
+                        tmpCopyright.registerNumber = tmp[i].registerNumber;
+                        tmpCopyright.person = tmp[i].person;
+                        researchResultVue.copyright[i] = tmpCopyright;
+                    }
+                    console.log(researchResultVue.copyright);
+                },
+                error(res) {
+                    console.log(res)
+                }
+
+            });
         }
 
     })

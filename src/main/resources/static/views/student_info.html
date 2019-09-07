@@ -163,15 +163,16 @@
             window.parent.scrollTo(0, 0);
             // 在校生
             $.ajax({
-                url: "/student/getPages",
-                type: "get",
+                url: "/student/selectPageWP",
+                type: "post",
                 data: {
                     graduationFlag: 0
                 },
                 success(res) {
                     console.log("在校生");
-                    console.log(res.data.records);
-                    let tmp = res.data.records;
+                    console.log(res);
+                    console.log(res.datas);
+                    let tmp = res.datas;
                     for (var i=0; i<tmp.length; i++) {
                         let tmpStudent = {
                             name:'',
@@ -224,15 +225,15 @@
             });
             // 毕业生
             $.ajax({
-                url: "/student/getPages",
-                type: "get",
+                url: "/student/selectPageWP",
+                type: "post",
                 data: {
                     graduationFlag: 1
                 },
                 success(res) {
                     console.log("毕业生");
-                    console.log(res.data.records);
-                    let tmp = res.data.records;
+                    console.log(res.datas);
+                    let tmp = res.datas;
                     for (var i=0; i<tmp.length; i++) {
                         let tmpGraduated = {
                             name:'',
