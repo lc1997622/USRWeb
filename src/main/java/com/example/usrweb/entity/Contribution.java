@@ -43,6 +43,8 @@ public class Contribution extends AbstractEntity<Contribution> {
 	private Date time;
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
+	@ApiModelProperty(name = "title" , value = "标题")
+	private String title;
 	@ApiModelProperty(name = "content" , value = "内容")
 	private String content;
 	@TableField(exist = false)
