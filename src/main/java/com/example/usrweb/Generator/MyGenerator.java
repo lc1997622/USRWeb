@@ -26,7 +26,7 @@ public class MyGenerator {
     // 数据库连接信息：连接URL、用户名、秘密、数据库名
     public static final String URL = "jdbc:mysql://localhost:3306/lab?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false";
     public static final String NAME = "root";
-    public static final String PASS = "lc1997622";
+    public static final String PASS = "123456";
     public static final String DATABASE = "lab";
 
     public static final String TIME = "2019年9月1日";
@@ -69,24 +69,28 @@ public class MyGenerator {
 //        tables.put("teacher","教师");
 //        tables.put("textbook","教材");
 //        tables.put("user","用户");
+//        tables.put("introduction", "简介");
+//        tables.put("handbook", "手册");
 
-        tables.put("contribution_has_document","稿件资料关联");
-        tables.put("contribution_has_image","稿件图片关联");
-        tables.put("course_has_student","学生课程关联");
-        tables.put("student_has_teacher","老师学生关联");
-        tables.put("teacher_has_course","老师课程关联");
-        tables.put("user_has_textbook","用户教材管理");
-        tables.put("user_has_recruit","用户招生信息关联");
-        tables.put("user_has_project","用户项目关联");
-        tables.put("user_has_patent","用户专利关联");
-        tables.put("user_has_paper","用户论文关联");
+        tables.put("user_has_introduction", "用户-简介关联");
+        tables.put("user_has_handbook", "用户手册关联");
 //        tables.put("user_has_introduction","用户");
-        tables.put("user_has_international","用户国际交流信息关联");
 //        tables.put("user_has_handbook","用户");
-        tables.put("user_has_edu_reform","用户教改关联");
-        tables.put("user_has_document","用户资料关联");
-        tables.put("user_has_copyright","用户著作权关联");
-        tables.put("user_has_achievement","用户成果关联");
+//        tables.put("contribution_has_document","稿件资料关联");
+//        tables.put("contribution_has_image","稿件图片关联");
+//        tables.put("course_has_student","学生课程关联");
+//        tables.put("student_has_teacher","老师学生关联");
+//        tables.put("teacher_has_course","老师课程关联");
+//        tables.put("user_has_textbook","用户教材管理");
+//        tables.put("user_has_recruit","用户招生信息关联");
+//        tables.put("user_has_project","用户项目关联");
+//        tables.put("user_has_patent","用户专利关联");
+//        tables.put("user_has_paper","用户论文关联");
+//        tables.put("user_has_international","用户国际交流信息关联");
+//        tables.put("user_has_edu_reform","用户教改关联");
+//        tables.put("user_has_document","用户资料关联");
+//        tables.put("user_has_copyright","用户著作权关联");
+//        tables.put("user_has_achievement","用户成果关联");
 
         for (Map.Entry<String,String> tablemap:tables.entrySet()){
             TABLE = tablemap.getKey();

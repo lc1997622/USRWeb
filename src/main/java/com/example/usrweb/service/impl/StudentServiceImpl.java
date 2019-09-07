@@ -39,9 +39,9 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
     @Autowired
     ImageDao imageDao;
 
-    public Student getStudentById(String id){
+    public Student getStudentById(Long id){
 
-        Student student=studentDao.selectById(id);
+        Student student = studentDao.selectById(id);
         Long imgId = student.getImageId();
         String imgPath = imageDao.selectById(imgId).getPath();
         student.setImagePath(imgPath);
