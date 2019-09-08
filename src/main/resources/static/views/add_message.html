@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>动态消息管理</title>
+
+
+    <!-- === CSS === -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+
+</head>
+
+<body>
+<div id="vue">
+    <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+        <el-form-item label="新闻类型" prop="type">
+            <el-radio v-model="form.type" label="0">新闻动态</el-radio>
+            <el-radio v-model="form.type" label="1">通知通告</el-radio>
+            <el-radio v-model="form.type" label="2">学术活动</el-radio>
+        </el-form-item>
+        <el-form-item label="新闻标题" prop="title">
+            <el-input v-model="form.title"></el-input>
+        </el-form-item>
+        </el-form-item>
+        <el-form-item label="新闻内容" prop="content">
+            <el-input type="textarea" v-model="form.content"></el-input>
+        </el-form-item>
+        <el-form-item label="新闻图片" prop="imagePathList">
+            <el-upload
+                    action="/"
+                    list-type="picture-card"
+                    :on-preview="handlePictureCardPreview"
+                    :on-remove="handleRemove">
+                <i class="el-icon-plus"></i>
+                <el-dialog :visible.sync="dialogVisible">
+                    <img width="100%" :src="dialogImageUrl" alt="">
+                </el-dialog>
+            </el-upload>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+            <el-button @click="resetForm('form')">重置</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+
+</body>
+<script src="../js/md5.js" type="text/javascript" charset="utf-8"></script>
+<!--  JS  -->
+<script src="../js/jquery-3.2.1.slim.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+
+<script>
+    var addMessageVue = new Vue({
+        el: "#vue",
+        data: {
+            dialogImageUrl: "",
+            dialogVisible:false,
+            form: {
+                type: "",
+                title: "",
+                content: "",
+                imagePathList: []
+            },
+            rules: {
+                type: [
+                    { required: true, trigger: 'change' },
+                ],
+                title: [
+                    { required: true, message: '请填写标题', trigger: 'blur' }
+                ],
+                content: [
+                    { required: true, message: '请填写内容', trigger: 'blur' }
+                ]
+            }
+        },
+        methods: {
+            onSubmit(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        console.log(this.form);
+                        $.ajax({
+                            url: "/contribution/insertContribution",
+                            type: "post",
+                            data: {
+                                type: this.form.type,
+                                time: new Date(),
+                                userId: window.parent.parent.indexVue.user.userId,
+                                title: this.form.title,
+                                content: this.form.content,
+                                imagePathList: this.form.imagePathList
+                            },
+                            success(res) {
+                                console.log(res);
+                                this.$message({
+                                    message: '新闻发布成功',
+                                    type: 'success'
+                                });
+                                window.parent.indexVue.activeIndex = "news_management.html";
+
+                            }
+
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePictureCardPreview(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
+            }
+        },
+        mounted() {
+
+        }
+
+    })
+</script>
+</html>

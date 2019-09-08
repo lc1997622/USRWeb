@@ -1,12 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>新闻动态管理</title>
+    <title>动态消息管理</title>
+
+
+    <!-- === CSS === -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+
 </head>
+
 <body>
-    <h5>新闻动态管理</h5>
+<div id="vue">
+    <el-button type="primary" round @click="addMessage('add_message.html')">发布动态消息</el-button>
+    <hr>
+    <el-table
+            :data="messageList  "
+            style="width: 100%">
+        <el-table-column
+                label="稿件标题:">
+            <template slot-scope="scope">
+                <p>{{ scope.row.title }}</p>
+            </template>
+        </el-table-column>
+        <el-table-column
+                label="稿件类型：" width="150px">
+            <template slot-scope="scope">
+                <p>{{ scope.row.type }}</p>
+            </template>
+        </el-table-column>
+        <el-table-column
+                label="发稿人：" width="150px">
+            <template slot-scope="scope">
+                <p>{{ scope.row.userName }}</p>
+            </template>
+        </el-table-column>
+        <el-table-column
+                label="发稿时间：" width="150px">
+            <template slot-scope="scope">
+                <p>{{ scope.row.time }}</p>
+            </template>
+        </el-table-column>
+        <!--<el-table-column-->
+        <!--label="姓名"-->
+        <!--width="180">-->
+        <!--<template slot-scope="scope">-->
+        <!--<p>{{ scope.row.name }}</p>-->
+        <!--</template>-->
+        <!--</el-table-column>-->
+
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+                <el-button
+                        size="mini"
+                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button
+                        size="mini"
+                        type="danger"
+                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+</div>
+
 </body>
+<script src="../js/md5.js" type="text/javascript" charset="utf-8"></script>
+<!--  JS  -->
+<script src="../js/jquery-3.2.1.slim.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+
+<script>
+    var messageVue = new Vue({
+        el: "#vue",
+        data: {
+            messageList:[]
+        },
+        methods: {
+            handleEdit(index, row) {
+                console.log(index, row);
+            },
+            handleDelete(index, row) {
+                console.log(index, row);
+            },
+            addMessage(page) {
+                window.parent.indexVue.activeIndex = page;
+
+            }
+        },
+        mounted() {
+            $.ajax({
+                url: "/contribution/getContributionInfo",
+                type: "get",
+                success(res){
+                    console.log(res.datas);
+                    messageVue.messageList = res.datas;
+                    for (var i=0; i<messageVue.messageList.length; i++) {
+                        if (messageVue.messageList[i].title.length>20) {
+                            messageVue.messageList[i].title = messageVue.messageList[i].title.slice(0, 20)+"..."
+                        }
+                        switch (messageVue.messageList[i].type) {
+                            case 0:
+                                messageVue.messageList[i].type = "新闻动态";
+                                break;
+                            case 1:
+                                messageVue.messageList[i].type = "通知通告";
+                                break;
+                            case 2:
+                                messageVue.messageList[i].type = "学术活动";
+                                break;
+                            default:
+                                messageVue.messageList[i].type = "无记载";
+                                break;
+                        }
+                    }
+                }
+            })
+        }
+
+    })
+</script>
 </html>

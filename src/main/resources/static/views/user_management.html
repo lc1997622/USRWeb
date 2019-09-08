@@ -15,11 +15,10 @@
 
 <body>
 <div id="vue">
-    <el-button type="primary" round>主要按钮</el-button>
-    <el-button type="primary" round>主要按钮</el-button>
+    <el-button type="primary" round @click="addUser('sign_up.html')">新增用户</el-button>
     <hr>
     <el-table
-            :data="tableData"
+            :data="userList"
             style="width: 100%">
         <el-table-column
                 label="用户ID"
@@ -83,6 +82,10 @@
             },
             handleDelete(index, row) {
                 console.log(index, row);
+            },
+            addUser(page) {
+                window.parent.indexVue.activeIndex = page;
+
             }
         },
         mounted() {

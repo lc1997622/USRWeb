@@ -1,10 +1,463 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>注册-高校科研实验室账号</title>
+
+    <!-- === CSS === -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootsaatrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <link rel="stylesheet" href="../css/sign_up.css">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+
 </head>
+
 <body>
+<div id="vue">
+    <div class="py-5 text-center">
+        <h2>注册新账号</h2>
+        <p class="lead">您将注册高校科研实验室账号，您可以通过上传EXCEL或CSV文件实现批量导入注册用户的基本信息数据，或者输入并提交以下信息，以完成注册。</p>
+    </div>
+    <div>
+        <h3>一、批量用户注册</h3>
+        <el-upload
+                class="upload-demo"
+                action="../../excel/user"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :before-remove="beforeRemove"
+                multiple
+                :limit="3"
+                :on-exceed="handleExceed"
+                :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">请您上传excel/csv文件，且不超过10mb</div>
+        </el-upload>
+        <h3>二、单个用户注册</h3>
+        <br>
+        <el-radio v-model="user_type" label='1'>教师</el-radio>
+        <el-radio v-model="user_type" label='0'>学生</el-radio>
+        <br/><br>
+        <div v-if="user_type=='1'">
+            <el-form :model="T_ruleForm" :rules="T_rules" ref="T_ruleForm" label-width="100px" class="demo-T_ruleForm">
+                <el-form-item label="工号" prop="teacherld">
+                    <el-input placeholder="请输入10位数字" v-model="T_ruleForm.teacherld"></el-input>
+                </el-form-item>
+                <el-form-item label="中文姓名" prop="chineseName">
+                    <el-input placeholder="请输入中文姓名" v-model="T_ruleForm.chineseName"></el-input>
+                </el-form-item>
+                <el-form-item label="英文名" prop="englishFirstname">
+                    <el-input placeholder="请输入英文名,中国老师填汉语拼音" v-model="T_ruleForm.englishFirstname"></el-input>
+                </el-form-item>
+                <el-form-item label="英文姓" prop="englishLastname">
+                    <el-input placeholder="请输入英文姓,中国老师填汉语拼音" v-model="T_ruleForm.englishLastname"></el-input>
+                </el-form-item>
+                <el-form-item label="性别" prop="sex">
+                    <el-radio-group v-model="T_ruleForm.sex">
+                        <el-radio label="男" value=1></el-radio>
+                        <el-radio label="女" value=0></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="教师类别" prop="type">
+                    <el-radio-group v-model="T_ruleForm.type">
+                        <el-radio label="专职" value=1></el-radio>
+                        <el-radio label="兼职" value=0></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="国籍" prop="nationality">
+                    <el-input placeholder="请输入国籍" v-model="T_ruleForm.nationality"></el-input>
+                </el-form-item>
+                <el-form-item label="单位" prop="departmentltem">
+                    <el-select v-model="T_ruleForm.departmentltem" placeholder="请选择您所在单位">
+                        <el-option label="宇航学院" value=1></el-option>
+                        <el-option label="机电学院" value=2></el-option>
+                        <el-option label="机械与车辆学院" value=3></el-option>
+                        <el-option label="光电学院" value=4></el-option>
+                        <el-option label="信息与电子学院" value=5></el-option>
+                        <el-option label="自动化学院" value=6></el-option>
+                        <el-option label="计算机学院" value=7></el-option>
+                        <el-option label="材料学院" value=8></el-option>
+                        <el-option label="化学与化工学院" value=9></el-option>
+                        <el-option label="生命学院" value=10></el-option>
+                        <el-option label="数学与统计学院" value=11></el-option>
+                        <el-option label="物理学院" value=12></el-option>
+                        <el-option label="管理与经济学院" value=13></el-option>
+                        <el-option label="人文与社会科学学院" value=14></el-option>
+                        <el-option label="马克思主义学院" value=15></el-option>
+                        <el-option label="法学院" value=16></el-option>
+                        <el-option label="外国语学院" value=17></el-option>
+                        <el-option label="设计与艺术学院" value=18></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="职称" prop="title">
+                    <el-select v-model="T_ruleForm.title" placeholder="请选择类别">
+                        <el-option label="正高" value=4></el-option>
+                        <el-option label="副高" value=3></el-option>
+                        <el-option label="中级" value=2></el-option>
+                        <el-option label="初级" value=1></el-option>
+                        <el-option label="无" value=0></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="导师资格" prop="tutorQualification">
+                    <el-radio-group v-model="T_ruleForm.tutorQualification">
+                        <el-radio label="博导" value=2></el-radio>
+                        <el-radio label="硕导" value=1></el-radio>
+                        <el-radio label="无" value=0></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="职务" prop="job">
+                    <el-input placeholder="请输入您的职务" v-model="T_ruleForm.job"></el-input>
+                </el-form-item>
+                <el-form-item label="出生日期" prop="birthday">
+                    <el-date-picker
+                            v-model="T_ruleForm.birthday"
+                            type="date"
+                            placeholder="选择日期"
+                            format="yyyy 年 MM 月 dd 日"
+                            value-format="yyyy-MM-dd">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="电子邮箱" prop="email">
+                    <el-input v-model="T_ruleForm.email"></el-input>
+                </el-form-item>
+                <el-form-item label="移动电话" prop="mobilePhone">
+                    <el-input v-model="T_ruleForm.mobilePhone"></el-input>
+                </el-form-item>
+                <el-form-item label="办公电话" prop="officePhone">
+                    <el-input v-model="T_ruleForm.officePhone"></el-input>
+                </el-form-item>
+                <el-form-item label="备注" prop="comment">
+                    <el-input type="textarea" v-model="T_ruleForm.comment"></el-input>
+                </el-form-item>
+                <el-upload
+                        class="avatar-uploader"
+                        action="../images/photo"
+                        :show-file-list="true"
+                        :on-success="handleAvatarSuccess"
+                        :before-upload="beforeAvatarUpload">
+                    <img v-if="T_ruleForm.imagePath" :src="T_ruleForm.imagePath" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+                </el-form-item>
+                </el-form-item>
+                <el-button type="primary" @click="submitForm('T_ruleForm')">立即注册</el-button>
+                <el-button @click="resetForm('T_ruleForm')">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+        <div v-else>
+            <el-form :model="S_ruleForm" :rules="S_rules" ref="S_ruleForm" label-width="100px" class="demo-S_ruleForm">
+                <el-form-item label="学号" prop="studentld">
+                    <el-input placeholder="请输入10位数字" v-model="S_ruleForm.studentld"></el-input>
+                </el-form-item>
+                <el-form-item label="中文姓名" prop="chineseName">
+                    <el-input placeholder="请输入中文姓名" v-model="S_ruleForm.chineseName"></el-input>
+                </el-form-item>
+                <el-form-item label="英文名" prop="englishFirstname">
+                    <el-input placeholder="请输入英文名,中国学生填汉语拼音" v-model="S_ruleForm.englishFirstname"></el-input>
+                </el-form-item>
+                <el-form-item label="英文姓" prop="englishLastname">
+                    <el-input placeholder="请输入英文姓,中国学生填汉语拼音" v-model="S_ruleForm.englishLastname"></el-input>
+                </el-form-item>
+                <el-form-item label="性别" prop="sex">
+                    <el-radio-group v-model="S_ruleForm.sex">
+                        <el-radio label="男" value=1></el-radio>
+                        <el-radio label="女" value=0></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="学生类别" prop="type">
+                    <el-radio-group v-model="S_ruleForm.type">
+                        <el-radio label="本科" value=0></el-radio>
+                        <el-radio label="学术硕士" value=1></el-radio>
+                        <el-radio label="工程硕士" value=2></el-radio>
+                        <el-radio label="学术博士" value=3></el-radio>
+                        <el-radio label="工程博士" value=4></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="国籍" prop="nationality">
+                    <el-input placeholder="请输入国籍" v-model="S_ruleForm.nationality"></el-input>
+                </el-form-item>
+                <el-form-item label="入学时间" prop="enrollmentTime">
+                    <el-input placeholder="****年**月" v-model="S_ruleForm.enrollmentTime"></el-input>
+                </el-form-item>
+                <el-form-item label="毕业时间" prop="graduationTime">
+                    <el-input placeholder="****年**月" v-model="S_ruleForm.graduationTime"></el-input>
+                </el-form-item>
+                <el-form-item label="导师" prop="tutor">
+                    <el-input placeholder="导师姓名" v-model="S_ruleForm.tutor"></el-input>
+                </el-form-item>
+                <el-form-item label="副导师" prop="vice_tutor">
+                    <el-input placeholder="副导师姓名" v-model="S_ruleForm.vice_tutor"></el-input>
+                </el-form-item>
+                <el-form-item label="出生日期" prop="birthday">
+                    <el-date-picker
+                            v-model="S_ruleForm.birthday"
+                            type="date"
+                            placeholder="选择日期"
+                            format="yyyy 年 MM 月 dd 日"
+                            value-format="yyyy-MM-dd">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="电子邮箱" prop="email">
+                    <el-input v-model="S_ruleForm.email"></el-input>
+                </el-form-item>
+                <el-form-item label="移动电话" prop="mobilePhone">
+                    <el-input v-model="S_ruleForm.mobilePhone"></el-input>
+                </el-form-item>
+                <el-form-item label="备注" prop="comment">
+                    <el-input type="textarea" v-model="S_ruleForm.comment"></el-input>
+                </el-form-item>
+                <el-form-item label="学业状态" prop="graduationFlag">
+                    <el-radio-group v-model="S_ruleForm.graduationFlag">
+                        <el-radio label="未毕业" value=0></el-radio>
+                        <el-radio label="已毕业" value=1></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="初次就业单位" prop="firstCompany">
+                    <el-input v-model="S_ruleForm.firstCompany"></el-input>
+                </el-form-item>
+                <el-upload
+                        class="avatar-uploader"
+                        action="../images/photo"
+                        :show-file-list="true"
+                        :on-success="handleAvatarSuccess"
+                        :before-upload="beforeAvatarUpload">
+                    <img v-if="S_ruleForm.imagePath" :src="S_ruleForm.imagePath" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('S_ruleForm')">立即注册</el-button>
+                    <el-button @click="resetForm('S_ruleForm')">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </div>
+</div>
 
 </body>
+
+<!-- === JS === -->
+<script src="../js/jquery-3.2.1.slim.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+
+<script>
+    var vue = new Vue({
+        el: "#vue",
+        data: {
+            user_type: '1',
+            fileList:[],
+            T_ruleForm: {
+                teacherld:'',
+                chineseName: '',
+                englishFirstname: '',
+                englishLastname: '',
+                sex: '',
+                type: '',
+                nationality: '',
+                departmentltem: '',
+                title: '',
+                tutorQualification: '',
+                job: '',
+                birthday: '',
+                email: '',
+                mobilePhone: '',
+                officePhone: '',
+                comment: '',
+                imagePath: ''
+            },
+            S_ruleForm: {
+                studentld:'',
+                chineseName: '',
+                englishFirstname: '',
+                englishLastname: '',
+                sex: '',
+                type: '',
+                nationality: '',
+                enrollmentTime: '',
+                graduationTime:'',
+                tutor:'',
+                vice_tutor:'',
+                birthday: '',
+                email: '',
+                mobilePhone: '',
+                comment: '',
+                imageUrl: '',
+                graduationFlag: '',
+                firstCompany:''
+            },
+            T_rules: {
+                teacherld: [
+                    {required: false, trigger: 'blur'}
+                ],
+                chineseName: [
+                    {required: true, message: '请输入中文名字', trigger: 'blur'},
+                    {min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur'}
+                ],
+                englishFirstname: [
+                    {required: true, message: '请输入英文名,中国老师填汉语拼音', trigger: 'blur'},
+                    {min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur'}
+                ],
+                englishLastname: [
+                    {required: true, message: '请输入英文姓,中国老师填汉语拼音', trigger: 'blur'},
+                    {min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur'}
+                ],
+                sex: [
+                    {required: true, message: '请选择性别', trigger: 'change'}
+                ],
+                type: [
+                    {required: true, message: '请选择教师类别', trigger: 'change'}
+                ],
+                nationality: [
+                    {required: true, message: '请输入国籍', trigger: 'blur'}
+                ],
+                unit: [
+                    {required: true, message: '请选择单位', trigger: 'change'}
+                ],
+                title: [
+                    {required: true, message: '请选择职称', trigger: 'change'}
+                ],
+                tutorQualification: [
+                    {required: true, message: '请选择导师资格', trigger: 'change'}
+                ],
+                job: [
+                    {required: true, message: '请输入职务', trigger: 'blur'}
+                ],
+                birthday: [
+                    {type: 'date', required: true, message: '请选择出生日期', trigger: 'change'}
+                ],
+                email: [
+                    {required: true, message: '请输入常用电子邮箱', trigger: 'blur'}
+                ],
+                mobilePhone: [
+                    {required: true, message: '请输入移动电话号码', trigger: 'blur'}
+                ],
+                officePhone: [
+                    {required: true, message: '请输入办公电话号码', trigger: 'blur'}
+                ],
+                comment: [
+                    {required: false, message: '请输入备注', trigger: 'blur'}
+                ],
+            },
+            S_rules: {
+                studentld: [
+                    {required: true, message:'请输入学号',trigger: 'blur'},
+                    {min: 1, max: 10, message: '请输入10位数字的学号', trigger: 'blur'}
+                ],
+                chineseName: [
+                    {required: true, message: '请输入中文名字', trigger: 'blur'},
+                    {min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur'}
+                ],
+                englishFirstname: [
+                    {required: true, message: '请输入英文名,中国学生填汉语拼音', trigger: 'blur'},
+                    {min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur'}
+                ],
+                englishLastname: [
+                    {required: true, message: '请输入英文姓,中国学生填汉语拼音', trigger: 'blur'},
+                    {min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur'}
+                ],
+                sex: [
+                    {required: true, message: '请选择性别', trigger: 'change'}
+                ],
+                type: [
+                    {required: true, message: '请选择学生类别', trigger: 'change'}
+                ],
+                nationality: [
+                    {required: true, message: '请输入国籍', trigger: 'blur'}
+                ],
+                enrollmentTime: [
+                    {required: true, message: '请输入入学年份月份', trigger: 'blur'}
+                ],
+                graduationTime: [
+                    {required: true, message: '请输入毕业年份月份', trigger: 'blur'}
+                ],
+                tutor: [
+                    {required: true, message: '请输入导师姓名', trigger: 'blur'}
+                ],
+                vice_tutor: [
+                    {required: false}
+                ],
+                birthday: [
+                    {type: 'date', required: true, message: '请选择出生日期', trigger: 'change'}
+                ],
+                email: [
+                    {required: true, message: '请输入常用电子邮箱', trigger: 'blur'}
+                ],
+                mobilePhone: [
+                    {required: true, message: '请输入移动电话号码', trigger: 'blur'}
+                ],
+                comment: [
+                    {required: false, message: '请输入备注', trigger: 'blur'}
+                ],
+                graduationFlag: [
+                    {required: true, message: '请选择学业状态', trigger: 'change'}
+                ],
+                firstCompany: [
+                    {required: false, message: '请输入初次就业单位', trigger: 'blur'}
+                ]
+            }
+        },
+        methods: {
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            beforeRemove(file, fileList) {
+                return this.$confirm(`确定移除 ${ file.name }？`);
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                return false;
+            }
+            });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            handleAvatarSuccess(res, file) {
+                console.log(res, file);
+                this.imageUrl = "../images/photo/" + file.name;
+                console.log(this.imageUrl)
+            },
+            beforeAvatarUpload(file) {
+                console.log(file);
+                const isJPG = file.type === 'image/jpeg';
+                const isLt5M = file.size / 1024 / 1024 < 5;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt5M) {
+                    this.$message.error('上传头像图片大小不能超过 5MB!');
+                }
+                return isJPG && isLt5M;
+            }
+        },
+        mounted(){
+        }
+
+    })
+</script>
+
 </html>
+
