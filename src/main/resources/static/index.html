@@ -240,13 +240,13 @@
                 this.form.password = hex_md5(this.form.password);
                 $.ajax({
                     url: "/user/getPages",
-                    type: "get",
+                    type: "post",
                     data: {
                         userId: this.form.username,
                         password: this.form.password
                     },
                     success(res) {
-                        console.log(res.data.records);
+                        console.log(res);
                         var data = res.data.records;
                         if (data.length == 0) {
                             indexVue.$message.error('用户名或密码错误');
