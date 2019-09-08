@@ -21,25 +21,25 @@
             :data="messageList  "
             style="width: 100%">
         <el-table-column
-                label="稿件标题">
+                label="稿件标题:">
             <template slot-scope="scope">
                 <p>{{ scope.row.title }}</p>
             </template>
         </el-table-column>
         <el-table-column
-                label="稿件类型" width="150px">
+                label="稿件类型：" width="150px">
             <template slot-scope="scope">
                 <p>{{ scope.row.type }}</p>
             </template>
         </el-table-column>
         <el-table-column
-                label="发稿人" width="150px">
+                label="发稿人：" width="150px">
             <template slot-scope="scope">
                 <p>{{ scope.row.userName }}</p>
             </template>
         </el-table-column>
         <el-table-column
-                label="发稿时间" width="150px">
+                label="发稿时间：" width="150px">
             <template slot-scope="scope">
                 <p>{{ scope.row.time }}</p>
             </template>
