@@ -24,7 +24,7 @@
     <!--:src="pic">-->
     <!--</el-image>-->
     <!--</div>-->
-    <el-image style="width: 600px; height: 450px; display: block; margin: 0 auto;" :src="news.imagePathList[0]">
+    <el-image v-if="news.imagePathList.length>0" style="width: 600px; height: 450px; display: block; margin: 0 auto;" :src="news.imagePathList[0]">
     </el-image>
     <br>
     <div class="text">

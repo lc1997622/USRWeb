@@ -69,6 +69,11 @@
                 success(res){
                     console.log(res.datas);
                     noticeVue.notice = res.datas;
+                    for (var i=0; i<noticeVue.notice.length; i++) {
+                        if (noticeVue.notice[i].title.length>20) {
+                            noticeVue.notice[i].title = noticeVue.notice[i].title.slice(0, 20)+"..."
+                        }
+                    }
                 }
             })
         }

@@ -10,6 +10,15 @@ body {
   margin: 1rem 0;
 }
 
+.time {
+  float: right;
+  font-size: 0.8rem;
+}
+
+.link {
+  text-indent:2rem;
+
+}
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
 
@@ -18,7 +27,7 @@ body {
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
-  bottom: 3rem;
+  top: 1rem;
   z-index: 10;
 }
 

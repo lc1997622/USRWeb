@@ -88,6 +88,11 @@
                 success(res){
                     console.log(res.datas);
                     newsVue.news = res.datas;
+                    for (var i=0; i<newsVue.news.length; i++) {
+                        if (newsVue.news[i].title.length>20) {
+                            newsVue.news[i].title = newsVue.news[i].title.slice(0, 20)+"..."
+                        }
+                    }
                 }
             })
         }

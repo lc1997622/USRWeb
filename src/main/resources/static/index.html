@@ -21,7 +21,7 @@
         <header class="blog-header py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-2 pt-1">
-                    <a class="text-muted" href="#">LOGO</a>
+                    <img src="./images/timg.jpg" style="width: 100px;height: 100px">
                 </div>
                 <div class="col-8 text-center">
                     <a class="blog-header-logo text-dark" style="font-family: ‘微软雅黑’; line-height: normal">高校科研实验室</a>
@@ -36,8 +36,8 @@
                             <!--<title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/>-->
                         <!--</svg>-->
                     <!--</a>-->
-                    <el-button plain @click="signInButton" v-if="!isSignIn">登录</el-button>
-                    <el-button plain @click="signOutButton" v-if="isSignIn">登出</el-button>
+                    <el-button type="success" round @click="signInButton" v-if="!isSignIn">登录</el-button>
+                    <el-button type="success" round @click="signOutButton" v-if="isSignIn">登出</el-button>
 
                     <el-dialog title="登 录" :visible.sync="dialogFormVisible" width="30%"
                                center :destroy-on-close=true :close-on-click-modal=false @close="cancelSignIn" @closed="cancelSignIn">
@@ -119,7 +119,7 @@
         </div>
 
         <iframe id="main-frame" name="main-frame" v-bind:src="src"
-                style="width: calc(100%);" frameborder="no" scrolling="no">
+                style="width: calc(100%); min-height: 1000px" frameborder="no" scrolling="no">
         </iframe>
 
 
@@ -128,17 +128,17 @@
         <footer class="blog-footer">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-6">
-                        <p>友情链接:</p>
-                        <p>
-                            <a href="http://www.bit.edu.cn/m/index.htm" class="col-3">北京理工大学</a>
-                            <a href="http://cs.bit.edu.cn/" class="col-3">计算机学院</a>
-                            <a href="http://ss.bit.edu.cn/" class="col-3">软件学院</a>
-                            <a href="http://grd.bit.edu.cn/" class="col-3">研究生院</a>
-                        </p>
-                    </div>
-                    <div class="col-6" >
-                        <p>All rights Reserved | 2019 &copy; 高校科研实验室</p>
+                    <!--<div class="col-6">-->
+                        <!--<p>友情链接:</p>-->
+                        <!--<p>-->
+                            <!--<a href="http://www.bit.edu.cn/m/index.htm" class="col-3">北京理工大学</a>-->
+                            <!--<a href="http://cs.bit.edu.cn/" class="col-3">计算机学院</a>-->
+                            <!--<a href="http://ss.bit.edu.cn/" class="col-3">软件学院</a>-->
+                            <!--<a href="http://grd.bit.edu.cn/" class="col-3">研究生院</a>-->
+                        <!--</p>-->
+                    <!--</div>-->
+                    <div class="col-12" >
+                        <p >All rights Reserved | 2019 &copy; 高校科研实验室</p>
                         <p>京ICP备XXXXXXXX号　京公网安备XXXXXXXXXXXX号</p>
                         <p>
                             <a href="#">返回顶部</a>
