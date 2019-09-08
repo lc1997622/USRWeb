@@ -117,4 +117,19 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
         return contributions;
     }
 
+    public Integer deleteContributionById(Long id){
+        Contribution contribution = contributionDao.selectById(id);
+        contributionDao.deleteById(contribution);
+
+        // 删除稿件与图片的关联信息
+        QueryWrapper<ContributionHasImage> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("contribution_id", id);
+        List<ContributionHasImage> contributionHasImageList = contributionHasImageDao.selectList(queryWrapper);
+        for (ContributionHasImage hasImage:contributionHasImageList){
+            hasImage.setDeleteFlag(1);
+            contributionHasImageDao.deleteById(hasImage);
+        }
+
+        return 1;
+    }
 }

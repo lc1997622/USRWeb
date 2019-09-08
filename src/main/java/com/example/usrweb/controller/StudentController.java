@@ -6,6 +6,7 @@
  */
 package com.example.usrweb.controller;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.example.usrweb.aid.AbstractController;
 import com.example.usrweb.config.ResponseFormat;
 import com.example.usrweb.entity.Student;
@@ -41,6 +42,7 @@ public class StudentController extends AbstractController<StudentService,Student
 
 	@ApiOperation(value = "根据id查询学生信息", notes = "作者：ZhuDengji")
 	@GetMapping("/getStudentById")
+	@DS("slave")
 	public Object getStudentById(@RequestParam @ApiParam(value = "学生Id") Long id){
 		Student student;
 		try {
@@ -66,6 +68,7 @@ public class StudentController extends AbstractController<StudentService,Student
 
 	@ApiOperation(value = "分页查询学生带参数", notes = "作者：ZhuDengji")
 	@PostMapping("/selectPageWP")
+	@DS("slave")
 	public Object selectPageWP(Student student, @RequestParam(required = false) @ApiParam(value = "页数") Integer pageNum, @RequestParam(required = false) @ApiParam(value = "每页大小") Integer pageSize){
 		List<Student> studentList;
 		try {

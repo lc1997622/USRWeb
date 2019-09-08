@@ -78,6 +78,6 @@ public class AttendanceController extends AbstractController<AttendanceService,A
 			System.out.println(e);
 			return ResponseFormat.retParam(1000,null);
 		}
-		return ResponseFormat.retParam(200,null);
+		return ResponseFormat.retParam(200,i);
 	}
 }
