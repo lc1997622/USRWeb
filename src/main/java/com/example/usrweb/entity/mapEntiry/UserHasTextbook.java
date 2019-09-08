@@ -36,6 +36,6 @@ public class UserHasTextbook extends AbstractEntity<UserHasTextbook> {
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "textbookId" , value = "教材id")
-	private Integer textbookId;
+	private Long textbookId;
 
 }

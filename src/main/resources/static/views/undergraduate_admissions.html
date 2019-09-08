@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
-    <link rel="stylesheet" href="../css/homepage.css">
+    <link rel="stylesheet" href="../css/content.css">
     <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
 
 </head>
@@ -17,8 +17,25 @@
 
 
 <div id="vue">
-    本科生招生
-
+    <h4 style="text-align: center">本科生招生</h4>
+    <br>
+    <hr>
+    <div class="text">
+        <h5>技术要求：</h5>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h5>工作时间：</h5>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h5>其他要求：</h5>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h5>联系人：</h5>
+        <p>{{admissions.requirement}}</p>
+        <hr>
+        <h5>联系方式：</h5>
+        <p>{{admissions.requirement}}</p>
+    </div>
 
 
 </div>
@@ -40,7 +57,13 @@
     var undergraduateAdmissionsVue = new Vue({
         el: "#vue",
         data: {
-
+            admissions: {
+                // requirement:'',
+                // workTime:'',
+                // others:'',
+                // contact:'',
+                // contactWay:''
+            }
         },
         methods: {
             turnPage(page) {
@@ -60,6 +83,21 @@
         },
         mounted(){
             window.parent.scrollTo(0, 0);
+            $.ajax({
+                url: "/recruit/getPages",
+                type: "get",
+                data: {
+                    type: 0
+                },
+                success(res) {
+                    console.log(res.data.records);
+                    undergraduateAdmissionsVue.admissions = res.data.records[0];
+                    console.log(undergraduateAdmissionsVue.admissions);
+                },
+                error(res) {
+                    console.log(res);
+                }
+            })
         }
 
     })

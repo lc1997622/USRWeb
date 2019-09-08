@@ -36,6 +36,6 @@ public class UserHasRecruit extends AbstractEntity<UserHasRecruit> {
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "recruitId" , value = "招生信息id")
-	private Integer recruitId;
+	private Long recruitId;
 
 }

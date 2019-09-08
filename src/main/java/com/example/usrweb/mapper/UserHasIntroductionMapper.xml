@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.usrweb.dao.mapDao.UserHasIntroductionDao">
+
+	<resultMap id="BaseResultMap" type="com.example.usrweb.entity.mapEntiry.UserHasIntroduction">
+		<id column="id" property="id" />
+		<id column="user_id" property="userId" />
+		<id column="introduction_id" property="introductionId" />
+		<id column="creator" property="creator" />
+		<id column="create_time" property="createTime" />
+		<id column="modifier" property="modifier" />
+		<id column="modify_time" property="modifyTime" />
+		<id column="delete_flag" property="deleteFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, introduction_id, creator, create_time, modifier, modify_time, delete_flag
+	</sql>
+	
+</mapper>

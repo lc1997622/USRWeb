@@ -61,7 +61,7 @@ public class BookController extends AbstractController<BookService,Book>{
 
 	@PostMapping("/selectPage")
 	@ApiOperation(value = "分页查询", notes = "作者：LiChao")
-	public Object selectPage(Book book,@RequestParam(required = false) Integer pageNum, @RequestParam(required = false)Integer pageSize){
+	public Object selectPage(Book book,Integer pageNum,Integer pageSize){
 		QueryWrapper<Book> queryWrapper = new QueryWrapper<Book>();
 		queryWrapper.setEntity(book);
 		Page<Book> page = new Page<>(pageNum,pageSize);
@@ -69,6 +69,25 @@ public class BookController extends AbstractController<BookService,Book>{
 		try {
 			IPage<Book> iPage = bookDao.selectPage(page,queryWrapper);
 			bookList=iPage.getRecords();
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000,null);
+		}
+		return ResponseFormat.retParam(200,bookList);
+	}
+
+	@PostMapping("/selectPageWP")
+	@ApiOperation(value = "分页查询带参数", notes = "作者：LiChao")
+	public Object selectPageWP(@RequestBody PageParam<Book> param){
+		QueryWrapper<Book> queryWrapper = new QueryWrapper<Book>();
+		System.out.println(param);
+		Page<Book> page = new Page<>(param.getPageNum(),param.getPageSize());
+		List<Book> bookList;
+		try {
+			queryWrapper.setEntity(param.getParam());
+			IPage<Book> iPage = bookDao.selectPage(page,queryWrapper);
+			bookList=iPage.getRecords();
+			bookList.forEach(System.out::println);
 		}catch (Exception e){
 			System.out.println(e);
 			return ResponseFormat.retParam(1000,null);

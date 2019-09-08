@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
 <head>
 	<meta charset="UTF-8">
@@ -15,24 +15,42 @@
 
 <body>
 	<div id="internalSystemSidebarVue">
-		<el-row class="tac">
-			<el-col :span="4">
-				<el-menu class="el-menu-vertical-demo" class="el-menu-demo" default-active="activeIndex"
-					@select="handleSelect">
-					<el-submenu index="check_in_out.html">
-						<template slot="title">内部管理</template>
-						<el-menu-item index="check_in_out.html">签到/签出</el-menu-item>
-						<el-menu-item index="book_lending.html">图书借阅</el-menu-item>
-					</el-submenu>
-					<el-menu-item index="download.html">下载专区</el-menu-item>
-					<el-menu-item index="user_help.html">用户帮助</el-menu-item>
-				</el-menu>
-			</el-col>
-			<el-col :span="20">
-				<iframe id="main-frame" name="main-frame" v-bind:src="src" style="width: calc(100%)" frameborder="no"
-					scrolling="no"></iframe>
-			</el-col>
-		</el-row>
+		<el-container>
+			<el-aside width="200px">
+				<el-row class="tac">
+					<el-col>
+						<el-menu class="el-menu-vertical-demo" default-active="activeIndex" @select="handleSelect">
+							<el-menu-item index="user_management.html">用户管理</el-menu-item>
+							<el-submenu index="新闻动态管理">
+								<template slot="title">新闻动态管理</template>
+								<el-menu-item index="news_management.html">新闻列表</el-menu-item>
+								<!--el-menu-item-- index="">新闻推送</!--el-menu-item-->
+								<!--el-menu-item-- index="">动态推送</!--el-menu-item-->
+							</el-submenu>
+							<el-submenu index="资料管理">
+								<template slot="title">资料管理</template>
+								<el-menu-item index="data_management.html">资料列表</el-menu-item>
+								<!--el-menu-item-- index=""></!--el-menu-item-->
+							</el-submenu>
+							<el-submenu index="图书管理">
+								<template slot="title">图书管理</template>
+								<el-menu-item index="book_management.html">图书列表</el-menu-item>
+								<el-menu-item index="book_lending_record.html">借阅记录</el-menu-item>
+							</el-submenu>
+							<el-menu-item index="check_in_out.html">签到/签出</el-menu-item>
+							<el-menu-item index="book_lending.html">图书借阅</el-menu-item>
+							<el-menu-item index="download.html">下载专区</el-menu-item>
+							<el-menu-item index="user_help.html">用户帮助</el-menu-item>
+							<el-menu-item index="about_me.html">我</el-menu-item>
+						</el-menu>
+					</el-col>
+				</el-row>
+			</el-aside>
+			<el-main>
+				<iframe id="child-frame" name="child-frame" v-bind:src="activeIndex" style="width: calc(100%);min-height: 1000px"
+					frameborder="no" scrolling="no"></iframe>
+			</el-main>
+		</el-container>
 	</div>
 </body>
 <!-- 引入bootstrap组件库 -->
@@ -41,36 +59,42 @@
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- 引入element-ui组件库 -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script>
-	window.onload = function () {
-		window.parent.setIframeHeight(window.parent.document.getElementById('main-frame'));
+	function setIframeHeight(iframe) {
+		if (iframe) {
+			var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+			if (iframeWin.document.body) {
+				iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+			}
+		}
 	};
 </script>
 <script>
-
-	var indexVue = new Vue
-		({
-			el: '#internalSystemSidebarVue',
-			data:
-			{
-				src: "download.html",
-				activeIndex: "download.html",
-				currentPage: ""
-			},
-			methods:
-			{
-				turnPage: function (page) {
-					this.src = page;
-				},
-				handleSelect(key, keyPath) {
-					this.currentPage = key;
-					this.turnPage(keyPath[0]);
-					document.getElementById("main-frame").contentWindow.childVue.childSrc = key.slice(6);
-					document.getElementById("main-frame").contentWindow.childactiveIndex = key.slice(6);
-					indexVue.activeIndex = key;
-				}
+	var indexVue = new Vue({
+		el: '#internalSystemSidebarVue',
+		data: {
+			activeIndex: "about_me.html",
+			bookArray: []
+		},
+		methods: {
+			handleSelect(key, keyPath) {
+				/*$.ajax({
+					url:'/book/getPages',
+					type:'get',
+					success(res)
+					{
+						console.log(res);
+					}
+				});*/
+				this.activeIndex = keyPath[keyPath.length - 1]
+				//document.getElementById("child-frame").contentWindow.childVue.childSrc = key.slice(6);
+				//document.getElementById("child-frame").contentWindow.childactiveIndex = key.slice(6);
+				//indexVue.activeIndex = key;
 			}
-		})
+		}
+	})
 </script>
 
 </html>

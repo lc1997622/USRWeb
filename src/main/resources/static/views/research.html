@@ -61,19 +61,21 @@
         el: "#vue",
         data: {
             research:[
-                {
-                    teacher:'1',
-                    id:'1',
-                    name:'1',
-                    type:'1'
-                }
+                // {
+                //     teacher:'1',
+                //     id:'1',
+                //     name:'1',
+                //     type:'1'
+                // }
             ]
         },
         methods: {
 
         },
-        mounted(){
+        mounted (){
             window.parent.scrollTo(0, 0);
+            this.$set(this.$data, 'research', window.parent.childVue.research);
+
         }
 
     })

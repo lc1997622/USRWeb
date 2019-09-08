@@ -36,6 +36,6 @@ public class UserHasPatent extends AbstractEntity<UserHasPatent> {
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "patentId" , value = "专利id")
-	private Integer patentId;
+	private Long patentId;
 
 }

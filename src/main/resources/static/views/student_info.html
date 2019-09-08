@@ -19,9 +19,33 @@
 <div id="vue">
     <el-radio v-model="isGraduated" label="0">在校生</el-radio>
     <el-radio v-model="isGraduated" label="1">毕业生</el-radio>
+    <hr>
     <!--在校生-->
     <div v-if="isGraduated == '0'">
-        在校生
+        <el-row :gutter="20" >
+
+            <el-col :span="5" v-for="item in student">
+                <el-popover
+                        placement="top-start"
+                        :title="item.name"
+                        width="200"
+                        trigger="click">
+                    <p>学号：{{item.studentId}}</p>
+                    <p>性别：{{item.sex}}</p>
+                    <p>类别：{{item.type}}</p>
+                    <p>国籍：{{item.nationality}}</p>
+                    <p>导师：{{item.tutor}}</p>
+
+                    <el-image
+                            style="width: 150px; height: 150px"
+                            :src="item.url" slot="reference"></el-image>
+                    <p slot="reference" style="text-align: center">{{ item.name }}</p>
+                </el-popover>
+
+
+
+            </el-col>
+        </el-row>
     </div>
     <!--毕业生-->
     <div v-if="isGraduated == '1'">
@@ -86,26 +110,37 @@
     var studentInfoVue = new Vue({
         el: "#vue",
         data: {
-            isGraduated: '0',
+            isGraduated: '2',
             graduated: [
-                {
-                    name:'1',
-                    studentId:'1',
-                    sex:'1',
-                    type:'1',
-                    enrollmentTime:'1',
-                    graduationTime:'1',
-                    firstCompany:'1'
-                },
-                {
-                    name:'2',
-                    studentId:'2',
-                    sex:'2',
-                    type:'2',
-                    enrollmentTime:'2',
-                    graduationTime:'2',
-                    firstCompany:'2'
-                }
+                // {
+                //     name:'1',
+                //     studentId:'1',
+                //     sex:'1',
+                //     type:'1',
+                //     enrollmentTime:'1',
+                //     graduationTime:'1',
+                //     firstCompany:'1'
+                // }
+            ],
+            student:[
+                // {
+                //     name:'1',
+                //     studentId:'1',
+                //     sex:'1',
+                //     type:'1',
+                //     nationality:'1',
+                //     tutor:'1',
+                //     url:'../images/1.jpg'
+                // },
+                // {
+                //     name:'2',
+                //     studentId:'2',
+                //     sex:'2',
+                //     type:'2',
+                //     nationality:'2',
+                //     tutor:'2',
+                //     url:'../images/1.jpg'
+                // }
             ]
         },
         methods: {
@@ -126,11 +161,127 @@
         },
         mounted(){
             window.parent.scrollTo(0, 0);
+            // 在校生
             $.ajax({
-                url: "/student/getPages",
-                type: "get",
+                url: "/student/selectPageWP",
+                type: "post",
+                data: {
+                    graduationFlag: 0
+                },
                 success(res) {
-                    console.log(res)
+                    console.log("在校生");
+                    console.log(res);
+                    console.log(res.datas);
+                    let tmp = res.datas;
+                    for (var i=0; i<tmp.length; i++) {
+                        let tmpStudent = {
+                            name:'',
+                            studentId:'',
+                            sex:'',
+                            type:'',
+                            nationality:'',
+                            tutor:'',
+                            url:''
+                        };
+                        if (tmp[i].chineseName == ""||null)
+                            tmpStudent.name = tmp[i].englishFirstname + tmp[i].englishLastname;
+                        else
+                            tmpStudent.name = tmp[i].chineseName;
+                        tmpStudent.studentId = tmp[i].studentId;
+                        if (tmp[i].sex == 1)
+                            tmpStudent.sex = "男";
+                        else
+                            tmpStudent.sex = "女";
+
+                        switch (tmp[i].type) {
+                            case 0:
+                                tmpStudent.type = "本科";
+                                break;
+                            case 1:
+                                tmpStudent.type = "学术硕士";
+                                break;
+                            case 2:
+                                tmpStudent.type = "专业硕士";
+                                break;
+                            case 3:
+                                tmpStudent.type = "学术博士";
+                                break;
+                            case 4:
+                                tmpStudent.type = "专业硕士";
+                                break;
+                            default:
+                                tmpStudent.type = "无记载";
+                                break;
+                        }
+                        tmpStudent.nationality = tmp[i].nationality;
+                        tmpStudent.tutor = tmp[i].tutor;
+                        tmpStudent.url = tmp[i].imagePath;
+
+                        studentInfoVue.student[i] = tmpStudent;
+                    }
+                    console.log(studentInfoVue.student);
+
+                }
+            });
+            // 毕业生
+            $.ajax({
+                url: "/student/selectPageWP",
+                type: "post",
+                data: {
+                    graduationFlag: 1
+                },
+                success(res) {
+                    console.log("毕业生");
+                    console.log(res.datas);
+                    let tmp = res.datas;
+                    for (var i=0; i<tmp.length; i++) {
+                        let tmpGraduated = {
+                            name:'',
+                            studentId:'',
+                            sex:'',
+                            type:'',
+                            enrollmentTime:'',
+                            graduationTime:'',
+                            firstCompany:''
+                        };
+                        if (tmp[i].chineseName == ""||null)
+                            tmpGraduated.name = tmp[i].englishFirstname + tmp[i].englishLastname;
+                        else
+                            tmpGraduated.name = tmp[i].chineseName;
+                        tmpGraduated.studentId = tmp[i].studentId;
+                        if (tmp[i].sex == 1)
+                            tmpGraduated.sex = "男";
+                        else
+                            tmpGraduated.sex = "女";
+
+                        switch (tmp[i].type) {
+                            case 0:
+                                tmpGraduated.type = "本科";
+                                break;
+                            case 1:
+                                tmpGraduated.type = "学术硕士";
+                                break;
+                            case 2:
+                                tmpGraduated.type = "专业硕士";
+                                break;
+                            case 3:
+                                tmpGraduated.type = "学术博士";
+                                break;
+                            case 4:
+                                tmpGraduated.type = "专业硕士";
+                                break;
+                            default:
+                                tmpGraduated.type = "无记载";
+                                break;
+                        }
+                        tmpGraduated.enrollmentTime = tmp[i].enrollmentTime;
+                        tmpGraduated.graduationTime = tmp[i].graduationTime;
+                        tmpGraduated.firstCompany = tmp[i].firstCompany;
+
+                        studentInfoVue.graduated[i] = tmpGraduated;
+                    }
+                    console.log(studentInfoVue.graduated);
+
                 }
             })
         }

@@ -36,5 +36,5 @@ public class UserHasCopyright extends AbstractEntity<UserHasCopyright> {
 	@ApiModelProperty(name = "userId" , value = "用户id")
 	private String userId;
 	@ApiModelProperty(name = "copyrightId" , value = "著作权id")
-	private Integer copyrightId;
+	private Long copyrightId;
 }

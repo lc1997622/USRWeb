@@ -23,7 +23,7 @@ public class AbstractEntity<T> extends Model {
 
     @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty(hidden = true)
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(name = "creator" , value = "创建者（新建时填充）")
     @TableField(fill = FieldFill.INSERT ,select = false)
