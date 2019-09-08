@@ -2,6 +2,11 @@ server:
   port: 8088
 
 spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
