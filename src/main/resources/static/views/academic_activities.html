@@ -49,30 +49,7 @@
         el: "#vue",
         data: {
             activities: [
-                {
-                    id:'1',
-                    title:'1',
-                    time:'1',
-                    userId:'1'
-                },
-                {
-                    id:'2',
-                    title:'2',
-                    time:'2',
-                    userId:'2'
-                },
-                {
-                    id:'3',
-                    title:'3',
-                    time:'3',
-                    userId:'3'
-                },
-                {
-                    id:'4',
-                    title:'4',
-                    time:'4',
-                    userId:'4'
-                }
+
             ]
         },
         methods: {
@@ -85,13 +62,19 @@
         mounted(){
             window.parent.scrollTo(0, 0);
             $.ajax({
-                url: "",
-                type: "post",
+                url: "/contribution/getContributionInfo",
+                type: "get",
                 data: {
                     type: 2
                 },
                 success(res){
-                    console.log(res);
+                    console.log(res.datas);
+                    academicVue.activities = res.datas;
+                    for (var i=0; i<academicVue.activities.length; i++) {
+                        if (academicVue.activities[i].title.length>20) {
+                            academicVue.activities[i].title = academicVue.activities[i].title.slice(0, 20)+"..."
+                        }
+                    }
                 }
             })
         }

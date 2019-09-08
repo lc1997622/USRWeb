@@ -46,11 +46,12 @@
                 </el-col>
             </el-row>
         </el-aside>
-        <el-main>
-            <iframe id="child-frame" name="child-frame" v-bind:src="childSrc"
-                    style="width: calc(100%); min-height: 1000px" frameborder="no" scrolling="no">
-            </iframe>
-        </el-main>
+            <el-main style="height:100%;">
+                <iframe id="child-frame" name="child-frame" v-bind:src="childSrc"
+                        style="width: calc(100%);min-height: 1000px" frameborder="no" scrolling="no">
+                </iframe>
+            </el-main>
+        </el-container>
     </el-container>
 
 
@@ -81,7 +82,9 @@
     };
 
     window.onload = function () {
-        setIframeHeight(document.getElementById('child-frame'));
+
+        setIframeHeight(window.parent.document.getElementById('main-frame'));
+        // setIframeHeight(document.parent.parent.getElementById('main-frame'));
     };
 </script>
 

@@ -26,32 +26,29 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="../images/img1.jpg">
+                <img :src="news[0].imagePathList[0]">
                 <div class="container">
-                    <div class="carousel-caption text-left">
-                        <h1>新闻一</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                    <div class="carousel-caption ">
+                        <h1>{{news[0].title}}</h1>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/news.html', 'views/message_content1.html', news[0].id)">查看详情</a></p>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="../images/img2.jpg" >
+                <img :src="news[1].imagePathList[0]">
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>新闻二</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                        <h1>{{news[1].title}}</h1>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/news.html', 'views/message_content1.html', news[1].id)">查看详情</a></p>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="../images/img3.jpg">
+                <img :src="news[2].imagePathList[0]">
                 <div class="container">
-                    <div class="carousel-caption text-right">
-                        <h1>新闻三</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                    <div class="carousel-caption ">
+                        <h1>{{news[2].title}}</h1>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/news.html', 'views/message_content1.html', news[2].id)">查看详情</a></p>
                     </div>
                 </div>
             </div>
@@ -65,72 +62,58 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
+    <hr>
     <div id="messageContent">
         <div id="dynamic_message" class="row">
-            <div class="col-4">
+            <div class="col-6">
                 <p style="float: left">新闻动态</p>&nbsp
                 <a href="#" v-on:click="turnPage('views/news.html', 'views/dynamic_message.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
                 <div class="clearfix"></div>
                 <ul v-for="news in newsList.slice(0, 8)" style="margin: 0; padding-left: 0">
-                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/news.html', 'views/messageContent.html')"
+                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/news.html', 'views/message_content1.html', news.id)"
                        style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{news.title}}</a>
-                    <span style="float: right;">{{news.id}}</span>
+                    <span class="time">{{news.time}}</span>
 
                 </ul>
 
 
             </div>
-            <div class="col-4">
-                <p style="float: left">通知动态</p>&nbsp
-                <a href="#" v-on:click="turnPage('views/notice.html', 'views/dynamic_message.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
-                <div class="clearfix"></div>
-                <ul v-for="notice in noticeList.slice(0, 8)" style="margin: 0; padding-left: 0">
-                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/notice.html', 'views/messageContent.html')"
-                       style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{notice.title}}</a>
-                    <span style="float: right;">{{notice.id}}</span>
-
-                </ul>
-            </div>
-            <div class="col-4">
+            <div class="col-6" style="border-left: .05rem solid #e5e5e5">
                 <p style="float: left">学术活动</p>&nbsp
                 <a href="#" v-on:click="turnPage('views/academic_activities.html', 'views/dynamic_message.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
                 <div class="clearfix"></div>
                 <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
-                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/academic_activities.html', 'views/messageContent.html')"
+                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/academic_activities.html', 'views/message_content1.html', activities.id)"
                        style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{activities.title}}</a>
-                    <span style="float: right;">{{activities.id}}</span>
+                    <span class="time">{{activities.time}}</span>
 
                 </ul>
             </div>
+
         </div>
         <hr>
-        <div id="research_results" class="row">
-            <div class="col-6">
-                <p style="float: left">教学成果</p>&nbsp
-                <a href="#" v-on:click="turnPage('views/teaching_results.html', 'views/teaching_research_results.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
+        <div id="" class="row">
+            <div class="col-8">
+                <p style="float: left">通知动态</p>&nbsp
+                <a href="#" v-on:click="turnPage('views/notice.html', 'views/dynamic_message.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
                 <div class="clearfix"></div>
-                <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
-                    <a href="#" v-on:click="turnPage('views/messageContent.html')"
-                       style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{activities.title}}</a>
-                    <span style="float: right;">{{activities.id}}</span>
-                </ul>
-
-
-            </div>
-            <div class="col-6">
-                <p style="float: left">科研成果</p>&nbsp
-                <a href="#" v-on:click="turnPage('views/research_results.html', 'views/teaching_research_results.html')" class="text-decoration-none">more<span style="font-size: 0.5rem">>></span></a>
-                <div class="clearfix"></div>
-                <ul v-for="activities in activitiesList.slice(0, 8)" style="margin: 0; padding-left: 0">
-                    <a href="#" v-on:click="turnPage('views/messageContent.html')"
-                       style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{activities.title}}</a>
-                    <span style="float: right;">{{activities.id}}</span>
+                <ul v-for="notice in noticeList.slice(0, 8)" style="margin: 0; padding-left: 0">
+                    <a href="#" v-on:click="turnIntoContent('views/dynamic_message.html', 'views/notice.html', 'views/message_content1.html', notice.id)"
+                       style="font-size: 0.8rem; line-height: 0.5; color: rgb(90, 90, 90)" class="text-decoration-none">{{notice.title}}</a>
+                    <span  class="time">{{notice.time}}</span>
 
                 </ul>
             </div>
+            <div class="col-4" style="border-left: .05rem solid #e5e5e5">
+                <p>友情链接:</p>
+                <p class="link"><a href="http://www.bit.edu.cn/m/index.htm" class="text-decoration-none">北京理工大学</a></p>
+                <p class="link"><a href="http://cs.bit.edu.cn/" class="text-decoration-none">计算机学院</a></p>
+                <p class="link"><a href="http://ss.bit.edu.cn/" class="text-decoration-none">软件学院</a></p>
+                <p class="link"><a href="http://grd.bit.edu.cn/" class="text-decoration-none">研究生院</a></p>
 
+            </div>
         </div>
+
 
     </div>
 
@@ -153,130 +136,46 @@
         el: "#vue",
         data: {
             src: "homepage.html",
-            newsList: [
+            newsList: [],
+            noticeList: [],
+            activitiesList: [],
+            news: [
                 {
-                    title:"新闻1",
-                    id:1
+                    content: "9月5日，北京理工大学召开“双一流”建设中期评估会。中国高等教育学会会长、教育部原党组副书记、副部长杜玉波研究员，大连理工大学校长郭东明院士，南京理工大学王泽山院士，哈尔滨工业大学杜善义院士，中央军委科学技术委员会卢锡城院士，南开大学葛墨林院士，东北大学柴天佑院士，国家自然科学基金委员会数学物理科学部主任江松院士，北京理工大学方岱宁院士，中国高等教育学会副秘书长郝清杰研究员，教育部重大课题《世界一流大学和一流学科建设评价体系与推进战略研究》首席专家王战军研究员等各领域知名专家组成专家组，对学校“双一流”整体建设情况进行评估。全体校领导，校长助理，各专业学院院长、相关职能部门负责人参加了会议。会议由校长张军院士主持。",
+                    id: 1,
+                    imagePathList:["../images/news/20190725071257596813.jpg", "../images/news/20190808074613928858.jpg", "../images/news/20190808074710375903.jpg"],
+                    time: "1985-01-12 12:00:00",
+                    title: "北京理工大学召开“双一流”建设中期评估会",
+                    type: 0,
+                    userId: "6120162000",
+                    userName: "王二哈"
                 },
                 {
-                    title:"新闻2",
-                    id:2
+                    content: "学校党委书记赵长禄、校长张军、副校长王晓锋、副校长李和章、党委副书记包丽颖和校长助理汪本聪等校领导来到迎新现场，与前来报到的新生及家长热情交流，亲切慰问迎新志愿者和工作人员，并走访学生宿舍，了解新生情况。此外，校领导还带队还检查了睿信书院、明德书院办公空间和求是书院社区空间的建设情况。",
+                    id: 2,
+                    imagePathList: ["../images/news/20190808074855137062.jpg"],
+                    time: "1958-02-12 15:00:00",
+                    title: "北京理工大学喜迎2019级本科新生入校",
+                    type: 0,
+                    userId: "6120162000",
+                    userName: "王二哈"
                 },
                 {
-                    title:"新闻3",
-                    id:3
-                },
-                {
-                    title:"新闻4",
-                    id:4
-                },
-                {
-                    title:"新闻5",
-                    id:5
-                },
-                {
-                    title:"新闻6",
-                    id:6
-                },{
-                    title:"新闻7",
-                    id:7
-                },
-                {
-                    title:"新闻8",
-                    id:8
-                },
-                {
-                    title:"新闻9",
-                    id:9
-                },{
-                    title:"新闻10",
-                    id:10
-                }
-            ],
-            noticeList: [
-                {
-                    title:"通知1",
-                    id:1
-                },
-                {
-                    title:"通知2",
-                    id:2
-                },
-                {
-                    title:"通知3",
-                    id:3
-                },
-                {
-                    title:"通知4",
-                    id:4
-                },
-                {
-                    title:"通知5",
-                    id:5
-                },
-                {
-                    title:"通知6",
-                    id:6
-                },{
-                    title:"通知7",
-                    id:7
-                },
-                {
-                    title:"通知8",
-                    id:8
-                },
-                {
-                    title:"通知9",
-                    id:9
-                },{
-                    title:"通知10",
-                    id:10
-                }
-            ],
-            activitiesList: [
-                {
-                    title:"活动1",
-                    id:1
-                },
-                {
-                    title:"活动2",
-                    id:2
-                },
-                {
-                    title:"活动3",
-                    id:3
-                },
-                {
-                    title:"活动4",
-                    id:4
-                },
-                {
-                    title:"活动5",
-                    id:5
-                },
-                {
-                    title:"活动6",
-                    id:6
-                },{
-                    title:"活动7",
-                    id:7
-                },
-                {
-                    title:"活动8",
-                    id:8
-                },
-                {
-                    title:"活动9",
-                    id:9
-                },{
-                    title:"活动10",
-                    id:10
+                    content: "今年4月，北京延庆举办了国际园林界级别最高的世界园艺博览会，来自数十个国家的元首和嘉宾共900多名代表应邀出席了北京世园会开幕式，当晚的开幕盛典，夜空燃放了绚丽的迎宾焰火，令人倍感震撼，这其中包含了学校烟火技术团队成员的努力。",
+                    id: 3,
+                    imagePathList: ["../images/news/20190821171443229077.jpg"],
+                    time: "2019-09-07 21:21:48",
+                    title: "北京世界园艺博览会向北理工颁发荣誉证书",
+                    type: 0,
+                    userId: "1120162001",
+                    userName: "吕小布"
                 }
             ]
         },
         methods: {
-            turnIntoContent(grandpa, father, son) {
-                console.log(grandpa, father, son);
+            turnIntoContent(grandpa, father, son, id) {
+                console.log(grandpa, father, son, id);
+                window.parent.indexVue.messageId = id;
                 window.parent.indexVue.currentPage = son;
                 window.parent.indexVue.turnPage(grandpa);
                 window.parent.document.getElementById("main-frame").contentWindow.childVue.childSrc = father.slice(6);
@@ -294,6 +193,84 @@
         },
         mounted(){
             window.scrollTo(0, 0);
+            $.ajax({
+                url: "/contribution/getContributionById",
+                type: "post",
+                data: {
+                    id: 1
+                },
+                success(res){
+                    console.log(res.datas);
+                    homepageVue.news[0] = res.datas;
+                    $.ajax({
+                        url: "/contribution/getContributionById",
+                        type: "post",
+                        data: {
+                            id: 2
+                        },
+                        success(res){
+                            console.log(res.datas);
+                            homepageVue.news[1] = res.datas;
+                            $.ajax({
+                                url: "/contribution/getContributionById",
+                                type: "post",
+                                data: {
+                                    id: 3
+                                },
+                                success(res){
+                                    console.log(res.datas);
+                                    homepageVue.news[2] = res.datas;
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+
+            $.ajax({
+                url: "/contribution/getContributionInfo",
+                type: "get",
+                data: {
+                    type: 0
+                },
+                success(res){
+                    console.log(res.datas);
+                    homepageVue.newsList = res.datas;
+                    for (var i=0; i<homepageVue.newsList.length; i++) {
+                        homepageVue.newsList[i].time = homepageVue.newsList[i].time.split(' ')[0];
+                    }
+                }
+            });
+            $.ajax({
+                url: "/contribution/getContributionInfo",
+                type: "get",
+                data: {
+                    type: 1
+                },
+                success(res){
+                    console.log(res.datas);
+                    homepageVue.noticeList = res.datas;
+                    for (var i=0; i<homepageVue.noticeList.length; i++) {
+                        homepageVue.noticeList[i].time = homepageVue.noticeList[i].time.split(' ')[0];
+                    }
+                }
+            });
+            $.ajax({
+                url: "/contribution/getContributionInfo",
+                type: "get",
+                data: {
+                    type: 2
+                },
+                success(res){
+                    console.log(res.datas);
+                    homepageVue.activitiesList = res.datas;
+                    for (var i=0; i<homepageVue.activitiesList.length; i++) {
+                        homepageVue.activitiesList[i].time = homepageVue.activitiesList[i].time.split(' ')[0];
+                    }
+                }
+            });
+
         }
 
     })

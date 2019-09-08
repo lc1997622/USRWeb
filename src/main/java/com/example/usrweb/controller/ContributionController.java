@@ -52,7 +52,7 @@ public class ContributionController extends AbstractController<ContributionServi
 		return ResponseFormat.retParam(200, null);
 	}
 
-	/*@ApiOperation(value = "根据id查询稿件信息(新闻动态、通知通告、学术活动)", notes = "作者：ZhuDengji")
+	@ApiOperation(value = "根据id查询稿件信息(新闻动态、通知通告、学术活动)", notes = "作者：ZhuDengji")
 	@PostMapping("/getContributionById")
 	public Object getContributionById(@RequestParam @ApiParam(value = "稿件id") Long id){
 		Contribution contribution;
@@ -63,10 +63,10 @@ public class ContributionController extends AbstractController<ContributionServi
 			return ResponseFormat.retParam(1000, null);
 		}
 		return ResponseFormat.retParam(200, contribution);
-	}*/
+	}
 
 	@ApiOperation(value = "查询稿件信息(新闻动态、通知通告、学术活动)", notes = "作者：ZhuDengji")
-	@GetMapping("/getNewsInfo")
+	@GetMapping("/getContributionInfo")
 	public Object getContributionInfo(Contribution contribution){
 		List<Contribution> contributionList;
 		try {

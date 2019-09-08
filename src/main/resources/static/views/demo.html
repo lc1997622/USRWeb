@@ -12,17 +12,15 @@
     <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
 <body>
     <div id="vue">
-        {{text}}
-        {{text1}}
-        <div v-if="0">
-            1111
-        </div>
-        <button v-on:click="setText">按钮</button>
+        {{password}}
+
+        <el-button v-on:click="setText">按钮</el-button>
     </div>
 
 </body>
 </html>
 
+<script src="../js/md5.js"></script>
 
 <!-- === JS === -->
 <script src="../js/jquery-3.2.1.slim.min.js"></script>
@@ -41,14 +39,13 @@
     var app = new Vue({
         el: "#vue",
         data: {
-            text: "This is a demo!",
-            text1: "中文"
-
+            password: "123456"
         },
         methods: {
             setText() {
-                alert("sss")
-                this.text='hhh'
+                var s = hex_md5(this.password);
+                console.log(s)
+
 
             }
         },
