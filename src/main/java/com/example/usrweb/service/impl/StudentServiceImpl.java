@@ -81,6 +81,9 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         QueryWrapper<Student> queryWrapper = new QueryWrapper<Student>();
         queryWrapper.eq("student_id",studentID);
         Student student = studentDao.selectOne(queryWrapper);
+        Long imgId = student.getImageId();
+        String imgPath = imageDao.selectById(imgId).getPath();
+        student.setImagePath(imgPath);
 
         return student;
     }
