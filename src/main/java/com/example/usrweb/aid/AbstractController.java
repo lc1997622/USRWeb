@@ -6,7 +6,6 @@
  */
 package com.example.usrweb.aid;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -136,7 +135,7 @@ public class AbstractController<S extends IService<T>,T>{
 	 * @author  LiChao
 	 * @time    2019年5月20日
 	 */
-	@GetMapping("/getPages")
+	@PostMapping("/getPages")
 	@ApiOperation(value = "分页查询", notes = "分页查询返回[IPage<T>],作者：LiChao")
 	public JsonResult<IPage<T>> getUserPages(T entity, @RequestParam(required = false) Integer pageNum, @RequestParam(required = false)Integer pageSize){
 	    if (pageNum == null){
