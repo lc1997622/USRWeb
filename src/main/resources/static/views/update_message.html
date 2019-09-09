@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑动态消息</title>
+
+
+    <!-- === CSS === -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+
+</head>
+
+<body>
+<div id="vue">
+    <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+        <el-form-item label="新闻类型" prop="type">
+            <el-radio v-model="form.type" label="0">新闻动态</el-radio>
+            <el-radio v-model="form.type" label="1">通知通告</el-radio>
+            <el-radio v-model="form.type" label="2">学术活动</el-radio>
+        </el-form-item>
+        <el-form-item label="新闻标题" prop="title">
+            <el-input v-model="form.title"></el-input>
+        </el-form-item>
+        </el-form-item>
+        <el-form-item label="新闻内容" prop="content">
+            <el-input type="textarea" v-model="form.content"></el-input>
+        </el-form-item>
+        <el-form-item label="新闻图片" prop="imagePathList">
+            <form id="img_form" action="/contribution/uploadImage" method="post" enctype="multipart/form-data">
+                <div id="select_btn" class="btn btn-primary main-btn bg-main" @click="select_img">选择图片</div>
+                <input type="file"  id="select_file" name="data" style="display: none" multiple>
+                <a href="#"><input id="submit_btn" class="btn btn-primary " value="上传图片" @click="upload_img"></a>
+            </form>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+            <el-button @click="resetForm('form')">重置</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+
+</body>
+<script src="../js/md5.js" type="text/javascript" charset="utf-8"></script>
+<!--  JS  -->
+<script src="../js/jquery-3.2.1.slim.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+
+<script>
+    var addMessageVue = new Vue({
+        el: "#vue",
+        data: {
+            dialogImageUrl: "",
+            dialogVisible:false,
+            img: [],
+            results: [],
+            fileList:[],
+            imageUrl:[],
+            form: {
+                type: "",
+                title: "",
+                content: "",
+                imagePathList: [],
+                time: "",
+            },
+            rules: {
+                type: [
+                    { required: true, trigger: 'change' },
+                ],
+                title: [
+                    { required: true, message: '请填写标题', trigger: 'blur' }
+                ],
+                content: [
+                    { required: true, message: '请填写内容', trigger: 'blur' }
+                ]
+            }
+        },
+        methods: {
+            onSubmit(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var date = new Date();
+                        var myyear = date.getFullYear();
+                        var mymonth = date.getMonth()+1;
+                        var myweekday = date.getDate();
+                        if(mymonth < 10){
+                            mymonth = "0" + mymonth;
+                        }
+                        if(myweekday < 10){
+                            myweekday = "0" + myweekday;
+                        }
+                        this.form.time = myyear + "-" + mymonth + "-" + myweekday + " " +
+                            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                        console.log(JSON.stringify(this.form));
+                        $.ajax({
+                            url: "/contribution/insertContribution",
+                            type: "post",
+                            data: {
+                                type: this.form.type,
+                                time: this.form.time,
+                                userId: window.parent.parent.indexVue.user.userId,
+                                title: this.form.title,
+                                content: this.form.content,
+                                imagePathList: JSON.stringify(this.form.imagePathList)
+                            },
+                            success(res) {
+                                console.log(res);
+                                addMessageVue.$message({
+                                    message: '新闻发布成功',
+                                    type: 'success'
+                                });
+                                window.parent.indexVue.activeIndex = "news_management.html";
+
+                            }
+
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePictureCardPreview(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
+            },
+            select_img() {
+                console.log("select_img");
+
+            },
+            upload_img() {
+                console.log("upload_img");
+
+                var imgs = document.getElementById("img_form");
+                console.log(imgs);
+
+                var form = new FormData(document.getElementById("img_form"));
+                // console.log(form.val())
+
+                addMessageVue.img = form.getAll("data");
+                console.log(addMessageVue.img);
+                console.log(form.get("data").webkitRelativePath);
+                var imageUrl = this.imageUrl;
+                $.ajax({
+                    //几个参数需要注意一下
+                    cache: false,
+                    processData:false,
+                    contentType:false,
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/contribution/uploadImage" ,
+                    // url: "http://10.108.17.116:9091/upload",
+                    data: form,
+                    success: function (res) {
+                        console.log(res);
+                        addMessageVue.$message({
+                            message: '上传成功',
+                            type: 'success'
+                        });
+                        addMessageVue.form.imagePathList[0] = "E:\\学习\\软件工程专业实训\\project\\USRWeb\\src\\main\\resources\\static\\images\\news\\" + addMessageVue.img[0].name;
+                    },
+                    error : function() {
+                        addMessageVue.$message.error('提交失败');
+                    }
+                });
+
+            }
+        },
+        mounted() {
+            $.ajax({
+                url: "/contribution/getContributionById",
+                type: "post",
+                data: {
+                    id: window.parent.indexVue.messageId
+                },
+                success(res) {
+
+                }
+            });
+            $(document).ready(function(){
+                $('#select_btn').click(function(){
+                    $('#select_file').click();
+
+                    $('#select_file').on("change", function () {
+                        addMessageVue.imageUrl=[];
+                        // var s = document.getElementById("select_file");
+                        var files = $("#select_file")[0].files;
+                        console.log(files);
+                        var n = 0;
+                        for(file of files){
+                            addMessageVue.imageUrl.push(null);
+                            if(file.flag!==0){
+                                file.flag=0;
+                                if(window.FileReader){
+                                    var reader = new FileReader();
+                                    reader.n = n+0;
+                                    n++;
+                                    reader.readAsDataURL(file);
+                                    reader.onloadend = function (e) {
+                                        console.log(this.n);
+                                        console.log(addMessageVue.imageUrl);
+                                        addMessageVue.$set(addMessageVue.imageUrl,this.n,e.target.result);
+                                        // vue.imageUrl[this.n].src=e.target.result;
+                                        // vue.imageUrl = new Array(vue.imageUrl);
+                                        // vue.imageUrl.push(e.target.result);
+                                        console.log(addMessageVue.imageUrl);
+                                        addMessageVue.$message({
+                                            message: '提交成功: ' + file.name,
+                                            type: 'success'
+                                        });
+                                    }
+                                }else{
+                                    addMessageVue.$message.error('无法读取文件');
+                                }
+                            }
+                            console.log(file);
+                            // console.log(file.files);
+
+                        }
+                        setTimeout(function () {
+
+                        },0)
+                        // s.a=22;
+                        // console.log(s)
+                        // console.log(document.getElementById("select_file"))
+                        // console.log($('#select_file'))
+                        // console.log(vue.path2 = $('#select_file')[0].baseURI)
+                        // console.log(vue.path2)
+                        // console.log(vue.filepath)
+
+                    })
+                });
+
+            });
+        }
+
+    })
+</script>
+</html>

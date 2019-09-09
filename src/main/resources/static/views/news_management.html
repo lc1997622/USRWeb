@@ -90,9 +90,37 @@
         methods: {
             handleEdit(index, row) {
                 console.log(index, row);
+                window.parent.indexVue.messageFlag =  row.id;
+                window.parent.indexVue.activeIndex = "update_message.html";
+
             },
             handleDelete(index, row) {
                 console.log(index, row);
+                $.ajax({
+                    url: "/contribution/deleteById",
+                    type: "post",
+                    data: {
+                        id: row.id
+                    },
+                    success(res) {
+                        console.log(res);
+                        if (res.code == 1000) {
+                            messageVue.$message.error('删除失败');
+                        }
+                        if (res.code == 200) {
+                            messageVue.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            messageVue.userList.splice(row, 1);
+                        }
+                    },
+                    error(res) {
+                        console.log(res);
+                        messageVue.$message.error('删除失败');
+                    }
+                })
+
             },
             addMessage(page) {
                 window.parent.indexVue.activeIndex = page;
