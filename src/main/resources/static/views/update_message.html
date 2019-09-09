@@ -34,6 +34,7 @@
                 <input type="file"  id="select_file" name="data" style="display: none" multiple>
                 <a href="#"><input id="submit_btn" class="btn btn-primary " value="上传图片" @click="upload_img"></a>
             </form>
+            {{form.imagePathList[0]}}
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
@@ -58,7 +59,7 @@
 <!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
 
 <script>
-    var addMessageVue = new Vue({
+    var updateMessageVue = new Vue({
         el: "#vue",
         data: {
             dialogImageUrl: "",
@@ -88,6 +89,19 @@
         },
         methods: {
             onSubmit(formName) {
+                $.ajax({
+                    url: "/contribution/deleteContributionById",
+                    type: "post",
+                    data: {
+                        id: window.parent.indexVue.messageFlag
+                    },
+                    success(res) {
+                        console.log(res);
+                    },
+                    error(res) {
+                        console.log(res);
+                    }
+                });
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var date = new Date();
@@ -116,7 +130,7 @@
                             },
                             success(res) {
                                 console.log(res);
-                                addMessageVue.$message({
+                                updateMessageVue.$message({
                                     message: '新闻发布成功',
                                     type: 'success'
                                 });
@@ -154,8 +168,8 @@
                 var form = new FormData(document.getElementById("img_form"));
                 // console.log(form.val())
 
-                addMessageVue.img = form.getAll("data");
-                console.log(addMessageVue.img);
+                updateMessageVue.img = form.getAll("data");
+                console.log(updateMessageVue.img);
                 console.log(form.get("data").webkitRelativePath);
                 var imageUrl = this.imageUrl;
                 $.ajax({
@@ -170,28 +184,31 @@
                     data: form,
                     success: function (res) {
                         console.log(res);
-                        addMessageVue.$message({
+                        updateMessageVue.$message({
                             message: '上传成功',
                             type: 'success'
                         });
-                        addMessageVue.form.imagePathList[0] = "E:\\学习\\软件工程专业实训\\project\\USRWeb\\src\\main\\resources\\static\\images\\news\\" + addMessageVue.img[0].name;
+                        updateMessageVue.form.imagePathList[0] = "E:\\学习\\软件工程专业实训\\project\\USRWeb\\src\\main\\resources\\static\\images\\news\\" + updateMessageVue.img[0].name;
                     },
                     error : function() {
-                        addMessageVue.$message.error('提交失败');
+                        updateMessageVue.$message.error('提交失败');
                     }
                 });
 
             }
         },
         mounted() {
+            window.parent.parent.scrollTo(0, 0);
+            console.log(window.parent.indexVue.messageFlag);
             $.ajax({
                 url: "/contribution/getContributionById",
                 type: "post",
                 data: {
-                    id: window.parent.indexVue.messageId
+                    id: window.parent.indexVue.messageFlag
                 },
                 success(res) {
-
+                    console.log(res.datas);
+                    updateMessageVue.form = res.datas;
                 }
             });
             $(document).ready(function(){
@@ -199,13 +216,13 @@
                     $('#select_file').click();
 
                     $('#select_file').on("change", function () {
-                        addMessageVue.imageUrl=[];
+                        updateMessageVue.imageUrl=[];
                         // var s = document.getElementById("select_file");
                         var files = $("#select_file")[0].files;
                         console.log(files);
                         var n = 0;
                         for(file of files){
-                            addMessageVue.imageUrl.push(null);
+                            updateMessageVue.imageUrl.push(null);
                             if(file.flag!==0){
                                 file.flag=0;
                                 if(window.FileReader){
@@ -215,19 +232,19 @@
                                     reader.readAsDataURL(file);
                                     reader.onloadend = function (e) {
                                         console.log(this.n);
-                                        console.log(addMessageVue.imageUrl);
-                                        addMessageVue.$set(addMessageVue.imageUrl,this.n,e.target.result);
+                                        console.log(updateMessageVue.imageUrl);
+                                        updateMessageVue.$set(updateMessageVue.imageUrl,this.n,e.target.result);
                                         // vue.imageUrl[this.n].src=e.target.result;
                                         // vue.imageUrl = new Array(vue.imageUrl);
                                         // vue.imageUrl.push(e.target.result);
-                                        console.log(addMessageVue.imageUrl);
-                                        addMessageVue.$message({
+                                        console.log(updateMessageVue.imageUrl);
+                                        updateMessageVue.$message({
                                             message: '提交成功: ' + file.name,
                                             type: 'success'
                                         });
                                     }
                                 }else{
-                                    addMessageVue.$message.error('无法读取文件');
+                                    updateMessageVue.$message.error('无法读取文件');
                                 }
                             }
                             console.log(file);

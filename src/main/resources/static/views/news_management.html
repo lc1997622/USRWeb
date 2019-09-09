@@ -96,30 +96,41 @@
             },
             handleDelete(index, row) {
                 console.log(index, row);
-                $.ajax({
-                    url: "/contribution/deleteById",
-                    type: "post",
-                    data: {
-                        id: row.id
-                    },
-                    success(res) {
-                        console.log(res);
-                        if (res.code == 1000) {
+                this.$confirm('确认删除该新闻?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    $.ajax({
+                        url: "/contribution/deleteContributionById",
+                        type: "post",
+                        data: {
+                            id: row.id
+                        },
+                        success(res) {
+                            console.log(res);
+                            if (res.code == 1000) {
+                                messageVue.$message.error('删除失败');
+                            }
+                            if (res.code == 200) {
+                                messageVue.messageList.splice(index, 1);
+                            }
+                        },
+                        error(res) {
+                            console.log(res);
                             messageVue.$message.error('删除失败');
                         }
-                        if (res.code == 200) {
-                            messageVue.$message({
-                                message: '删除成功',
-                                type: 'success'
-                            });
-                            messageVue.userList.splice(row, 1);
-                        }
-                    },
-                    error(res) {
-                        console.log(res);
-                        messageVue.$message.error('删除失败');
-                    }
-                })
+                    });
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
 
             },
             addMessage(page) {
@@ -128,6 +139,7 @@
             }
         },
         mounted() {
+            window.parent.parent.scrollTo(0, 0);
             $.ajax({
                 url: "/contribution/getContributionInfo",
                 type: "get",

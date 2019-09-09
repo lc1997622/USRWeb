@@ -33,7 +33,7 @@ public class UserServiceImpl  extends ServiceImpl<UserDao, User> implements User
         }
         // 得到文件在客户机的文件名
         String fileName = multipartFile.getOriginalFilename();
-        String parentPath = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/news";
+        String parentPath = "C:/Users/Administrator/Desktop/软件工程专业实训2019/project/USRWeb/src/main/resources/static/images/news";
         String excelPath = parentPath + "/" + fileName;
         File file = new File(excelPath);
         // 文件父目录

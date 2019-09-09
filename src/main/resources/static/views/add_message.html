@@ -34,6 +34,8 @@
                 <input type="file"  id="select_file" name="data" style="display: none" multiple>
                 <a href="#"><input id="submit_btn" class="btn btn-primary " value="上传图片" @click="upload_img"></a>
             </form>
+            {{form.imagePathList[0]}}
+
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
@@ -174,7 +176,7 @@
                             message: '上传成功',
                             type: 'success'
                         });
-                        addMessageVue.form.imagePathList[0] = "E:\\学习\\软件工程专业实训\\project\\USRWeb\\src\\main\\resources\\static\\images\\news\\" + addMessageVue.img[0].name;
+                        addMessageVue.form.imagePathList[0] = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/news/" + addMessageVue.img[0].name;
                     },
                     error : function() {
                         addMessageVue.$message.error('提交失败');
@@ -184,6 +186,7 @@
             }
         },
         mounted() {
+            window.parent.parent.scrollTo(0, 0);
             $(document).ready(function(){
                 $('#select_btn').click(function(){
                     $('#select_file').click();
