@@ -9,6 +9,7 @@ package com.example.usrweb.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.usrweb.dao.ImageDao;
 import com.example.usrweb.entity.Image;
+import com.example.usrweb.entity.Student;
 import com.example.usrweb.entity.Teacher;
 import com.example.usrweb.dao.TeacherDao;
 import com.example.usrweb.service.TeacherService;
@@ -39,10 +40,21 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
 
         List<Teacher> teacherList = teacherDao.selectList(teacherQueryWrapper);
         for (Teacher teacher:teacherList){
-            Integer imgId = teacher.getImageId();
+            Long imgId = teacher.getImageId();
             String imgPath = imageDao.selectById(imgId).getPath();
             teacher.setImagePath(imgPath);
         }
         return teacherList;
+    }
+
+    public Teacher getTeacherByGonghao(String teacherID){
+        QueryWrapper<Teacher> queryWrapper = new QueryWrapper<Teacher>();
+        queryWrapper.eq("teacher_id",teacherID);
+        Teacher teacher = teacherDao.selectOne(queryWrapper);
+        Long imgId = teacher.getImageId();
+        String imgPath = imageDao.selectById(imgId).getPath();
+        teacher.setImagePath(imgPath);
+
+        return teacher;
     }
 }

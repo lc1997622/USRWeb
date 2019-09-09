@@ -9,12 +9,16 @@ package com.example.usrweb.controller;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.example.usrweb.aid.AbstractController;
 import com.example.usrweb.config.ResponseFormat;
+import com.example.usrweb.entity.Student;
 import com.example.usrweb.entity.Teacher;
 import com.example.usrweb.service.TeacherService;
 import com.example.usrweb.service.impl.TeacherServiceImpl;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
@@ -51,5 +55,19 @@ public class TeacherController extends AbstractController<TeacherService,Teacher
 			return ResponseFormat.retParam(1000,null);
 		}
 		return ResponseFormat.retParam(200,teacherList);
+	}
+
+	@ApiOperation(value = "根据工号查询教师信息", notes = "作者：SuPeisen")
+	@GetMapping("/getStudentByXuehao")
+	@DS("slave")
+	public Object getTeacherByGonghao(@RequestParam @ApiParam(value = "教师工号") String teacheerID){
+		Teacher teacher;
+		try {
+			teacher = teacherService.getTeacherByGonghao(teacheerID);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000,null);
+		}
+		return ResponseFormat.retParam(200,teacher);
 	}
 }

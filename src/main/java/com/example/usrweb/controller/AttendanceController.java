@@ -6,6 +6,7 @@
  */
 package com.example.usrweb.controller;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.example.usrweb.aid.AbstractController;
 import com.example.usrweb.config.ResponseFormat;
 import com.example.usrweb.entity.Attendance;
@@ -44,6 +45,7 @@ public class AttendanceController extends AbstractController<AttendanceService,A
 
 	@ApiOperation(value = "分页查询签到带参数", notes = "作者：SuPeisen")
 	@PostMapping("/selectPageWP")
+	@DS("slave")
 	public Object selectPageWP(Attendance attendance, @RequestParam(required = false) @ApiParam(value = "页数") Integer pageNum, @RequestParam(required = false) @ApiParam(value = "每页大小") Integer pageSize){
 		List<Attendance> attendanceList;
 		try {

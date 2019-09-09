@@ -82,6 +82,7 @@ public class StudentController extends AbstractController<StudentService,Student
 
 	@ApiOperation(value = "根据学号查询学生信息", notes = "作者：SuPeisen")
 	@GetMapping("/getStudentByXuehao")
+	@DS("slave")
 	public Object getStudentByXuehao(@RequestParam @ApiParam(value = "学生学号") String studentID){
 		Student student;
 		try {
