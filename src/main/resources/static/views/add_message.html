@@ -29,7 +29,7 @@
             <el-input type="textarea" v-model="form.content"></el-input>
         </el-form-item>
         <el-form-item label="新闻图片" prop="imagePathList">
-            <form id="img_form" action="/contribution/insertContribution" method="post" enctype="multipart/form-data">
+            <form id="img_form" action="/contribution/uploadImage" method="post" enctype="multipart/form-data">
                 <div id="select_btn" class="btn btn-primary main-btn bg-main" @click="select_img">选 择 文 件</div>
                 <input type="file"  id="select_file" name="data" style="display: none" multiple>
                 <a href="#"><input id="submit_btn" class="btn btn-primary " value="提 交" @click="upload_img"></a>
@@ -166,21 +166,21 @@
                     contentType:false,
                     type: "POST",//方法类型
                     dataType: "json",//预期服务器返回的数据类型
-                    url: "/contribution/insertContribution" ,
+                    url: "/contribution/uploadImage" ,
                     // url: "http://10.108.17.116:9091/upload",
                     data: form,
-                    success: function (result) {
-                        console.log(result);
-                        var n =0;
-                        for(var i of result){
+                    success: function (res) {
+                        console.log(res);
+                        var n = 0;
+                        for(var i of res){
                             i.src = imageUrl[n];
                             n++;
                         }
                         vue.results = result;
+                        alert("成功！")
                     },
                     error : function() {
                         alert("提交失败！");
-                        vue.loadFlag = false;
 
                     }
                 });
