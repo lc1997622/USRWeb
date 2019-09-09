@@ -103,8 +103,6 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
 
     public String importStudent(MultipartFile multipartFile) throws IOException {
         String fileName = multipartFile.getOriginalFilename();
-        String parentPath = "E:/浏览器下载/document";
-        String excelPath = parentPath + "/" + fileName;
         // 创建Workbook工作薄对象，表示整个excel
         Workbook workbook = null;
 
