@@ -9,16 +9,20 @@ package com.example.usrweb.controller;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.example.usrweb.aid.AbstractController;
 import com.example.usrweb.config.ResponseFormat;
+import com.example.usrweb.entity.Student;
 import com.example.usrweb.entity.Teacher;
 import com.example.usrweb.service.TeacherService;
 import com.example.usrweb.service.impl.TeacherServiceImpl;
+import com.example.usrweb.service.impl.UserServiceImpl;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,6 +43,8 @@ public class TeacherController extends AbstractController<TeacherService,Teacher
 
 	@Autowired
 	TeacherServiceImpl teacherService;
+	@Autowired
+	UserServiceImpl userService;
 
 	@GetMapping("/getTeacherInfo")
 	@DS("slave")
@@ -51,5 +57,61 @@ public class TeacherController extends AbstractController<TeacherService,Teacher
 			return ResponseFormat.retParam(1000,null);
 		}
 		return ResponseFormat.retParam(200,teacherList);
+	}
+
+	@ApiOperation(value = "插入老师记录", notes = "作者：ZhuDengji")
+	@PostMapping("/insertTeacher")
+	public Object insertTeacher(Teacher teacher){
+		Integer i;
+		try {
+			i = teacherService.insertTeacher(teacher);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000,null);
+		}
+		return ResponseFormat.retParam(200,i);
+	}
+
+	@ApiOperation(value = "更改老师记录", notes = "作者：ZhuDengji")
+	@PostMapping("/updateTeacher")
+	@DS("slave")
+	public Object updateTeacher(Teacher teacher){
+		Teacher teacher1;
+		try {
+			teacher1 = teacherService.updateTeacher(teacher);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000,null);
+		}
+		return ResponseFormat.retParam(200,teacher1);
+	}
+
+	@ApiOperation(value = "根据id查询老师信息", notes = "作者：ZhuDengji")
+	@GetMapping("/getTeacherById")
+	@DS("slave")
+	public Object getTeacherById(@RequestParam @ApiParam(value = "老师id") Long id){
+		Teacher teacher;
+		try {
+			teacher = teacherService.getTeacherById(id);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000,null);
+		}
+		return ResponseFormat.retParam(200,teacher);
+	}
+
+	@ApiOperation(value = "上传图片", notes = "作者：ZhuDengji")
+	@PostMapping("/uploadImage")
+	@DS("slave")
+	public Object uploadImage(@RequestParam("data") @ApiParam(value = "图片") MultipartFile multipartFile){
+		boolean result;
+		String parentPath = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/teacher";
+		try {
+			result = userService.uploadFile(multipartFile, parentPath);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000, null);
+		}
+		return ResponseFormat.retParam(200, result);
 	}
 }

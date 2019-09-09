@@ -43,7 +43,7 @@ public class ContributionController extends AbstractController<ContributionServi
 	@Autowired
 	ContributionServiceImpl contributionService;
 	@Autowired
-    ImageServiceImpl imageService;
+    UserServiceImpl userService;
 
 	@ApiOperation(value = "插入稿件信息(新闻动态、通知通告、学术活动)", notes = "作者：ZhuDengji")
 	@PostMapping("/insertContribution")
@@ -105,8 +105,9 @@ public class ContributionController extends AbstractController<ContributionServi
 	@DS("slave")
 	public Object uploadImage(@RequestParam("data") @ApiParam(value = "图片") MultipartFile multipartFile){
 		boolean result;
+		String parentPath = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/news";
 		try {
-			result = imageService.uploadImage(multipartFile);
+			result = userService.uploadFile(multipartFile, parentPath);
 		}catch (Exception e){
 			System.out.println(e);
 			return ResponseFormat.retParam(1000, null);

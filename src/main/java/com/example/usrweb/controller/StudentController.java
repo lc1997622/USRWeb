@@ -47,7 +47,7 @@ public class StudentController extends AbstractController<StudentService,Student
 	@ApiOperation(value = "根据id查询学生信息", notes = "作者：ZhuDengji")
 	@GetMapping("/getStudentById")
 	@DS("slave")
-	public Object getStudentById(@RequestParam @ApiParam(value = "学生Id") Long id){
+	public Object getStudentById(@RequestParam @ApiParam(value = "学生id") Long id){
 		Student student;
 		try {
 			student = studentService.getStudentById(id);
@@ -61,13 +61,28 @@ public class StudentController extends AbstractController<StudentService,Student
 	@ApiOperation(value = "插入学生记录", notes = "作者：ZhuDengji")
 	@PostMapping("/insertStudent")
 	public Object insertStudent(Student student){
+		Integer i;
 		try {
-			Integer i = studentService.insertStudent(student);
+			i = studentService.insertStudent(student);
 		}catch (Exception e){
 			System.out.println(e);
 			return ResponseFormat.retParam(1000,null);
 		}
-		return ResponseFormat.retParam(200,null);
+		return ResponseFormat.retParam(200,i);
+	}
+
+	@ApiOperation(value = "更改学生记录", notes = "作者：ZhuDengji")
+	@PostMapping("/updateStudent")
+	@DS("slave")
+	public Object updateStudent(Student student){
+		Student student1;
+		try {
+			student1 = studentService.updateStudent(student);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000,null);
+		}
+		return ResponseFormat.retParam(200,student1);
 	}
 
 	@ApiOperation(value = "分页查询学生带参数", notes = "作者：ZhuDengji")
@@ -89,8 +104,9 @@ public class StudentController extends AbstractController<StudentService,Student
 	@DS("slave")
 	public Object importStudent(@RequestParam @ApiParam(value = "文件") MultipartFile multipartFile){
 		String result = null;
+		String parentPath = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/excel";
 		try {
-			if (userService.uploadExcel(multipartFile)){
+			if (userService.uploadFile(multipartFile, parentPath)){
 				result = studentService.importStudent(multipartFile);
 			}
 		}catch (Exception e){
@@ -111,5 +127,20 @@ public class StudentController extends AbstractController<StudentService,Student
 			return ResponseFormat.retParam(1000,null);
 		}
 		return ResponseFormat.retParam(200,student);
+	}
+
+	@ApiOperation(value = "上传图片", notes = "作者：ZhuDengji")
+	@PostMapping("/uploadImage")
+	@DS("slave")
+	public Object uploadImage(@RequestParam("data") @ApiParam(value = "图片") MultipartFile multipartFile){
+		boolean result;
+		String parentPath = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/student";
+		try {
+			result = userService.uploadFile(multipartFile, parentPath);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000, null);
+		}
+		return ResponseFormat.retParam(200, result);
 	}
 }

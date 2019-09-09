@@ -12,7 +12,6 @@ import com.example.usrweb.dao.mapDao.ContributionHasImageDao;
 import com.example.usrweb.entity.*;
 import com.example.usrweb.entity.mapEntiry.ContributionHasImage;
 import com.example.usrweb.service.ContributionService;
-import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

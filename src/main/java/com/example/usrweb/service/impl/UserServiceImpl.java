@@ -27,13 +27,12 @@ import java.lang.reflect.Field;
 @Service
 public class UserServiceImpl  extends ServiceImpl<UserDao, User> implements UserService  {
 
-    public boolean uploadExcel(MultipartFile multipartFile) throws Exception{
+    public boolean uploadFile(MultipartFile multipartFile, String parentPath) throws Exception{
         if (multipartFile.isEmpty()){
             return false;
         }
         // 得到文件在客户机的文件名
         String fileName = multipartFile.getOriginalFilename();
-        String parentPath = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/news";
         String excelPath = parentPath + "/" + fileName;
         File file = new File(excelPath);
         // 文件父目录

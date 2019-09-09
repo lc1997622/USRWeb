@@ -31,7 +31,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**   
  * <p>自动生成工具：mybatis-dsc-generator</p> 
@@ -69,6 +71,18 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         return 1;
     }
 
+    public Student updateStudent(Student student){
+        Image image = imageDao.selectById(student.getImageId());
+        if (image.getPath() != student.getImagePath()){
+            Image image1 = new Image();
+            image1.setPath(student.getImagePath());
+            imageDao.insert(image1);
+            student.setImageId(image1.getId());
+        }
+        studentDao.updateById(student);
+        return student;
+    }
+
     public List<Student> selectPageWP(Student student, Integer pageNum, Integer pageSize){
         if(pageNum == null){
             pageNum = 1;
@@ -94,14 +108,12 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         // 创建Workbook工作薄对象，表示整个excel
         Workbook workbook = null;
 
-
-
         if (fileName.endsWith("xls")){
             workbook = new HSSFWorkbook(multipartFile.getInputStream());
-        }else if (fileName.endsWith("xlsx")){
+        }else{
             workbook = new XSSFWorkbook(multipartFile.getInputStream());
-        }else {
-            // 第一参数：文件路径 第二个参数：分隔符 第三个参数：字符集
+        }
+            /*// 第一参数：文件路径 第二个参数：分隔符 第三个参数：字符集
             CsvReader csvReader = new CsvReader(excelPath, ',', Charset.forName("UTF-8"));
             // 过滤表头
             csvReader.readHeaders();
@@ -110,30 +122,42 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
                 String id = csvReader.get(1);
                 student.setStudentId(id);
                 String name = csvReader.get(2);
-
                 student.setChineseName(name);
-
-
-
-                studentDao.insert(student);
-            }
-        }
+                studentDao.insert(student);*/
         Sheet sheet = workbook.getSheetAt(0);
         int rows = sheet.getLastRowNum();
         if (rows == 0){
             return "no data in document";
         }
+        Map<String, Integer> maps = new HashMap<>();
+        maps.put("男", 1);
+        maps.put("女", 0);
+        maps.put("本科", 0);
+        maps.put("学术硕士", 1);
+        maps.put("专业硕士", 2);
+        maps.put("学术博士", 3);
+        maps.put("专业博士", 4);
         for (int i = 0; i <= rows; i++) {
             Student student = new Student();
             Row row = sheet.getRow(i);
             if (row != null){
-                String title = row.getCell(2).toString();
+                String cell1 = row.getCell(1).toString();
+                String cell2 = row.getCell(2).toString();
+                String cell3 = row.getCell(3).toString();
+                String cell4 = row.getCell(4).toString();
+                String cell5 = row.getCell(5).toString();
+                String cell6 = row.getCell(6).toString();
 
+                student.setStudentId(cell1);
+                student.setChineseName(cell2);
+                student.setType(maps.get(cell3));
+                student.setSex(maps.get(cell4));
+                student.setTutor(cell5);
+                student.setComment(cell6);
 
                 studentDao.insert(student);
             }
         }
-
         return "success";
     }
 
