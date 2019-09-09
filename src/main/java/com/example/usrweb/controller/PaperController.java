@@ -52,7 +52,7 @@ public class PaperController extends AbstractController<PaperService,Paper>{
 	public Object importPaper(@RequestParam @ApiParam(value = "文件") MultipartFile multipartFile){
 		String result = null;
 		try {
-			if (userService.uploadDocument(multipartFile)){
+			if (userService.uploadExcel(multipartFile)){
 				result = paperService.importPaper(multipartFile);
 			}
 		}catch (Exception e){

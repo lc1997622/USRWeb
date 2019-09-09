@@ -12,6 +12,7 @@ import com.example.usrweb.config.ResponseFormat;
 import com.example.usrweb.entity.Student;
 import com.example.usrweb.service.StudentService;
 import com.example.usrweb.service.impl.StudentServiceImpl;
+import com.example.usrweb.service.impl.UserServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,6 +41,8 @@ public class StudentController extends AbstractController<StudentService,Student
 
 	@Autowired
 	StudentServiceImpl studentService;
+	@Autowired
+	UserServiceImpl userService;
 
 	@ApiOperation(value = "根据id查询学生信息", notes = "作者：ZhuDengji")
 	@GetMapping("/getStudentById")
@@ -78,6 +82,22 @@ public class StudentController extends AbstractController<StudentService,Student
 			return ResponseFormat.retParam(1000,null);
 		}
 		return ResponseFormat.retParam(200, studentList);
+	}
+
+	@ApiOperation(value = "导入学生信息", notes = "作者：ZhuDengji")
+	@GetMapping("/importStudent")
+	@DS("slave")
+	public Object importStudent(@RequestParam @ApiParam(value = "文件") MultipartFile multipartFile){
+		String result = null;
+		try {
+			if (userService.uploadExcel(multipartFile)){
+				result = studentService.importStudent(multipartFile);
+			}
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000,null);
+		}
+		return ResponseFormat.retParam(200, result);
 	}
 
 	@ApiOperation(value = "根据学号查询学生信息", notes = "作者：SuPeisen")
