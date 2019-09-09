@@ -1,12 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 引入element-ui样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!--引入CSS样式-->
+    <link rel="stylesheet" href="../css/internal_system.css">
     <title>图书管理</title>
 </head>
-<body>
-    <h5>图书管理</h5>
+
+<body class="book_management">
+    <div id="bookManagementVueId">
+        <el-table ref="multipleTable" :data="getCurrentPageBookData()" tooltip-effect="dark" style="width:100%">
+            <el-table-column>
+                <template slot="header">
+                    <p class="p_left">实验室图书清单</p>
+                    <el-button class="p_right" size="mini" type="primary" @click="addNewBookDialogVisibility=true"
+                        icon="el-icon-circle-plus-outline">添加</el-button>
+                </template>
+                <el-table-column label="书名" align="center">
+                    <template slot-scope="scope">
+                        <el-popover trigger="hover" placement="top" @show="getBookGenreItem(scope.$index,scope.row)">
+                            <div>
+                                <p>书名：{{scope.row.name}}</p>
+                                <p>作者：{{scope.row.author}}</p>
+                                <p>图书类型：{{hoverShowBookCurrentGenreItem}}</p>
+                                <p>存放地点：{{scope.row.location}}</p>
+                            </div>
+                            <div slot="reference" class="name-wrapper">
+                                <el-tag size="medium">{{scope.row.name}}</el-tag>
+                            </div>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="author" label="作者" align="center"></el-table-column>
+                <el-table-column prop="publicationYear" label="出版日期" align="center"></el-table-column>
+                <el-table-column align="center" label="状态">
+                    <template slot-scope="scope">
+                        <p v-if="scope.row.borrowFlag===0">未借出</p>
+                        <p v-if="scope.row.borrowFlag===1">已借出</p>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center">
+                    <template slot="header" slot-scope="scope">
+                        <el-input v-model="search" size="mini" placeholder="输入图书关键字搜索" @change="getCurrentBookData" />
+                    </template>
+                    <template slot-scope="scope">
+                        <el-button size="mini" @click="handleEdit(scope.$index,scope.row)">修改</el-button>
+                        <el-button size="mini" @click="handleDelete(scope.$index,scope.row)" type="danger">删除
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table-column>
+        </el-table>
+        <div style="text-align: center;margin-top:30px;">
+            <el-pagination background layout="prev,pager,next" :page-size="pageSize" :total="getTotal()"
+                @current-change="currentChange">
+            </el-pagination>
+        </div>
+        <el-dialog :modal="false" :close-on-click-modal="false" align="center" title="添加新图书"
+            :visible.sync="addNewBookDialogVisibility" :before-close="handleCloseAddNewBookDialog">
+            <el-form :model="form" label-width="100px" :label-position="labelPosition" :rules="rules" ref="form"
+                class="demo-ruleForm">
+                <el-form-item label="书名：" prop="bookName">
+                    <el-input v-model="form.bookName"></el-input>
+                </el-form-item>
+                <el-form-item label="作者：" prop="author">
+                    <el-input v-model="form.author"></el-input>
+                </el-form-item>
+                <el-form-item label="出版日期：" prop="publicationYear">
+                    <el-date-picker style="float:left" v-model="form.publicationYear" format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd" type="date" placeholder="选择出版日期"></el-date-picker>
+                </el-form-item>
+                <el-form-item label="图书类型：" prop="genreItem">
+                    <el-select style="float: left" v-model="form.genreItem" placeholder="请选择图书类型">
+                        <el-option label="小说" value="1"></el-option>
+                        <el-option label="文学" value="2"></el-option>
+                        <el-option label="成功" value="3"></el-option>
+                        <el-option label="营销管理" value="4"></el-option>
+                        <el-option label="经济" value="5"></el-option>
+                        <el-option label="计算机" value="6"></el-option>
+                        <el-option label="科普" value="7"></el-option>
+                        <el-option label="社科" value="8"></el-option>
+                        <el-option label="政军法" value="9"></el-option>
+                        <el-option label="哲学" value="10"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="cancelAddNewBook('form')">取消</el-button>
+                <el-button @click="commitAddNewBook('form')" type="primary">提交</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog :modal="false" :close-on-click-modal="false" align="center" title="更新图书数据"
+            :visible.sync="updateBookDialogVisibility" :before-close="handleCloseUpdateBookDialog">
+            <el-form :model="form" label-width="100px" :label-position="labelPosition" :rules="rules" ref="form"
+                class="demo-ruleForm">
+                <el-form-item label="书名：" prop="bookName">
+                    <el-input v-model="form.bookName"></el-input>
+                </el-form-item>
+                <el-form-item label="作者：" prop="author">
+                    <el-input v-model="form.author"></el-input>
+                </el-form-item>
+                <el-form-item label="出版日期：" prop="publicationYear">
+                    <el-date-picker style="float:left" v-model="form.publicationYear" format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd" type="date" placeholder="选择出版日期"></el-date-picker>
+                </el-form-item>
+                <el-form-item label="图书类型：" prop="genreItem">
+                    <el-select style="float: left" v-model="form.genreItem" placeholder="请选择图书类型">
+                        <el-option label="小说" value="1"></el-option>
+                        <el-option label="文学" value="2"></el-option>
+                        <el-option label="成功" value="3"></el-option>
+                        <el-option label="营销管理" value="4"></el-option>
+                        <el-option label="经济" value="5"></el-option>
+                        <el-option label="计算机" value="6"></el-option>
+                        <el-option label="科普" value="7"></el-option>
+                        <el-option label="社科" value="8"></el-option>
+                        <el-option label="政军法" value="9"></el-option>
+                        <el-option label="哲学" value="10"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="cancelUpdateBook('form')">取消</el-button>
+                <el-button @click="commitUpdateBook('form')" type="primary">提交</el-button>
+            </div>
+        </el-dialog>
+    </div>
 </body>
+<!--引入vue组件库-->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    var bookManagementVue = new Vue({
+        el: '#bookManagementVueId',
+        data: {
+            bookArray: [],
+            currentPage: 1,
+            pageSize: 8, //每页条目数
+            search: '',
+            hoverShowBookCurrentGenreItem:'',
+            currentBookData: [], //使用搜索框匹配的图书数据
+            addNewBookDialogVisibility: false, //添加新图书弹框
+            updateBookDialogVisibility: false, //更新图书数据弹框
+            labelPosition: 'right', //表单中label对齐方式
+            form: {
+                id:'',
+                bookName: '',
+                author: '',
+                publicationYear: '',
+                genreType: 2, //类型：图书
+                genreItem: '', //图书类型
+            },
+            rules: {
+                bookName: [{
+                    required: true,
+                    message: '请输入图书名',
+                    trigger: 'blur'
+                }],
+                author: [{
+                    required: true,
+                    message: '请输入作者名字',
+                    trigger: 'blur'
+                }],
+                publicationYear: [{
+                    type: 'string',
+                    required: true,
+                    message: '请选择出版日期',
+                    trigger: 'change'
+                }],
+                genreItem: [{
+                    required: true,
+                    message: '请选择图书类型',
+                    trigger: 'change'
+                }]
+            }
+        },
+        created() {
+            this.getBookArray();
+        },
+        methods: {
+            getBookGenreItem(index, row){
+                var that = this;
+                $.ajax({
+                    url:'/dictionaryItem/getPages',
+                    type: 'post',
+                    data: {
+                        dicValue:2,
+                        itemValue:row.genreItem
+                    },
+                    success(res) {
+                        that.hoverShowBookCurrentGenreItem=res.data.records[0].itemName;
+                    },
+                    error(res){
+                        console.log(res);
+                    }
+                })
+            },
+            getTotal() {
+                return this.currentBookData.length;
+            },
+            cleanFormData() {
+                this.form.id='',
+                this.form.bookName = '';
+                this.form.author = '';
+                this.form.publicationYear = '';
+                this.form.genreItem = '';
+            },
+            handleCloseAddNewBookDialog(done) {
+                if (confirm("信息尚未提交，是否关闭？")) {
+                    this.addNewBookDialogVisibility = false;
+                    //this.$refs[ruleForm].resetFields();
+                    this.cleanFormData();
+                } else {
+                    //什么也不干
+                }
+            },
+            handleCloseUpdateBookDialog(done) {
+                if (confirm("信息尚未提交，是否关闭？")) {
+                    this.updateBookDialogVisibility = false;
+                    //this.$refs[ruleForm].resetFields();
+                    this.cleanFormData();
+                } else {
+                    //什么也不干
+                }
+            },
+            cancelAddNewBook(ruleForm) {
+                //alert("取消添加新图书");
+                if (confirm("信息尚未提交，是否取消？")) {
+                    this.addNewBookDialogVisibility = false;
+                    //this.$refs[ruleForm].resetFields();
+                    this.cleanFormData();
+                } else {
+                    //什么也不干
+                }
+            },
+            cancelUpdateBook(ruleForm) {
+                if (confirm("信息尚未保存，是否取消？")) {
+                    this.updateBookDialogVisibility = false;
+                    //this.$refs[ruleForm].resetFields();
+                    this.cleanFormData();
+                } else {
+                    //什么也不干
+                }
+            },
+            commitAddNewBook(ruleForm) {
+                //alert("提交添加新图书申请");
+                this.$refs[ruleForm].validate((valid) => {
+                    if (valid) {
+                        var that = this;
+                        $.ajax({
+                            url: '/book/insert',
+                            type: 'post',
+                            data: {
+                                name: that.form.bookName,
+                                author: that.form.author,
+                                publicationYear: that.form.publicationYear,
+                                location: 'A01',
+                                borrowFlag: 0,
+                                genreType: that.form.genreType,
+                                genreItem: that.form.genreItem
+                            },
+                            success(res) {
+                                that.addNewBookDialogVisibility = false;
+                                that.cleanFormData();
+                                that.getBookArray();
+                                that.$message({
+                                    message: '添加成功！',
+                                    type: 'success'
+                                });
+                            },
+                            error(err) {
+                                that.addNewBookDialogVisibility = false;
+                                that.cleanFormData();
+                                that.$message({
+                                    message: '添加失败！',
+                                    type: 'error'
+                                })
+                            }
+                        })
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            commitUpdateBook(ruleForm) {
+                //alert("提交更新图书信息申请");
+                this.$refs[ruleForm].validate((valid) => {
+                    //ruleForm无法获取到？
+                    if (valid) {
+                        var that = this;
+                        $.ajax({
+                            url: '/book/update',
+                            type: 'post',
+                            data: {
+                                id:that.form.id,
+                                name: that.form.bookName,
+                                author: that.form.author,
+                                publicationYear: that.form.publicationYear,
+                                genreItem:that.form.genreItem,
+                            },
+                            success(res) {
+                                that.updateBookDialogVisibility = false;
+                                that.cleanFormData();
+                                that.getBookArray();
+                                that.$message({
+                                    message: '图书信息更新成功！',
+                                    type: 'success'
+                                });
+                            },
+                            error(err) {
+                                that.updateBookDialogVisibility = false;
+                                that.cleanFormData();
+                                that.$message({
+                                    message: '图书信息更新失败！',
+                                    type: 'error'
+                                })
+                            }
+                        })
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            getBookArray() {
+                var that = this;
+                $.ajax({
+                    url: '/book/getPages',
+                    type: 'post',
+                    data:{
+                        pageSize:100
+                    },
+                    async: false,
+                    success(res) {
+                        //that.$set(that.data,'bookArray',res.data.records);
+                        //that.$set(that.data,'currentBookData',res.data.records);
+                        that.bookArray = res.data.records;
+                        that.currentBookData = that.bookArray;
+                    }
+                })
+            },
+            handleEdit(index, row) {
+                this.form.id=row.id;
+                this.form.bookName = row.name;
+                this.form.author = row.author;
+                this.form.publicationYear = row.publicationYear;
+                this.form.genreItem = '';
+                this.updateBookDialogVisibility = true;
+            },
+            handleDelete(index, row) {
+                if (confirm("确认删除？")) {
+                    var that = this;
+                    $.ajax({
+                        url: '/book/deleteById',
+                        type: 'POST',
+                        data: {
+                            id: row.id
+                        },
+                        success(res) {
+                            that.getBookArray();
+                            that.$message({
+                                message: '删除成功！',
+                                type: 'success'
+                            })
+                        },
+                        error(res) {
+                            that.$message({
+                                message: '删除失败！',
+                                type: 'error'
+                            })
+                        }
+                    })
+                    this.cleanFormData();
+                } else {
+                    //什么也不干
+                }
+            },
+            getCurrentBookData(search) {
+                this.currentBookData = this.bookArray.filter(data => !search || data.name.includes(search));
+            },
+            getCurrentPageBookData() {
+                return this.currentBookData.slice((this.currentPage - 1) * this.pageSize,
+                    this.currentPage * this.pageSize);
+            },
+            currentChange: function (currentPage) {
+                this.currentPage = currentPage;
+            }
+        }
+    });
+    $(document).ready(function () {
+        //bookManagementVue.getBookArray();
+    });
+    window.onload = function () {
+        window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
+    };
+    window.onpageshow = function () {
+        bookManagementVue.getBookArray();
+        //window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
+    };
+</script>
+
 </html>

@@ -14,36 +14,47 @@
 
 <body class="about_me">
     <div id="aboutMeVueId" class="info">
-        <el-row>
-            <el-col :span="6"><div></div></el-col>
-            <el-col :span="6">
-                <p>姓名</p>
-            </el-col>
-            <el-col :span="6">
-                <p>:{{selfInformation.name}}</p>
-            </el-col>
-            <el-col :span="6"><div></div></el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="6"><div></div></el-col>
-            <el-col :span="6">
-                <p>学号</p>
-            </el-col>
-            <el-col :span="6">
-                <p>:{{selfInformation.id}}</p>
-            </el-col>
-            <el-col :span="6"><div></div></el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="6"><div></div></el-col>
-            <el-col :span="6">
-                <p>身份</p>
-            </el-col>
-            <el-col :span="6">
-                <p>:{{selfInformation.identity}}</p>
-            </el-col>
-            <el-col :span="6"><div></div></el-col>
-        </el-row>
+        <div class="block" align="center">
+            <el-avatar :size="150" :src="circleUrl"></el-avatar>
+        </div>
+        <div class="row">
+            <p class="p_left">姓  名：</p>
+            <p class="p_right">{{selfInformation.name}}</p>
+        </div>
+        <div class="row">
+            <p class="p_left" v-if="selfInformation.identity==='学生'">学  号：</p>
+            <p class="p_left" v-if="selfInformation.identity==='教师'">职工号：</p>
+            <p class="p_right">{{selfInformation.id}}</p>
+        </div>
+        <div class="row">
+            <p class="p_left">身  份：</p>
+            <p class="p_right">{{selfInformation.identity}}</p>
+        </div>
+        <div v-if="selfInformation.bookLendingRecord.length===0" class="row">
+            <p class="p_left">借阅记录：</p>
+            <p class="p_right">无</p>
+        </div>
+        <div v-else class="row">
+            <p class="p_left">借阅记录:</p>
+            <el-button  type="text" @click="bookLendingRecordDialogVisible=true">详情</el-button>
+            <el-dialog  :modal="false" width="80%" align="center" title="借阅记录" :visible.sync="bookLendingRecordDialogVisible" >
+                <template>
+                    <el-table :data="selfInformation.bookLendingRecord">
+                        <el-table-column property="bookName" label="书名"></el-table-column>
+                        <el-table-column v-if="selfInformation.bookLendingRecord.status==='借阅中'" property="lendingTime" label="申请/借阅时间"></el-table-column>
+                        <el-table-column v-else property="applyTime" label="申请/借阅时间"></el-table-column>
+                        <el-table-column property="status" label="状态"></el-table-column>
+                        <el-table-column property="restTime" label="剩余时间/天"></el-table-column>
+                        <el-table-column label="操作">
+                            <template slot-scope="scope">
+                                <el-button size="mini" v-if="scope.row.status==='借阅中'" @click="handleReturn(scope.row.id)">还书</el-button>
+                                <el-button size="mini" v-if="scope.row.status==='申请中'" @click="handleCancelLending(scope.row.id)">取消申请</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </el-dialog>
+        </div>
     </div>
 </body>
 <!--引入vue组件库-->
@@ -57,17 +68,35 @@
         el: '#aboutMeVueId',
         data: {
             length: 10,
+            bookLendingRecordDialogVisible:false,
             selfInformation: {
                 name: '张三',//姓名
                 id: '1120190001',//学号、工号
                 identity:'学生',//学生、教师、图书管理员、资料管理员、系统管理员
-                book_lending_record:[]
+                bookLendingRecord:[
+                    {
+                        id:0,
+                        bookName:'书一',
+                        lendingTime:'2019-08-08',//成功借阅时间
+                        applyTime:'2019-06-06',//申请时间
+                        status:'申请中',//借阅中，申请中
+                        restTime:10
+                    }
+                ]
             }
         },
         methods: {
-
+            handleCancelLending(id){//取消借阅申请
+                alert("取消借阅申请");
+            },
+            handleReturn(id){//还书
+                alert("还书");
+            }
         }
-    })
+    });
+    window.onload = function () {
+        window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
+    };
 </script>
 
 </html>
