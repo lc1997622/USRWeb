@@ -51,8 +51,9 @@ public class PaperController extends AbstractController<PaperService,Paper>{
 	@DS("slave")
 	public Object importPaper(@RequestParam @ApiParam(value = "文件") MultipartFile multipartFile){
 		String result = null;
+		String parentPath = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/paper";
 		try {
-			if (userService.uploadExcel(multipartFile)){
+			if (userService.uploadFile(multipartFile, parentPath)){
 				result = paperService.importPaper(multipartFile);
 			}
 		}catch (Exception e){
