@@ -12,15 +12,13 @@ import com.example.usrweb.dao.mapDao.ContributionHasImageDao;
 import com.example.usrweb.entity.*;
 import com.example.usrweb.entity.mapEntiry.ContributionHasImage;
 import com.example.usrweb.service.ContributionService;
-import org.checkerframework.checker.units.qual.C;
+import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**   
  * <p>自动生成工具：mybatis-dsc-generator</p> 
@@ -50,12 +48,15 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
         List<String> imagePathList = contribution.getImagePathList();
         contributionDao.insert(contribution);
         Long id = contributionDao.selectById(contribution).getId();
+        String parentPath = "../images/news";
 
         for (String imagePath:imagePathList){
             // 在image表插入
-            System.out.println("------------------------------------------------------------"+imagePath);
+            String [] path = imagePath.substring(2, imagePath.length()-2).split("\\\\");
+            String path0 = parentPath + '/' + path[path.length-1];
+            System.out.println(path0);
             Image image = new Image();
-            image.setPath(imagePath);
+            image.setPath(path0);
             imageDao.insert(image);
             Long imageId = imageDao.selectById(image).getId();
 

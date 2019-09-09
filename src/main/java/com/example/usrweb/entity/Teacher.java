@@ -75,7 +75,7 @@ public class Teacher extends AbstractEntity<Teacher> {
 	@ApiModelProperty(name = "comment" , value = "备注（100字符以内）")
 	private String comment;
 	@ApiModelProperty(name = "imageId" , value = "照片，2M限制")
-	private Integer imageId;
+	private Long imageId;
 	@ApiModelProperty(name = "imagePath",value = "照片，链接")
 	@TableField(exist = false)
 	private String imagePath;

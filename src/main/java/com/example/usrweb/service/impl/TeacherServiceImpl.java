@@ -39,7 +39,7 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
 
         List<Teacher> teacherList = teacherDao.selectList(teacherQueryWrapper);
         for (Teacher teacher:teacherList){
-            Integer imgId = teacher.getImageId();
+            Long imgId = teacher.getImageId();
             String imgPath = imageDao.selectById(imgId).getPath();
             teacher.setImagePath(imgPath);
         }
