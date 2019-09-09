@@ -102,7 +102,7 @@ public class ContributionController extends AbstractController<ContributionServi
 	@ApiOperation(value = "上传图片", notes = "作者：ZhuDengji")
 	@PostMapping("/uploadImage")
 	@DS("slave")
-	public Object uploadImage(@RequestParam @ApiParam(value = "图片") MultipartFile multipartFile){
+	public Object uploadImage(@RequestParam("data") @ApiParam(value = "图片") MultipartFile multipartFile){
 		boolean result;
 		try {
 			result = userService.uploadDocument(multipartFile);

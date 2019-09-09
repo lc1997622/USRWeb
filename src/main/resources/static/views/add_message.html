@@ -29,10 +29,10 @@
             <el-input type="textarea" v-model="form.content"></el-input>
         </el-form-item>
         <el-form-item label="新闻图片" prop="imagePathList">
-            <form id="img_form" action="/contribution/insertContribution" method="post" enctype="multipart/form-data">
-                <div id="select_btn" class="btn btn-primary main-btn bg-main" @click="select_img">选 择 文 件</div>
+            <form id="img_form" action="/contribution/uploadImage" method="post" enctype="multipart/form-data">
+                <div id="select_btn" class="btn btn-primary main-btn bg-main" @click="select_img">选择图片</div>
                 <input type="file"  id="select_file" name="data" style="display: none" multiple>
-                <a href="#"><input id="submit_btn" class="btn btn-primary " value="提 交" @click="upload_img"></a>
+                <a href="#"><input id="submit_btn" class="btn btn-primary " value="上传图片" @click="upload_img"></a>
             </form>
         </el-form-item>
         <el-form-item>
@@ -72,8 +72,7 @@
                 title: "",
                 content: "",
                 imagePathList: [],
-                time: ""
-
+                time: "",
             },
             rules: {
                 type: [
@@ -103,7 +102,7 @@
                         }
                         this.form.time = myyear + "-" + mymonth + "-" + myweekday + " " +
                             date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-                        console.log(this.form);
+                        console.log(JSON.stringify(this.form));
                         $.ajax({
                             url: "/contribution/insertContribution",
                             type: "post",
@@ -113,11 +112,11 @@
                                 userId: window.parent.parent.indexVue.user.userId,
                                 title: this.form.title,
                                 content: this.form.content,
-                                imagePathList: this.form.imagePathList
+                                imagePathList: JSON.stringify(this.form.imagePathList)
                             },
                             success(res) {
                                 console.log(res);
-                                this.$message({
+                                addMessageVue.$message({
                                     message: '新闻发布成功',
                                     type: 'success'
                                 });
@@ -155,8 +154,8 @@
                 var form = new FormData(document.getElementById("img_form"));
                 // console.log(form.val())
 
-                vue.img = form.getAll("data");
-                console.log(vue.img);
+                addMessageVue.img = form.getAll("data");
+                console.log(addMessageVue.img);
                 console.log(form.get("data").webkitRelativePath);
                 var imageUrl = this.imageUrl;
                 $.ajax({
@@ -166,22 +165,19 @@
                     contentType:false,
                     type: "POST",//方法类型
                     dataType: "json",//预期服务器返回的数据类型
-                    url: "/contribution/insertContribution" ,
+                    url: "/contribution/uploadImage" ,
                     // url: "http://10.108.17.116:9091/upload",
                     data: form,
-                    success: function (result) {
-                        console.log(result);
-                        var n =0;
-                        for(var i of result){
-                            i.src = imageUrl[n];
-                            n++;
-                        }
-                        vue.results = result;
+                    success: function (res) {
+                        console.log(res);
+                        addMessageVue.$message({
+                            message: '上传成功',
+                            type: 'success'
+                        });
+                        addMessageVue.form.imagePathList[0] = "E:\\学习\\软件工程专业实训\\project\\USRWeb\\src\\main\\resources\\static\\images\\news\\" + addMessageVue.img[0].name;
                     },
                     error : function() {
-                        alert("提交失败！");
-                        vue.loadFlag = false;
-
+                        addMessageVue.$message.error('提交失败');
                     }
                 });
 
@@ -193,13 +189,13 @@
                     $('#select_file').click();
 
                     $('#select_file').on("change", function () {
-                        vue.imageUrl=[];
+                        addMessageVue.imageUrl=[];
                         // var s = document.getElementById("select_file");
                         var files = $("#select_file")[0].files;
                         console.log(files);
                         var n = 0;
                         for(file of files){
-                            vue.imageUrl.push(null);
+                            addMessageVue.imageUrl.push(null);
                             if(file.flag!==0){
                                 file.flag=0;
                                 if(window.FileReader){
@@ -209,16 +205,19 @@
                                     reader.readAsDataURL(file);
                                     reader.onloadend = function (e) {
                                         console.log(this.n);
-                                        console.log(vue.imageUrl)
-                                        vue.$set(vue.imageUrl,this.n,e.target.result);
+                                        console.log(addMessageVue.imageUrl);
+                                        addMessageVue.$set(addMessageVue.imageUrl,this.n,e.target.result);
                                         // vue.imageUrl[this.n].src=e.target.result;
                                         // vue.imageUrl = new Array(vue.imageUrl);
                                         // vue.imageUrl.push(e.target.result);
-                                        console.log(vue.imageUrl)
-
+                                        console.log(addMessageVue.imageUrl);
+                                        addMessageVue.$message({
+                                            message: '提交成功: ' + file.name,
+                                            type: 'success'
+                                        });
                                     }
                                 }else{
-                                    console.log('无法读取文件');
+                                    addMessageVue.$message.error('无法读取文件');
                                 }
                             }
                             console.log(file);

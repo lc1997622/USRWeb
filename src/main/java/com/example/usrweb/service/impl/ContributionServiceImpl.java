@@ -49,14 +49,15 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
     public Integer insertContribution(Contribution contribution){
         List<String> imagePathList = contribution.getImagePathList();
         contributionDao.insert(contribution);
-        long id = contribution.getId();
+        Long id = contributionDao.selectById(contribution).getId();
 
         for (String imagePath:imagePathList){
             // 在image表插入
+            System.out.println("------------------------------------------------------------"+imagePath);
             Image image = new Image();
             image.setPath(imagePath);
             imageDao.insert(image);
-            Long imageId = image.getId();
+            Long imageId = imageDao.selectById(image).getId();
 
             // 在关联表插入
             ContributionHasImage contributionHasImage = new ContributionHasImage();
