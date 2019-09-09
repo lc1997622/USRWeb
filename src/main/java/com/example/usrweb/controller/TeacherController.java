@@ -6,6 +6,7 @@
  */
 package com.example.usrweb.controller;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.example.usrweb.aid.AbstractController;
 import com.example.usrweb.config.ResponseFormat;
 import com.example.usrweb.entity.Teacher;
@@ -40,6 +41,7 @@ public class TeacherController extends AbstractController<TeacherService,Teacher
 	TeacherServiceImpl teacherService;
 
 	@GetMapping("/getTeacherInfo")
+	@DS("slave")
 	public Object getTeacherInfo(){
 		List<Teacher> teacherList;
 		try{

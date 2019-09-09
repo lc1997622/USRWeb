@@ -51,6 +51,5 @@ public class Contribution extends AbstractEntity<Contribution> {
 	@ApiModelProperty(name = "content" , value = "内容")
 	private String content;
 	@TableField(exist = false)
-	@ApiModelProperty(hidden = true)
 	private List<String> imagePathList;
 }

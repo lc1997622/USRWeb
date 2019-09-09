@@ -10,5 +10,28 @@
 }
 
 .about_me .info {
-    
+    margin:auto;
+    width:50%;
+    /*border: 3px solid #73AD21;*/
+}
+.about_me .row{
+    margin:auto;
+    width:50%;
+}
+.about_me .p_left{
+    width:100px;
+    display: inline-block;
+}
+.about_me .p_right{
+    display: inline-block;
+}
+.book_management .p_left{
+    margin-left:150px;
+    margin-top:5px;
+    float: left;
+}
+.book_management .p_right{
+    margin-right:150px;
+    margin-top:5px;
+    float:right;
 }

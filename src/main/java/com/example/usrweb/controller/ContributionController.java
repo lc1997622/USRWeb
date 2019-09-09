@@ -6,11 +6,13 @@
  */
 package com.example.usrweb.controller;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.example.usrweb.aid.AbstractController;
 import com.example.usrweb.config.ResponseFormat;
 import com.example.usrweb.entity.Contribution;
 import com.example.usrweb.service.ContributionService;
 import com.example.usrweb.service.impl.ContributionServiceImpl;
+import com.example.usrweb.service.impl.UserServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -38,6 +41,8 @@ public class ContributionController extends AbstractController<ContributionServi
 
 	@Autowired
 	ContributionServiceImpl contributionService;
+	@Autowired
+	UserServiceImpl userService;
 
 	@ApiOperation(value = "插入稿件信息(新闻动态、通知通告、学术活动)", notes = "作者：ZhuDengji")
 	@PostMapping("/insertContribution")
@@ -49,11 +54,12 @@ public class ContributionController extends AbstractController<ContributionServi
 			System.out.println(e);
 			return ResponseFormat.retParam(1000, null);
 		}
-		return ResponseFormat.retParam(200, null);
+		return ResponseFormat.retParam(200, i);
 	}
 
 	@ApiOperation(value = "根据id查询稿件信息(新闻动态、通知通告、学术活动)", notes = "作者：ZhuDengji")
 	@PostMapping("/getContributionById")
+    @DS("slave")
 	public Object getContributionById(@RequestParam @ApiParam(value = "稿件id") Long id){
 		Contribution contribution;
 		try {
@@ -67,6 +73,7 @@ public class ContributionController extends AbstractController<ContributionServi
 
 	@ApiOperation(value = "查询稿件信息(新闻动态、通知通告、学术活动)", notes = "作者：ZhuDengji")
 	@GetMapping("/getContributionInfo")
+    @DS("slave")
 	public Object getContributionInfo(Contribution contribution){
 		List<Contribution> contributionList;
 		try {
@@ -78,4 +85,31 @@ public class ContributionController extends AbstractController<ContributionServi
 		return ResponseFormat.retParam(200, contributionList);
 	}
 
+	@ApiOperation(value = "根据id删除稿件信息(新闻动态、通知通告、学术活动)", notes = "作者：ZhuDengji")
+	@PostMapping("/deleteContributionById")
+	@DS("slave")
+	public Object deleteContributionById(@RequestParam @ApiParam(value = "稿件id") Long id){
+		Integer i;
+		try {
+			i = contributionService.deleteContributionById(id);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000, null);
+		}
+		return ResponseFormat.retParam(200, i);
+	}
+
+	@ApiOperation(value = "上传图片", notes = "作者：ZhuDengji")
+	@PostMapping("/uploadImage")
+	@DS("slave")
+	public Object uploadImage(@RequestParam("data") @ApiParam(value = "图片") MultipartFile multipartFile){
+		boolean result;
+		try {
+			result = userService.uploadDocument(multipartFile);
+		}catch (Exception e){
+			System.out.println(e);
+			return ResponseFormat.retParam(1000, null);
+		}
+		return ResponseFormat.retParam(200, result);
+	}
 }

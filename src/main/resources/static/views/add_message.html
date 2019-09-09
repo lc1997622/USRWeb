@@ -29,16 +29,11 @@
             <el-input type="textarea" v-model="form.content"></el-input>
         </el-form-item>
         <el-form-item label="新闻图片" prop="imagePathList">
-            <el-upload
-                    action="/"
-                    list-type="picture-card"
-                    :on-preview="00"
-                    :on-remove="handleRemove">
-                <i class="el-icon-plus"></i>
-                <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
-            </el-upload>
+            <form id="img_form" action="/contribution/uploadImage" method="post" enctype="multipart/form-data">
+                <div id="select_btn" class="btn btn-primary main-btn bg-main" @click="select_img">选择图片</div>
+                <input type="file"  id="select_file" name="data" style="display: none" multiple>
+                <a href="#"><input id="submit_btn" class="btn btn-primary " value="上传图片" @click="upload_img"></a>
+            </form>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
@@ -68,11 +63,16 @@
         data: {
             dialogImageUrl: "",
             dialogVisible:false,
+            img: [],
+            results: [],
+            fileList:[],
+            imageUrl:[],
             form: {
                 type: "",
                 title: "",
                 content: "",
-                imagePathList: []
+                imagePathList: [],
+                time: "",
             },
             rules: {
                 type: [
@@ -90,21 +90,33 @@
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        console.log(this.form);
+                        var date = new Date();
+                        var myyear = date.getFullYear();
+                        var mymonth = date.getMonth()+1;
+                        var myweekday = date.getDate();
+                        if(mymonth < 10){
+                            mymonth = "0" + mymonth;
+                        }
+                        if(myweekday < 10){
+                            myweekday = "0" + myweekday;
+                        }
+                        this.form.time = myyear + "-" + mymonth + "-" + myweekday + " " +
+                            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                        console.log(JSON.stringify(this.form));
                         $.ajax({
                             url: "/contribution/insertContribution",
                             type: "post",
                             data: {
                                 type: this.form.type,
-                                time: new Date(),
+                                time: this.form.time,
                                 userId: window.parent.parent.indexVue.user.userId,
                                 title: this.form.title,
                                 content: this.form.content,
-                                imagePathList: this.form.imagePathList
+                                imagePathList: JSON.stringify(this.form.imagePathList)
                             },
                             success(res) {
                                 console.log(res);
-                                this.$message({
+                                addMessageVue.$message({
                                     message: '新闻发布成功',
                                     type: 'success'
                                 });
@@ -128,10 +140,105 @@
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
+            },
+            select_img() {
+                console.log("select_img");
+
+            },
+            upload_img() {
+                console.log("upload_img");
+
+                var imgs = document.getElementById("img_form");
+                console.log(imgs);
+
+                var form = new FormData(document.getElementById("img_form"));
+                // console.log(form.val())
+
+                addMessageVue.img = form.getAll("data");
+                console.log(addMessageVue.img);
+                console.log(form.get("data").webkitRelativePath);
+                var imageUrl = this.imageUrl;
+                $.ajax({
+                    //几个参数需要注意一下
+                    cache: false,
+                    processData:false,
+                    contentType:false,
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/contribution/uploadImage" ,
+                    // url: "http://10.108.17.116:9091/upload",
+                    data: form,
+                    success: function (res) {
+                        console.log(res);
+                        addMessageVue.$message({
+                            message: '上传成功',
+                            type: 'success'
+                        });
+                        addMessageVue.form.imagePathList[0] = "E:\\学习\\软件工程专业实训\\project\\USRWeb\\src\\main\\resources\\static\\images\\news\\" + addMessageVue.img[0].name;
+                    },
+                    error : function() {
+                        addMessageVue.$message.error('提交失败');
+                    }
+                });
+
             }
         },
         mounted() {
+            $(document).ready(function(){
+                $('#select_btn').click(function(){
+                    $('#select_file').click();
 
+                    $('#select_file').on("change", function () {
+                        addMessageVue.imageUrl=[];
+                        // var s = document.getElementById("select_file");
+                        var files = $("#select_file")[0].files;
+                        console.log(files);
+                        var n = 0;
+                        for(file of files){
+                            addMessageVue.imageUrl.push(null);
+                            if(file.flag!==0){
+                                file.flag=0;
+                                if(window.FileReader){
+                                    var reader = new FileReader();
+                                    reader.n = n+0;
+                                    n++;
+                                    reader.readAsDataURL(file);
+                                    reader.onloadend = function (e) {
+                                        console.log(this.n);
+                                        console.log(addMessageVue.imageUrl);
+                                        addMessageVue.$set(addMessageVue.imageUrl,this.n,e.target.result);
+                                        // vue.imageUrl[this.n].src=e.target.result;
+                                        // vue.imageUrl = new Array(vue.imageUrl);
+                                        // vue.imageUrl.push(e.target.result);
+                                        console.log(addMessageVue.imageUrl);
+                                        addMessageVue.$message({
+                                            message: '提交成功: ' + file.name,
+                                            type: 'success'
+                                        });
+                                    }
+                                }else{
+                                    addMessageVue.$message.error('无法读取文件');
+                                }
+                            }
+                            console.log(file);
+                            // console.log(file.files);
+
+                        }
+                        setTimeout(function () {
+
+                        },0)
+                        // s.a=22;
+                        // console.log(s)
+                        // console.log(document.getElementById("select_file"))
+                        // console.log($('#select_file'))
+                        // console.log(vue.path2 = $('#select_file')[0].baseURI)
+                        // console.log(vue.path2)
+                        // console.log(vue.filepath)
+
+                    })
+                });
+
+            });
         }
 
     })
