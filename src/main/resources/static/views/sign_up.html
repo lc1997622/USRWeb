@@ -132,15 +132,15 @@
                 <el-form-item label="备注" prop="comment">
                     <el-input type="textarea" v-model="T_ruleForm.comment"></el-input>
                 </el-form-item>
-                <el-upload
-                        class="avatar-uploader"
-                        action="../images/photo"
-                        :show-file-list="true"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                    <img v-if="T_ruleForm.imagePath" :src="T_ruleForm.imagePath" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
+                <el-form-item label="头像" prop="imagePathListTeacher">
+                    <form id="img_form_teacher" action="/teacher/uploadImage" method="post" enctype="multipart/form-data">
+                        <div id="select_btn_teacher" class="btn btn-primary main-btn bg-main" @click="select_img_teacher">选择图片</div>
+                        <input type="file"  id="select_file_teacher" name="data" style="display: none" multiple>
+                        <a href="#"><input id="submit_btn_teacher" class="btn btn-primary " value="上传图片" @click="upload_img_teacher"></a>
+                    </form>
+                    {{form.imagePathListTeacher[0]}}
+
+                </el-form-item>
                 </el-form-item>
                 </el-form-item>
                 <el-button type="primary" @click="submitForm('T_ruleForm')">立即注册</el-button>
@@ -219,15 +219,15 @@
                 <el-form-item label="初次就业单位" prop="firstCompany">
                     <el-input v-model="S_ruleForm.firstCompany"></el-input>
                 </el-form-item>
-                <el-upload
-                        class="avatar-uploader"
-                        action="../images/photo"
-                        :show-file-list="true"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                    <img v-if="S_ruleForm.imagePath" :src="S_ruleForm.imagePath" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
+                <el-form-item label="头像" prop="imagePathListStudent">
+                    <form id="img_form_student" action="/student/uploadImage" method="post" enctype="multipart/form-data">
+                        <div id="select_btn_student" class="btn btn-primary main-btn bg-main" @click="select_img_student">选择图片</div>
+                        <input type="file"  id="select_file_student" name="data" style="display: none" multiple>
+                        <a href="#"><input id="submit_btn_student" class="btn btn-primary " value="上传图片" @click="upload_img_student"></a>
+                    </form>
+                    {{form.imagePathListStudent[0]}}
+
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('S_ruleForm')">立即注册</el-button>
                     <el-button @click="resetForm('S_ruleForm')">重置</el-button>
@@ -258,6 +258,11 @@
         data: {
             user_type: '1',
             fileList:[],
+            dialogImageUrl: "",
+            dialogVisible:false,
+            img: [],
+            results: [],
+            imageUrl:[],
             T_ruleForm: {
                 teacherld:'',
                 chineseName: '',
@@ -427,34 +432,253 @@
                         alert('submit!');
                     } else {
                         console.log('error submit!!');
-                return false;
-            }
-            });
+                        return false;
+                    }
+                });
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
-            handleAvatarSuccess(res, file) {
-                console.log(res, file);
-                this.imageUrl = "../images/photo/" + file.name;
-                console.log(this.imageUrl)
-            },
-            beforeAvatarUpload(file) {
-                console.log(file);
-                const isJPG = file.type === 'image/jpeg';
-                const isLt5M = file.size / 1024 / 1024 < 5;
+            onSubmit(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var date = new Date();
+                        var myyear = date.getFullYear();
+                        var mymonth = date.getMonth()+1;
+                        var myweekday = date.getDate();
+                        if(mymonth < 10){
+                            mymonth = "0" + mymonth;
+                        }
+                        if(myweekday < 10){
+                            myweekday = "0" + myweekday;
+                        }
+                        this.form.time = myyear + "-" + mymonth + "-" + myweekday + " " +
+                            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                        console.log(JSON.stringify(this.form));
+                        $.ajax({
+                            url: "/contribution/insertContribution",
+                            type: "post",
+                            data: {
+                                type: this.form.type,
+                                time: this.form.time,
+                                userId: window.parent.parent.indexVue.user.userId,
+                                title: this.form.title,
+                                content: this.form.content,
+                                imagePathList: JSON.stringify(this.form.imagePathList)
+                            },
+                            success(res) {
+                                console.log(res);
+                                addMessageVue.$message({
+                                    message: '新闻发布成功',
+                                    type: 'success'
+                                });
+                                window.parent.indexVue.activeIndex = "news_management.html";
 
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt5M) {
-                    this.$message.error('上传头像图片大小不能超过 5MB!');
-                }
-                return isJPG && isLt5M;
+                            }
+
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            select_img_student() {
+                console.log("select_img_student");
+
+            },
+            select_img_teacher() {
+                console.log("select_img_teacher");
+
+            },
+            upload_img_student() {
+                console.log("upload_img_student");
+
+                var imgs = document.getElementById("img_form_student");
+                console.log(imgs);
+
+                var form = new FormData(document.getElementById("img_form_student"));
+                // console.log(form.val())
+
+                vue.img = form.getAll("data");
+                console.log(vue.img);
+                console.log(form.get("data").webkitRelativePath);
+                var imageUrl = this.imageUrl;
+                $.ajax({
+                    //几个参数需要注意一下
+                    cache: false,
+                    processData:false,
+                    contentType:false,
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/student/uploadImage" ,
+                    // url: "http://10.108.17.116:9091/upload",
+                    data: form,
+                    success: function (res) {
+                        console.log(res);
+                        vue.$message({
+                            message: '上传成功',
+                            type: 'success'
+                        });
+                        vue.form.imagePathListStudent[0] = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/news/" + addMessageVue.img[0].name;
+                    },
+                    error : function() {
+                        vue.$message.error('提交失败');
+                    }
+                });
+
+            },
+            upload_img_teacher() {
+                console.log("upload_img_teacher");
+
+                var imgs = document.getElementById("img_form_teacher");
+                console.log(imgs);
+
+                var form = new FormData(document.getElementById("img_form_teacher"));
+                // console.log(form.val())
+
+                vue.img = form.getAll("data");
+                console.log(vue.img);
+                console.log(form.get("data").webkitRelativePath);
+                var imageUrl = this.imageUrl;
+                $.ajax({
+                    //几个参数需要注意一下
+                    cache: false,
+                    processData:false,
+                    contentType:false,
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/teacher/uploadImage" ,
+                    // url: "http://10.108.17.116:9091/upload",
+                    data: form,
+                    success: function (res) {
+                        console.log(res);
+                        vue.$message({
+                            message: '上传成功',
+                            type: 'success'
+                        });
+                        vue.form.imagePathListTeacher[0] = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/news/" + addMessageVue.img[0].name;
+                    },
+                    error : function() {
+                        vue.$message.error('提交失败');
+                    }
+                });
+
             }
         },
         mounted(){
-        }
+            $(document).ready(function(){
+                $('#select_btn_student').click(function(){
+                    $('#select_btn_student').click();
+
+                    $('#select_btn_student').on("change", function () {
+                        vue.imageUrl=[];
+                        // var s = document.getElementById("select_file");
+                        var files = $("#select_file_student")[0].files;
+                        console.log(files);
+                        var n = 0;
+                        for(file of files){
+                            vue.imageUrl.push(null);
+                            if(file.flag!==0){
+                                file.flag=0;
+                                if(window.FileReader){
+                                    var reader = new FileReader();
+                                    reader.n = n+0;
+                                    n++;
+                                    reader.readAsDataURL(file);
+                                    reader.onloadend = function (e) {
+                                        console.log(this.n);
+                                        console.log(vue.imageUrl);
+                                        vue.$set(vue.imageUrl,this.n,e.target.result);
+                                        // vue.imageUrl[this.n].src=e.target.result;
+                                        // vue.imageUrl = new Array(vue.imageUrl);
+                                        // vue.imageUrl.push(e.target.result);
+                                        console.log(vue.imageUrl);
+                                        vue.$message({
+                                            message: '提交成功: ' + file.name,
+                                            type: 'success'
+                                        });
+                                    }
+                                }else{
+                                    vue.$message.error('无法读取文件');
+                                }
+                            }
+                            console.log(file);
+                            // console.log(file.files);
+
+                        }
+                        setTimeout(function () {
+
+                        },0)
+                        // s.a=22;
+                        // console.log(s)
+                        // console.log(document.getElementById("select_file"))
+                        // console.log($('#select_file'))
+                        // console.log(vue.path2 = $('#select_file')[0].baseURI)
+                        // console.log(vue.path2)
+                        // console.log(vue.filepath)
+
+                    })
+                });
+
+            });
+            $(document).ready(function(){
+                $('#select_btn_teacher').click(function(){
+                    $('#select_btn_teacher').click();
+
+                    $('#select_btn_teacher').on("change", function () {
+                        vue.imageUrl=[];
+                        // var s = document.getElementById("select_file");
+                        var files = $("#select_file_teacher")[0].files;
+                        console.log(files);
+                        var n = 0;
+                        for(file of files){
+                            vue.imageUrl.push(null);
+                            if(file.flag!==0){
+                                file.flag=0;
+                                if(window.FileReader){
+                                    var reader = new FileReader();
+                                    reader.n = n+0;
+                                    n++;
+                                    reader.readAsDataURL(file);
+                                    reader.onloadend = function (e) {
+                                        console.log(this.n);
+                                        console.log(vue.imageUrl);
+                                        vue.$set(vue.imageUrl,this.n,e.target.result);
+                                        // vue.imageUrl[this.n].src=e.target.result;
+                                        // vue.imageUrl = new Array(vue.imageUrl);
+                                        // vue.imageUrl.push(e.target.result);
+                                        console.log(vue.imageUrl);
+                                        vue.$message({
+                                            message: '提交成功: ' + file.name,
+                                            type: 'success'
+                                        });
+                                    }
+                                }else{
+                                    vue.$message.error('无法读取文件');
+                                }
+                            }
+                            console.log(file);
+                            // console.log(file.files);
+
+                        }
+                        setTimeout(function () {
+
+                        },0)
+                        // s.a=22;
+                        // console.log(s)
+                        // console.log(document.getElementById("select_file"))
+                        // console.log($('#select_file'))
+                        // console.log(vue.path2 = $('#select_file')[0].baseURI)
+                        // console.log(vue.path2)
+                        // console.log(vue.filepath)
+
+                    })
+                });
+
+            });
+        },
+
 
     })
 </script>
