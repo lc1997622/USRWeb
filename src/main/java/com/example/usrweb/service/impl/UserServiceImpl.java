@@ -27,7 +27,7 @@ import java.lang.reflect.Field;
 @Service
 public class UserServiceImpl  extends ServiceImpl<UserDao, User> implements UserService  {
 
-    public boolean uploadDocument(MultipartFile multipartFile) throws Exception{
+    public boolean uploadExcel(MultipartFile multipartFile) throws Exception{
         if (multipartFile.isEmpty()){
             return false;
         }

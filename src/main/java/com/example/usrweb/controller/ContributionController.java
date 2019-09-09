@@ -12,6 +12,7 @@ import com.example.usrweb.config.ResponseFormat;
 import com.example.usrweb.entity.Contribution;
 import com.example.usrweb.service.ContributionService;
 import com.example.usrweb.service.impl.ContributionServiceImpl;
+import com.example.usrweb.service.impl.ImageServiceImpl;
 import com.example.usrweb.service.impl.UserServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -42,7 +43,7 @@ public class ContributionController extends AbstractController<ContributionServi
 	@Autowired
 	ContributionServiceImpl contributionService;
 	@Autowired
-	UserServiceImpl userService;
+    ImageServiceImpl imageService;
 
 	@ApiOperation(value = "插入稿件信息(新闻动态、通知通告、学术活动)", notes = "作者：ZhuDengji")
 	@PostMapping("/insertContribution")
@@ -105,7 +106,7 @@ public class ContributionController extends AbstractController<ContributionServi
 	public Object uploadImage(@RequestParam("data") @ApiParam(value = "图片") MultipartFile multipartFile){
 		boolean result;
 		try {
-			result = userService.uploadDocument(multipartFile);
+			result = imageService.uploadImage(multipartFile);
 		}catch (Exception e){
 			System.out.println(e);
 			return ResponseFormat.retParam(1000, null);

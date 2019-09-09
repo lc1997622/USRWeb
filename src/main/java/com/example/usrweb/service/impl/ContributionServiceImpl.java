@@ -52,7 +52,7 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
 
         for (String imagePath:imagePathList){
             // 在image表插入
-            String [] path = imagePath.substring(2, imagePath.length()-2).split("\\\\");
+            String [] path = imagePath.substring(2, imagePath.length()-2).split("/");
             String path0 = parentPath + '/' + path[path.length-1];
             System.out.println(path0);
             Image image = new Image();
@@ -128,7 +128,7 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
         queryWrapper.eq("contribution_id", id);
         List<ContributionHasImage> contributionHasImageList = contributionHasImageDao.selectList(queryWrapper);
         for (ContributionHasImage hasImage:contributionHasImageList){
-            hasImage.setDeleteFlag(1);
+            // hasImage.setDeleteFlag(1);
             contributionHasImageDao.deleteById(hasImage);
         }
 
