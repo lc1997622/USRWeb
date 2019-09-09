@@ -72,6 +72,7 @@
                 type: "",
                 title: "",
                 content: "",
+                time: "",
                 imagePathList: []
             },
             rules: {
@@ -90,13 +91,25 @@
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        var date = new Date();
+                        var myyear = date.getFullYear();
+                        var mymonth = date.getMonth()+1;
+                        var myweekday = date.getDate();
+                        if(mymonth < 10){
+                            mymonth = "0" + mymonth;
+                        }
+                        if(myweekday < 10){
+                            myweekday = "0" + myweekday;
+                        }
+                        this.form.time = myyear + "-" + mymonth + "-" + myweekday + " " +
+                            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
                         console.log(this.form);
                         $.ajax({
                             url: "/contribution/insertContribution",
                             type: "post",
                             data: {
                                 type: this.form.type,
-                                time: new Date(),
+                                time: this.form.time,
                                 userId: window.parent.parent.indexVue.user.userId,
                                 title: this.form.title,
                                 content: this.form.content,
@@ -104,7 +117,7 @@
                             },
                             success(res) {
                                 console.log(res);
-                                this.$message({
+                                addMessageVue.$message({
                                     message: '新闻发布成功',
                                     type: 'success'
                                 });
@@ -126,9 +139,11 @@
                 console.log(file, fileList);
             },
             handlePictureCardPreview(file) {
+                console.log(file);
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
-            }
+            },
+
         },
         mounted() {
 
