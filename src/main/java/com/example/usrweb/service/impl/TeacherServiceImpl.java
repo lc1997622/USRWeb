@@ -47,8 +47,12 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
     }
 
     public Integer insertTeacher(Teacher teacher){
+        String imagePath = teacher.getImagePath();
+        String parentPath = "../images/teacher";
+        String [] path = imagePath.split("/");
+        String path0 = parentPath + '/' + path[path.length-1];
         Image image = new Image();
-        image.setPath(teacher.getImagePath());
+        image.setPath(path0);
         imageDao.insert(image);
         Long imagId = image.getId();
         teacher.setImageId(imagId);
@@ -58,7 +62,7 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
 
     public Teacher updateTeacher(Teacher teacher){
         Image image = imageDao.selectById(teacher.getImageId());
-        if (image.getPath() != teacher.getImagePath()){
+        if (!image.getPath().equals(teacher.getImagePath())){
             Image image1 = new Image();
             image1.setPath(teacher.getImagePath());
             imageDao.insert(image1);

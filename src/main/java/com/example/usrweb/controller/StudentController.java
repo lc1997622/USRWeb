@@ -86,7 +86,7 @@ public class StudentController extends AbstractController<StudentService,Student
 	}
 
 	@ApiOperation(value = "分页查询学生带参数", notes = "作者：ZhuDengji")
-	@PostMapping("/selectPageWP")
+	@GetMapping("/selectPageWP")
 	@DS("slave")
 	public Object selectPageWP(Student student, @RequestParam(required = false) @ApiParam(value = "页数") Integer pageNum, @RequestParam(required = false) @ApiParam(value = "每页大小") Integer pageSize){
 		List<Student> studentList;
@@ -100,7 +100,7 @@ public class StudentController extends AbstractController<StudentService,Student
 	}
 
 	@ApiOperation(value = "导入学生信息", notes = "作者：ZhuDengji")
-	@GetMapping("/importStudent")
+	@PostMapping("/importStudent")
 	@DS("slave")
 	public Object importStudent(@RequestParam @ApiParam(value = "文件") MultipartFile multipartFile){
 		String result = null;
