@@ -176,7 +176,7 @@
                             message: '上传成功',
                             type: 'success'
                         });
-                        addMessageVue.form.imagePathList[0] = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/news/" + addMessageVue.img[0].name;
+                        addMessageVue.form.imagePathList[0] = addMessageVue.img[0].name;
                     },
                     error : function() {
                         addMessageVue.$message.error('提交失败');

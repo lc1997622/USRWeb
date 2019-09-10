@@ -7,7 +7,7 @@
     <title>注册-高校科研实验室账号</title>
 
     <!-- === CSS === -->
-    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootsaatrap.min.css">
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
     <link rel="stylesheet" href="../css/sign_up.css">
@@ -42,7 +42,7 @@
         <el-radio v-model="user_type" label='0'>学生</el-radio>
         <br/><br>
         <div v-if="user_type=='1'">
-            <el-form :model="T_ruleForm" :rules="T_rules" ref="T_ruleForm" label-width="100px" class="demo-T_ruleForm">
+            <el-form :model="T_ruleForm" ref="T_ruleForm" label-width="100px" class="demo-T_ruleForm">
                 <el-form-item label="工号" prop="teacherld">
                     <el-input placeholder="请输入10位数字" v-model="T_ruleForm.teacherld"></el-input>
                 </el-form-item>
@@ -138,18 +138,17 @@
                         <input type="file"  id="select_file_teacher" name="data" style="display: none" multiple>
                         <a href="#"><input id="submit_btn_teacher" class="btn btn-primary " value="上传图片" @click="upload_img_teacher"></a>
                     </form>
-                    {{form.imagePathListTeacher[0]}}
+                    {{T_ruleForm.imagePath}}
 
                 </el-form-item>
-                </el-form-item>
-                </el-form-item>
-                <el-button type="primary" @click="submitForm('T_ruleForm')">立即注册</el-button>
-                <el-button @click="resetForm('T_ruleForm')">重置</el-button>
+                <el-form-item>
+                    <el-button type="primary" @click="submitFormTeacher('T_ruleForm')">立即注册</el-button>
+                    <el-button @click="resetForm('T_ruleForm')">重置</el-button>
                 </el-form-item>
             </el-form>
         </div>
         <div v-else>
-            <el-form :model="S_ruleForm" :rules="S_rules" ref="S_ruleForm" label-width="100px" class="demo-S_ruleForm">
+            <el-form :model="S_ruleForm" ref="S_ruleForm" label-width="100px" class="demo-S_ruleForm">
                 <el-form-item label="学号" prop="studentld">
                     <el-input placeholder="请输入10位数字" v-model="S_ruleForm.studentld"></el-input>
                 </el-form-item>
@@ -225,11 +224,11 @@
                         <input type="file"  id="select_file_student" name="data" style="display: none" multiple>
                         <a href="#"><input id="submit_btn_student" class="btn btn-primary " value="上传图片" @click="upload_img_student"></a>
                     </form>
-                    {{form.imagePathListStudent[0]}}
+                    {{S_ruleForm.imagePath}}
 
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('S_ruleForm')">立即注册</el-button>
+                    <el-button type="primary" @click="submitFormStudent('S_ruleForm')">立即注册</el-button>
                     <el-button @click="resetForm('S_ruleForm')">重置</el-button>
                 </el-form-item>
             </el-form>
@@ -298,7 +297,7 @@
                 email: '',
                 mobilePhone: '',
                 comment: '',
-                imageUrl: '',
+                imagePath: '',
                 graduationFlag: '',
                 firstCompany:''
             },
@@ -439,7 +438,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
-            onSubmit(formName) {
+            submitFormStudent(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var date = new Date();
@@ -452,27 +451,99 @@
                         if(myweekday < 10){
                             myweekday = "0" + myweekday;
                         }
-                        this.form.time = myyear + "-" + mymonth + "-" + myweekday + " " +
+                        this.S_ruleForm.time = myyear + "-" + mymonth + "-" + myweekday + " " +
                             date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-                        console.log(JSON.stringify(this.form));
+                        console.log(JSON.stringify(this.S_ruleForm));
                         $.ajax({
-                            url: "/contribution/insertContribution",
+                            url: "/student/insertStudent",
                             type: "post",
                             data: {
-                                type: this.form.type,
-                                time: this.form.time,
-                                userId: window.parent.parent.indexVue.user.userId,
-                                title: this.form.title,
-                                content: this.form.content,
-                                imagePathList: JSON.stringify(this.form.imagePathList)
+                                studentId: this.S_ruleForm.studentld,
+                                level: this.S_ruleForm.studentld[0],
+                                training: this.S_ruleForm.studentld[1],
+                                chineseName: this.S_ruleForm.chineseName,
+                                englishFirstname: this.S_ruleForm.englishFirstname,
+                                englishLastname: this.S_ruleForm.englishLastname,
+                                sex: this.S_ruleForm.sex,
+                                type: this.S_ruleForm.type,
+                                nationality: this.S_ruleForm.nationality,
+                                enrollmentTime: this.S_ruleForm.enrollmentTime,
+                                tutor: this.S_ruleForm.tutor,
+                                viceTutor: this.S_ruleForm.viceTutor,
+                                birthday: this.S_ruleForm.birthday,
+                                email: this.S_ruleForm.email,
+                                mobliePhone: this.S_ruleForm.mobliePhone,
+                                comment: this.S_ruleForm.comment,
+                                imagePath: this.S_ruleForm.imagePath,
+                                time: this.S_ruleForm.time,
+                                graduationFlag: this.S_ruleForm.graduationFlag,
+                                firstCompany: this.S_ruleForm.firstCompany,
                             },
                             success(res) {
                                 console.log(res);
-                                addMessageVue.$message({
-                                    message: '新闻发布成功',
+                                vue.$message({
+                                    message: '学生创建成功',
                                     type: 'success'
                                 });
-                                window.parent.indexVue.activeIndex = "news_management.html";
+                                window.parent.indexVue.activeIndex = "user_management.html";
+
+                            }
+
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            submitFormTeacher(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var date = new Date();
+                        var myyear = date.getFullYear();
+                        var mymonth = date.getMonth()+1;
+                        var myweekday = date.getDate();
+                        if(mymonth < 10){
+                            mymonth = "0" + mymonth;
+                        }
+                        if(myweekday < 10){
+                            myweekday = "0" + myweekday;
+                        }
+                        this.T_ruleForm.time = myyear + "-" + mymonth + "-" + myweekday + " " +
+                            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                        console.log(JSON.stringify(this.T_ruleForm));
+                        $.ajax({
+                            url: "/teacher/insertTeacher",
+                            type: "post",
+                            data: {
+                                teacherId: this.T_ruleForm.teacherId,
+                                chineseName: this.T_ruleForm.chineseName,
+                                englishFirstname: this.T_ruleForm.englishFirstname,
+                                englishLastname: this.T_ruleForm.englishLastname,
+                                sex: this.T_ruleForm.sex,
+                                type: this.T_ruleForm.type,
+                                nationality: this.T_ruleForm.nationality,
+                                departmentType: this.T_ruleForm.departmentType,
+                                title: this.T_ruleForm.title,
+                                tutorQualification: this.T_ruleForm.tutorQualification,
+                                labJob: this.T_ruleForm.labJob,
+                                instituteJob: this.T_ruleForm.instituteJob,
+                                parttimeJob: this.T_ruleForm.parttimeJob,
+                                birthday: this.T_ruleForm.birthday,
+                                email: this.T_ruleForm.email,
+                                mobliePhone: this.T_ruleForm.mobliePhone,
+                                officePhone: this.T_ruleForm.officePhone,
+                                comment: this.T_ruleForm.comment,
+                                imagePath: this.T_ruleForm.imagePath
+
+                            },
+                            success(res) {
+                                console.log(res);
+                                vue.$message({
+                                    message: '老师创建成功',
+                                    type: 'success'
+                                });
+                                window.parent.indexVue.activeIndex = "user_management.html";
 
                             }
 
@@ -520,7 +591,7 @@
                             message: '上传成功',
                             type: 'success'
                         });
-                        vue.form.imagePathListStudent[0] = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/news/" + addMessageVue.img[0].name;
+                        vue.S_ruleForm.imagePath= vue.img[0].name;
                     },
                     error : function() {
                         vue.$message.error('提交失败');
@@ -557,7 +628,7 @@
                             message: '上传成功',
                             type: 'success'
                         });
-                        vue.form.imagePathListTeacher[0] = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/news/" + addMessageVue.img[0].name;
+                        vue.T_ruleForm.imagePath= vue.img[0].name;
                     },
                     error : function() {
                         vue.$message.error('提交失败');
