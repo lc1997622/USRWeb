@@ -65,8 +65,7 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
         }
         // user表
         String teacherId = teacher.getTeacherId();
-        System.out.println("-------------------------------------------"+teacher.toString());
-        System.out.println("-------------------------------------------"+teacher.getTeacherId());
+        System.out.println("---------------------------------------------"+teacherId);
         User user = new User();
         user.setUserId(teacherId);
         user.setPassword(DigestUtils.md5DigestAsHex(teacherId.getBytes()));
@@ -116,13 +115,15 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
     }
 
     public Integer deleteTeacherById(Long id){
-        Teacher teacher = teacherDao.selectById(id);
+        QueryWrapper<Teacher> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("teacher_id", id);
+        Teacher teacher = teacherDao.selectOne(queryWrapper1);
         imageDao.deleteById(teacher.getImageId());
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", teacher.getTeacherId());
         User user = userDao.selectOne(queryWrapper);
         userDao.deleteById(user);
-        teacherDao.deleteById(id);
+        teacherDao.deleteById(teacher.getId());
 
         return 1;
     }
