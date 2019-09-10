@@ -79,6 +79,14 @@
         methods: {
             handleEdit(index, row) {
                 console.log(index, row);
+                if (row.userFlag == "学生") {
+                    window.parent.indexVue.userFlag =  row.id;
+                    window.parent.indexVue.activeIndex = "update_student.html";
+                }
+                else {
+                    window.parent.indexVue.userFlag =  row.id;
+                    window.parent.indexVue.activeIndex = "update_teacher.html";
+                }
 
             },
             handleDelete(index, row) {

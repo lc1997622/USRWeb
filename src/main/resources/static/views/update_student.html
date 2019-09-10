@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>更新学生</title>
+
+    <!-- === CSS === -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <link rel="stylesheet" href="../css/sign_up.css">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+
+</head>
+
+<body>
+<div id="vue">
+
+    <div>
+        <div>
+            <el-form :model="S_ruleForm" ref="S_ruleForm" label-width="100px" class="demo-S_ruleForm">
+                <el-form-item label="学号" prop="studentId">
+                    <el-input placeholder="请输入10位数字" v-model="S_ruleForm.studentId"></el-input>
+                </el-form-item>
+                <el-form-item label="中文姓名" prop="chineseName">
+                    <el-input placeholder="请输入中文姓名" v-model="S_ruleForm.chineseName"></el-input>
+                </el-form-item>
+                <el-form-item label="英文名" prop="englishFirstname">
+                    <el-input placeholder="请输入英文名,中国学生填汉语拼音" v-model="S_ruleForm.englishFirstname"></el-input>
+                </el-form-item>
+                <el-form-item label="英文姓" prop="englishLastname">
+                    <el-input placeholder="请输入英文姓,中国学生填汉语拼音" v-model="S_ruleForm.englishLastname"></el-input>
+                </el-form-item>
+                <el-form-item label="性别" prop="sex">
+                    <el-radio-group v-model="S_ruleForm.sex">
+                        <el-radio label="1">男</el-radio>
+                        <el-radio label="0">女</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="学生类别" prop="type">
+                    <el-radio-group v-model="S_ruleForm.type">
+                        <el-radio label="0">本科</el-radio>
+                        <el-radio label="1">学术硕士</el-radio>
+                        <el-radio label="2">工程硕士</el-radio>
+                        <el-radio label="3">学术博士</el-radio>
+                        <el-radio label="4">工程博士</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="国籍" prop="nationality">
+                    <el-input placeholder="请输入国籍" v-model="S_ruleForm.nationality"></el-input>
+                </el-form-item>
+                <el-form-item label="入学时间" prop="enrollmentTime">
+                    <el-input placeholder="****年**月" v-model="S_ruleForm.enrollmentTime"></el-input>
+                </el-form-item>
+                <el-form-item label="毕业时间" prop="graduationTime">
+                    <el-input placeholder="****年**月" v-model="S_ruleForm.graduationTime"></el-input>
+                </el-form-item>
+                <el-form-item label="导师" prop="tutor">
+                    <el-input placeholder="导师姓名" v-model="S_ruleForm.tutor"></el-input>
+                </el-form-item>
+                <el-form-item label="副导师" prop="vice_tutor">
+                    <el-input placeholder="副导师姓名" v-model="S_ruleForm.vice_tutor"></el-input>
+                </el-form-item>
+                <el-form-item label="出生日期" prop="birthday">
+                    <el-date-picker
+                            v-model="S_ruleForm.birthday"
+                            type="date"
+                            placeholder="选择日期"
+                            format="yyyy 年 MM 月 dd 日"
+                            value-format="yyyy-MM-dd">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="电子邮箱" prop="email">
+                    <el-input v-model="S_ruleForm.email"></el-input>
+                </el-form-item>
+                <el-form-item label="移动电话" prop="mobilePhone">
+                    <el-input v-model="S_ruleForm.mobilePhone"></el-input>
+                </el-form-item>
+                <el-form-item label="备注" prop="comment">
+                    <el-input type="textarea" v-model="S_ruleForm.comment"></el-input>
+                </el-form-item>
+                <el-form-item label="学业状态" prop="graduationFlag">
+                    <el-radio-group v-model="S_ruleForm.graduationFlag">
+                        <el-radio label="0">未毕业</el-radio>
+                        <el-radio label="1">已毕业</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="初次就业单位" prop="firstCompany">
+                    <el-input v-model="S_ruleForm.firstCompany"></el-input>
+                </el-form-item>
+                <el-form-item label="头像" prop="imagePathListStudent">
+                    <form id="img_form_student" action="/student/uploadImage" method="post" enctype="multipart/form-data">
+                        <div id="select_btn_student" class="btn btn-primary main-btn bg-main" @click="select_img_student">选择图片</div>
+                        <input type="file"  id="select_file_student" name="data" style="display: none" multiple>
+                        <input id="submit_btn_student" class="btn btn-primary " value="上传图片" @click="upload_img_student">
+                    </form>
+                    {{S_ruleForm.imagePath}}
+
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="submitFormStudent('S_ruleForm')">立即注册</el-button>
+                    <el-button @click="resetForm('S_ruleForm')">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<!-- === JS === -->
+<script src="../js/jquery-3.2.1.slim.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+
+<script>
+    var vue = new Vue({
+        el: "#vue",
+        data: {
+            user_type: '1',
+            fileList:[],
+            dialogImageUrl: "",
+            dialogVisible: false,
+            img: [],
+            results: [],
+            imageUrl:[],
+            S_ruleForm: {
+                studentId:'',
+                chineseName: '',
+                englishFirstname: '',
+                englishLastname: '',
+                sex: '',
+                type: '',
+                nationality: '',
+                enrollmentTime: '',
+                graduationTime:'',
+                tutor:'',
+                vice_tutor:'',
+                birthday: '',
+                email: '',
+                mobilePhone: '',
+                comment: '',
+                imagePath: '',
+                graduationFlag: '',
+                firstCompany:'',
+                password:'',
+                borrowTimes:'',
+                credit:''
+            },
+            S_rules: {
+                studentId: [
+                    {required: true, message:'请输入学号',trigger: 'blur'},
+                    {min: 1, max: 10, message: '请输入10位数字的学号', trigger: 'blur'}
+                ],
+                chineseName: [
+                    {required: true, message: '请输入中文名字', trigger: 'blur'},
+                    {min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur'}
+                ],
+                englishFirstname: [
+                    {required: true, message: '请输入英文名,中国学生填汉语拼音', trigger: 'blur'},
+                    {min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur'}
+                ],
+                englishLastname: [
+                    {required: true, message: '请输入英文姓,中国学生填汉语拼音', trigger: 'blur'},
+                    {min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur'}
+                ],
+                sex: [
+                    {required: true, message: '请选择性别', trigger: 'change'}
+                ],
+                type: [
+                    {required: true, message: '请选择学生类别', trigger: 'change'}
+                ],
+                nationality: [
+                    {required: true, message: '请输入国籍', trigger: 'blur'}
+                ],
+                enrollmentTime: [
+                    {required: true, message: '请输入入学年份月份', trigger: 'blur'}
+                ],
+                graduationTime: [
+                    {required: true, message: '请输入毕业年份月份', trigger: 'blur'}
+                ],
+                tutor: [
+                    {required: true, message: '请输入导师姓名', trigger: 'blur'}
+                ],
+                vice_tutor: [
+                    {required: false}
+                ],
+                birthday: [
+                    {type: 'date', required: true, message: '请选择出生日期', trigger: 'change'}
+                ],
+                email: [
+                    {required: true, message: '请输入常用电子邮箱', trigger: 'blur'}
+                ],
+                mobilePhone: [
+                    {required: true, message: '请输入移动电话号码', trigger: 'blur'}
+                ],
+                comment: [
+                    {required: false, message: '请输入备注', trigger: 'blur'}
+                ],
+                graduationFlag: [
+                    {required: true, message: '请选择学业状态', trigger: 'change'}
+                ],
+                firstCompany: [
+                    {required: false, message: '请输入初次就业单位', trigger: 'blur'}
+                ]
+            }
+        },
+        methods: {
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            beforeRemove(file, fileList) {
+                return this.$confirm(`确定移除 ${ file.name }？`);
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            submitFormStudent(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var date = new Date();
+                        var myyear = date.getFullYear();
+                        var mymonth = date.getMonth()+1;
+                        var myweekday = date.getDate();
+                        if(mymonth < 10){
+                            mymonth = "0" + mymonth;
+                        }
+                        if(myweekday < 10){
+                            myweekday = "0" + myweekday;
+                        }
+                        this.S_ruleForm.time = myyear + "-" + mymonth + "-" + myweekday + " " +
+                            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                        console.log(JSON.stringify(this.S_ruleForm));
+                        $.ajax({
+                            url: "/student/insertStudent",
+                            type: "post",
+                            data: {
+                                studentId: this.S_ruleForm.studentId,
+                                level: parseInt(this.S_ruleForm.studentId[0]),
+                                training: parseInt(this.S_ruleForm.studentId[1]),
+                                chineseName: this.S_ruleForm.chineseName,
+                                englishFirstname: this.S_ruleForm.englishFirstname,
+                                englishLastname: this.S_ruleForm.englishLastname,
+                                sex: parseInt(this.S_ruleForm.sex),
+                                type: parseInt(this.S_ruleForm.type),
+                                nationality: this.S_ruleForm.nationality,
+                                enrollmentTime: this.S_ruleForm.enrollmentTime,
+                                tutor: this.S_ruleForm.tutor,
+                                viceTutor: this.S_ruleForm.viceTutor,
+                                birthday: this.S_ruleForm.birthday,
+                                email: this.S_ruleForm.email,
+                                mobliePhone: this.S_ruleForm.mobliePhone,
+                                comment: this.S_ruleForm.comment,
+                                imagePath: this.S_ruleForm.imagePath,
+                                time: this.S_ruleForm.time,
+                                graduationFlag: parseInt(this.S_ruleForm.graduationFlag),
+                                firstCompany: this.S_ruleForm.firstCompany,
+                            },
+                            success(res) {
+                                console.log(res);
+                                vue.$message({
+                                    message: '学生创建成功',
+                                    type: 'success'
+                                });
+                                window.parent.indexVue.activeIndex = "user_management.html";
+
+                            }
+
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            select_img_student() {
+                console.log("select_img_student");
+
+            },
+            upload_img_student() {
+                console.log("upload_img_student");
+
+                var imgs = document.getElementById("img_form_student");
+                console.log(imgs);
+
+                var form = new FormData(document.getElementById("img_form_student"));
+                // console.log(form.val())
+
+                vue.img = form.getAll("data");
+                console.log(vue.img);
+                console.log(form.get("data").webkitRelativePath);
+                var imageUrl = this.imageUrl;
+                $.ajax({
+                    //几个参数需要注意一下
+                    cache: false,
+                    processData:false,
+                    contentType:false,
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/student/uploadImage" ,
+                    // url: "http://10.108.17.116:9091/upload",
+                    data: form,
+                    success: function (res) {
+                        console.log(res);
+                        vue.$message({
+                            message: '上传成功',
+                            type: 'success'
+                        });
+                        vue.S_ruleForm.imagePath= vue.img[0].name;
+                    },
+                    error : function() {
+                        vue.$message.error('提交失败');
+                    }
+                });
+
+            },
+        },
+        mounted(){
+            $.ajax({
+                url: "/student/getStudentById",
+                type: "get",
+                data: {
+                   id: window.parent.indexVue.userFlag
+                },
+                success(res) {
+                    console.log(res.datas);
+                    vue.form = res.datas;
+                }
+            });
+            $(document).ready(function(){
+                $('#select_btn_student').click(function(){
+                    console.log(1);
+
+                    $('#select_file_student').click();
+                    console.log(1);
+
+                    $('#select_file_student').on("change", function () {
+                        console.log(1);
+
+                        vue.imageUrl=[];
+                        // var s = document.getElementById("select_file");
+                        var files = $("#select_file_student")[0].files;
+                        console.log(files);
+                        var n = 0;
+                        for(file of files){
+                            vue.imageUrl.push(null);
+                            if(file.flag!==0){
+                                file.flag=0;
+                                if(window.FileReader){
+                                    var reader = new FileReader();
+                                    reader.n = n+0;
+                                    n++;
+                                    reader.readAsDataURL(file);
+                                    reader.onloadend = function (e) {
+                                        console.log(this.n);
+                                        console.log(vue.imageUrl);
+                                        vue.$set(vue.imageUrl,this.n,e.target.result);
+                                        // vue.imageUrl[this.n].src=e.target.result;
+                                        // vue.imageUrl = new Array(vue.imageUrl);
+                                        // vue.imageUrl.push(e.target.result);
+                                        console.log(vue.imageUrl);
+                                        vue.$message({
+                                            message: '提交成功: ' + file.name,
+                                            type: 'success'
+                                        });
+                                    }
+                                }else{
+                                    vue.$message.error('无法读取文件');
+                                }
+                            }
+                            console.log(file);
+                            // console.log(file.files);
+
+                        }
+                        setTimeout(function () {
+
+                        },0)
+                        // s.a=22;
+                        // console.log(s)
+                        // console.log(document.getElementById("select_file"))
+                        // console.log($('#select_file'))
+                        // console.log(vue.path2 = $('#select_file')[0].baseURI)
+                        // console.log(vue.path2)
+                        // console.log(vue.filepath)
+
+                    })
+                });
+
+            });
+        },
+
+
+    })
+</script>
+
+</html>
+
