@@ -47,7 +47,7 @@ public class StudentController extends AbstractController<StudentService,Student
 	@ApiOperation(value = "根据id查询学生信息", notes = "作者：ZhuDengji")
 	@GetMapping("/getStudentById")
 	@DS("slave")
-	public Object getStudentById(@RequestParam @ApiParam(value = "学生id") Long id){
+	public Object getStudentById(@RequestParam @ApiParam(value = "学生id") String id){
 		Student student;
 		try {
 			student = studentService.getStudentById(id);
@@ -104,7 +104,7 @@ public class StudentController extends AbstractController<StudentService,Student
 	@DS("slave")
 	public Object importStudent(@RequestParam("data") @ApiParam(value = "文件") MultipartFile multipartFile){
 		String result = null;
-		String parentPath = "C:/Users/Administrator/Desktop/软件工程专业实训2019/project/USRWeb/src/main/resources/static/images/excel/";
+		String parentPath = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/excel/";
 		try {
 			if (userService.uploadFile(multipartFile, parentPath)){
 				String fileName = multipartFile.getOriginalFilename();

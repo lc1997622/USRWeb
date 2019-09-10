@@ -582,6 +582,10 @@
                 console.log("select_img_teacher");
 
             },
+            select_excel() {
+                console.log("select_img_excel");
+
+            },
             upload_img_student() {
                 console.log("upload_img_student");
 
@@ -649,6 +653,42 @@
                             type: 'success'
                         });
                         vue.T_ruleForm.imagePath= vue.img[0].name;
+                    },
+                    error : function() {
+                        vue.$message.error('提交失败');
+                    }
+                });
+
+            },
+            upload_excel() {
+                console.log("upload_excel");
+
+                var imgs = document.getElementById("img_form_excel");
+                console.log(imgs);
+
+                var form = new FormData(document.getElementById("img_form_excel"));
+                // console.log(form.val())
+
+                vue.excel = form.getAll("data");
+                console.log(vue.excel);
+                console.log(form.get("data").webkitRelativePath);
+                var imageUrl = this.imageUrl;
+                $.ajax({
+                    //几个参数需要注意一下
+                    cache: false,
+                    processData:false,
+                    contentType:false,
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/student/importStudent" ,
+                    // url: "http://10.108.17.116:9091/upload",
+                    data: form,
+                    success: function (res) {
+                        console.log(res);
+                        vue.$message({
+                            message: '上传成功',
+                            type: 'success'
+                        });
                     },
                     error : function() {
                         vue.$message.error('提交失败');
