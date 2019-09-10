@@ -8,14 +8,17 @@ package com.example.usrweb.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.usrweb.dao.ImageDao;
+import com.example.usrweb.dao.UserDao;
 import com.example.usrweb.entity.Image;
 import com.example.usrweb.entity.Student;
 import com.example.usrweb.entity.Teacher;
 import com.example.usrweb.dao.TeacherDao;
+import com.example.usrweb.entity.User;
 import com.example.usrweb.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.util.DigestUtils;
 
 import java.util.List;
 
@@ -34,6 +37,8 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
     TeacherDao teacherDao;
     @Autowired
     ImageDao imageDao;
+    @Autowired
+    UserDao userDao;
 
     public List<Teacher> getTeacherInfo(){
         QueryWrapper<Teacher> teacherQueryWrapper= new QueryWrapper<Teacher>();
@@ -57,10 +62,20 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
         Long imagId = image.getId();
         teacher.setImageId(imagId);
         teacherDao.insert(teacher);
+
+        // user表
+        String teacherId = teacher.getTeacherId();
+        User user = new User();
+        user.setUserId(teacherId);
+        user.setPassword(DigestUtils.md5DigestAsHex(teacherId.getBytes()));
+        user.setUserFlag(teacher.getUserFlag());
+        userDao.insert(user);
+
         return 1;
     }
 
     public Teacher updateTeacher(Teacher teacher){
+        // 更新图片表
         Image image = imageDao.selectById(teacher.getImageId());
         if (!image.getPath().equals(teacher.getImagePath())){
             Image image1 = new Image();
@@ -68,6 +83,16 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
             imageDao.insert(image1);
             teacher.setImageId(image1.getId());
         }
+        // 更新用户表
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", teacher.getTeacherId());
+        User user = userDao.selectOne(queryWrapper);
+        user.setPassword(teacher.getPassword());
+        user.setUserFlag(teacher.getUserFlag());
+        user.setBorrowTimes(teacher.getBorrowTimes());
+        user.setCredit(teacher.getCredit());
+        userDao.updateById(user);
+
         teacherDao.updateById(teacher);
         return teacher;
     }
@@ -76,6 +101,25 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
         Teacher teacher = teacherDao.selectById(id);
         Image image = imageDao.selectById(teacher.getImageId());
         teacher.setImagePath(image.getPath());
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", teacher.getTeacherId());
+        User user = userDao.selectOne(queryWrapper);
+        teacher.setPassword(user.getPassword());
+        teacher.setBorrowTimes(user.getBorrowTimes());
+        teacher.setCredit(user.getCredit());
+        teacher.setUserFlag(user.getUserFlag());
+
         return teacher;
+    }
+
+    public Integer deleteTeacherById(Long id){
+        Teacher teacher = teacherDao.selectById(id);
+        imageDao.deleteById(teacher.getImageId());
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", teacher.getTeacherId());
+        User user = userDao.selectOne(queryWrapper);
+        userDao.deleteById(user);
+
+        return 1;
     }
 }

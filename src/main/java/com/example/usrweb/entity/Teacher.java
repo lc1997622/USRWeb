@@ -79,4 +79,16 @@ public class Teacher extends AbstractEntity<Teacher> {
 	@ApiModelProperty(name = "imagePath",value = "照片，链接")
 	@TableField(exist = false)
 	private String imagePath;
+	@ApiModelProperty(name = "userFlag",value = "老师类型。0：管理员，2：老师，3：办公室主任，4：资料管理员")
+	@TableField(exist = false)
+	private Integer userFlag;
+	@ApiModelProperty(name = "password",value = "密码")
+	@TableField(exist = false)
+	private String password;
+	@ApiModelProperty(name = "borrowTimes",value = "借书次数")
+	@TableField(exist = false)
+	private Integer borrowTimes;
+	@ApiModelProperty(name = "credit",value = "密码")
+	@TableField(exist = false)
+	private Integer credit;
 }
