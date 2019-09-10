@@ -142,7 +142,7 @@ public class AbstractController<S extends IService<T>,T>{
 	        pageNum = 1;
         }
         if (pageSize == null){
-            pageSize = 10;
+            pageSize = 100;
         }
         System.out.println(entity.toString());
 		JsonResult<IPage<T>> returnPage=new JsonResult<IPage<T>>();

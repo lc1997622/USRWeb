@@ -53,23 +53,25 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
 
     public Integer insertTeacher(Teacher teacher){
         String imagePath = teacher.getImagePath();
-        String parentPath = "../images/teacher";
-        String [] path = imagePath.split("/");
-        String path0 = parentPath + '/' + path[path.length-1];
-        Image image = new Image();
-        image.setPath(path0);
-        imageDao.insert(image);
-        Long imagId = image.getId();
-        teacher.setImageId(imagId);
-        teacherDao.insert(teacher);
-
+        if (imagePath!=null){
+            String parentPath = "../images/teacher";
+            String [] path = imagePath.split("/");
+            String path0 = parentPath + '/' + path[path.length-1];
+            Image image = new Image();
+            image.setPath(path0);
+            imageDao.insert(image);
+            Long imagId = image.getId();
+            teacher.setImageId(imagId);
+        }
         // user表
         String teacherId = teacher.getTeacherId();
+        System.out.println("---------------------------------------------"+teacherId);
         User user = new User();
         user.setUserId(teacherId);
         user.setPassword(DigestUtils.md5DigestAsHex(teacherId.getBytes()));
         user.setUserFlag(teacher.getUserFlag());
         userDao.insert(user);
+        teacherDao.insert(teacher);
 
         return 1;
     }
@@ -113,12 +115,15 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
     }
 
     public Integer deleteTeacherById(Long id){
-        Teacher teacher = teacherDao.selectById(id);
+        QueryWrapper<Teacher> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("teacher_id", id);
+        Teacher teacher = teacherDao.selectOne(queryWrapper1);
         imageDao.deleteById(teacher.getImageId());
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", teacher.getTeacherId());
         User user = userDao.selectOne(queryWrapper);
         userDao.deleteById(user);
+        teacherDao.deleteById(teacher.getId());
 
         return 1;
     }
