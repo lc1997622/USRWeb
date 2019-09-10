@@ -39,7 +39,7 @@ public class Student extends AbstractEntity<Student> {
 	@ApiModelProperty(name = "level" , value = "学号第1位，学生层次。1：本科，2：硕士，3：博士")
 	private Integer level;
 	@ApiModelProperty(name = "training" , value = "学号第2位，培养类别。1：学术，2：专业，3：交换生，8：留学生")
-	private String training;
+	private Integer training;
 	@ApiModelProperty(name = "chineseName" , value = "中文名")
 	private String chineseName;
 	@ApiModelProperty(name = "englishFirstname" , value = "中国学生填汉语拼音")

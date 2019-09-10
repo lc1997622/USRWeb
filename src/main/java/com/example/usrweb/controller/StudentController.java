@@ -107,7 +107,9 @@ public class StudentController extends AbstractController<StudentService,Student
 		String parentPath = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/excel";
 		try {
 			if (userService.uploadFile(multipartFile, parentPath)){
-				result = studentService.importStudent(multipartFile);
+				String fileName = multipartFile.getOriginalFilename();
+				String filePath = parentPath + "/" + fileName;
+				result = studentService.importStudent(filePath, fileName);
 			}
 		}catch (Exception e){
 			System.out.println(e);

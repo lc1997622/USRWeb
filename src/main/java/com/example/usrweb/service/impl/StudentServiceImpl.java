@@ -29,8 +29,12 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,16 +134,16 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         return studentList;
     }
 
-    public String importStudent(MultipartFile multipartFile) throws IOException {
-        String fileName = multipartFile.getOriginalFilename();
+    public String importStudent(String filePath, String fileName) throws IOException {
+        File file = new File(filePath);
+        InputStream inputStream = new FileInputStream(file);
         // 创建Workbook工作薄对象，表示整个excel
         Workbook workbook = null;
 
-        System.out.println("----------------------------------------------------------------------"+fileName);
         if (fileName.endsWith("xls")){
-            workbook = new HSSFWorkbook(multipartFile.getInputStream());
+            workbook = new HSSFWorkbook(inputStream);
         }else{
-            workbook = new XSSFWorkbook(multipartFile.getInputStream());
+            workbook = new XSSFWorkbook(inputStream);
         }
             /*// 第一参数：文件路径 第二个参数：分隔符 第三个参数：字符集
             CsvReader csvReader = new CsvReader(excelPath, ',', Charset.forName("UTF-8"));
@@ -154,6 +158,8 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
                 studentDao.insert(student);*/
         Sheet sheet = workbook.getSheetAt(0);
         int rows = sheet.getLastRowNum();
+        System.out.println("------------------------------------------"+rows);
+
         if (rows == 0){
             return "no data in document";
         }
@@ -165,11 +171,12 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         maps.put("专业硕士", 2);
         maps.put("学术博士", 3);
         maps.put("专业博士", 4);
-        for (int i = 0; i <= rows; i++) {
+        for (int i = 1; i <= rows; i++) {
             Student student = new Student();
             Row row = sheet.getRow(i);
             if (row != null){
-                String cell1 = row.getCell(1).toString();
+                DecimalFormat df = new DecimalFormat("0");
+                String cell1 = df.format(row.getCell(1).getNumericCellValue());
                 String cell2 = row.getCell(2).toString();
                 String cell3 = row.getCell(3).toString();
                 String cell4 = row.getCell(4).toString();
