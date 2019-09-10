@@ -73,16 +73,16 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
 
     public Integer insertStudent(Student student){
         String imagePath = student.getImagePath();
-        String parentPath = "../images/student";
-        String [] path = imagePath.split("/");
-        String path0 = parentPath + '/' + path[path.length-1];
-        Image image = new Image();
-        image.setPath(path0);
-        imageDao.insert(image);
-        Long imagId = image.getId();
-        student.setImageId(imagId);
-        studentDao.insert(student);
-
+        if (imagePath!=null){
+            String parentPath = "../images/student";
+            String [] path = imagePath.split("/");
+            String path0 = parentPath + '/' + path[path.length-1];
+            Image image = new Image();
+            image.setPath(path0);
+            imageDao.insert(image);
+            Long imagId = image.getId();
+            student.setImageId(imagId);
+        }
         // user表
         String studentId = student.getStudentId();
         User user = new User();
@@ -90,6 +90,7 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         user.setPassword(DigestUtils.md5DigestAsHex(studentId.getBytes()));
         user.setUserFlag(1);
         userDao.insert(user);
+        studentDao.insert(student);
 
         return 1;
     }

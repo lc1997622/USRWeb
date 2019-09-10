@@ -53,23 +53,26 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
 
     public Integer insertTeacher(Teacher teacher){
         String imagePath = teacher.getImagePath();
-        String parentPath = "../images/teacher";
-        String [] path = imagePath.split("/");
-        String path0 = parentPath + '/' + path[path.length-1];
-        Image image = new Image();
-        image.setPath(path0);
-        imageDao.insert(image);
-        Long imagId = image.getId();
-        teacher.setImageId(imagId);
-        teacherDao.insert(teacher);
-
+        if (imagePath!=null){
+            String parentPath = "../images/teacher";
+            String [] path = imagePath.split("/");
+            String path0 = parentPath + '/' + path[path.length-1];
+            Image image = new Image();
+            image.setPath(path0);
+            imageDao.insert(image);
+            Long imagId = image.getId();
+            teacher.setImageId(imagId);
+        }
         // user表
         String teacherId = teacher.getTeacherId();
+        System.out.println("-------------------------------------------"+teacher.toString());
+        System.out.println("-------------------------------------------"+teacher.getTeacherId());
         User user = new User();
         user.setUserId(teacherId);
         user.setPassword(DigestUtils.md5DigestAsHex(teacherId.getBytes()));
         user.setUserFlag(teacher.getUserFlag());
         userDao.insert(user);
+        teacherDao.insert(teacher);
 
         return 1;
     }

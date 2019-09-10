@@ -43,8 +43,8 @@
         <br/><br>
         <div v-if="user_type=='1'">
             <el-form :model="T_ruleForm" ref="T_ruleForm" label-width="100px" class="demo-T_ruleForm">
-                <el-form-item label="工号" prop="teacherld">
-                    <el-input placeholder="请输入10位数字" v-model="T_ruleForm.teacherld"></el-input>
+                <el-form-item label="工号" prop="teacherId">
+                    <el-input placeholder="请输入10位数字" v-model="T_ruleForm.teacherId"></el-input>
                 </el-form-item>
                 <el-form-item label="中文姓名" prop="chineseName">
                     <el-input placeholder="请输入中文姓名" v-model="T_ruleForm.chineseName"></el-input>
@@ -70,8 +70,8 @@
                 <el-form-item label="国籍" prop="nationality">
                     <el-input placeholder="请输入国籍" v-model="T_ruleForm.nationality"></el-input>
                 </el-form-item>
-                <el-form-item label="单位" prop="departmentltem">
-                    <el-select v-model="T_ruleForm.departmentltem" placeholder="请选择您所在单位">
+                <el-form-item label="单位" prop="departmentItem">
+                    <el-select v-model="T_ruleForm.departmentItem" placeholder="请选择您所在单位">
                         <el-option label="宇航学院" value=1></el-option>
                         <el-option label="机电学院" value=2></el-option>
                         <el-option label="机械与车辆学院" value=3></el-option>
@@ -157,8 +157,8 @@
         </div>
         <div v-else>
             <el-form :model="S_ruleForm" ref="S_ruleForm" label-width="100px" class="demo-S_ruleForm">
-                <el-form-item label="学号" prop="studentld">
-                    <el-input placeholder="请输入10位数字" v-model="S_ruleForm.studentld"></el-input>
+                <el-form-item label="学号" prop="studentId">
+                    <el-input placeholder="请输入10位数字" v-model="S_ruleForm.studentId"></el-input>
                 </el-form-item>
                 <el-form-item label="中文姓名" prop="chineseName">
                     <el-input placeholder="请输入中文姓名" v-model="S_ruleForm.chineseName"></el-input>
@@ -271,14 +271,14 @@
             results: [],
             imageUrl:[],
             T_ruleForm: {
-                teacherld:'',
+                teacherId:'',
                 chineseName: '',
                 englishFirstname: '',
                 englishLastname: '',
                 sex: '',
                 type: '',
                 nationality: '',
-                departmentltem: '',
+                departmentItem: '',
                 title: '',
                 tutorQualification: '',
                 job: '',
@@ -294,7 +294,7 @@
                 credit:''
             },
             S_ruleForm: {
-                studentld:'',
+                studentId:'',
                 chineseName: '',
                 englishFirstname: '',
                 englishLastname: '',
@@ -317,7 +317,7 @@
                 credit:''
             },
             T_rules: {
-                teacherld: [
+                teacherId: [
                     {required: false, trigger: 'blur'}
                 ],
                 chineseName: [
@@ -370,7 +370,7 @@
                 ],
             },
             S_rules: {
-                studentld: [
+                studentId: [
                     {required: true, message:'请输入学号',trigger: 'blur'},
                     {min: 1, max: 10, message: '请输入10位数字的学号', trigger: 'blur'}
                 ],
@@ -473,9 +473,9 @@
                             url: "/student/insertStudent",
                             type: "post",
                             data: {
-                                studentId: this.S_ruleForm.studentld,
-                                level: parseInt(this.S_ruleForm.studentld[0]),
-                                training: parseInt(this.S_ruleForm.studentld[1]),
+                                studentId: this.S_ruleForm.studentId,
+                                level: parseInt(this.S_ruleForm.studentId[0]),
+                                training: parseInt(this.S_ruleForm.studentId[1]),
                                 chineseName: this.S_ruleForm.chineseName,
                                 englishFirstname: this.S_ruleForm.englishFirstname,
                                 englishLastname: this.S_ruleForm.englishLastname,
@@ -655,9 +655,14 @@
         mounted(){
             $(document).ready(function(){
                 $('#select_btn_student').click(function(){
-                    $('#select_btn_student').click();
+                    console.log(1);
 
-                    $('#select_btn_student').on("change", function () {
+                    $('#select_file_student').click();
+                    console.log(1);
+
+                    $('#select_file_student').on("change", function () {
+                        console.log(1);
+
                         vue.imageUrl=[];
                         // var s = document.getElementById("select_file");
                         var files = $("#select_file_student")[0].files;
@@ -710,15 +715,22 @@
             });
             $(document).ready(function(){
                 $('#select_btn_teacher').click(function(){
-                    $('#select_btn_teacher').click();
+                    console.log(1);
 
-                    $('#select_btn_teacher').on("change", function () {
+                    $('#select_file_teacher').click();
+                    console.log(1);
+
+                    $('#select_file_teacher').on("change", function () {
+                        console.log(1);
+
                         vue.imageUrl=[];
                         // var s = document.getElementById("select_file");
                         var files = $("#select_file_teacher")[0].files;
                         console.log(files);
                         var n = 0;
                         for(file of files){
+                            console.log(1);
+
                             vue.imageUrl.push(null);
                             if(file.flag!==0){
                                 file.flag=0;
