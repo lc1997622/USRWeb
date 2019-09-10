@@ -99,10 +99,16 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
         return teacher;
     }
 
-    public Teacher getTeacherById(Long id){
-        Teacher teacher = teacherDao.selectById(id);
-        Image image = imageDao.selectById(teacher.getImageId());
-        teacher.setImagePath(image.getPath());
+    public Teacher getTeacherById(String id){
+
+        QueryWrapper<Teacher> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("teacher_id", id);
+        Teacher teacher = teacherDao.selectOne(queryWrapper1);
+
+        if (teacher.getImageId()!=null){
+            Image image = imageDao.selectById(teacher.getImageId());
+            teacher.setImagePath(image.getPath());
+        }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", teacher.getTeacherId());
         User user = userDao.selectOne(queryWrapper);
