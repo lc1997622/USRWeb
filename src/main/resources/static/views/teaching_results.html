@@ -161,7 +161,7 @@
             //成果
             $.ajax({
                 url: "/achievement/getPages",
-                type: "get",
+                type: "post",
                 data: {
                     achievementFlag: 0
                 },
@@ -203,7 +203,7 @@
             //论文
             $.ajax({
                 url: "/paper/getPages",
-                type: "get",
+                type: "post",
                 data: {
                     paperFlag: 0
                 },
@@ -234,7 +234,7 @@
             //教材
             $.ajax({
                 url: "/textbook/getPages",
-                type: "get",
+                type: "post",
                 success(res) {
                     console.log(res.data.records);
                     let tmp = res.data.records;
@@ -260,7 +260,7 @@
             //教改
             $.ajax({
                 url: "/eduReform/getPages",
-                type: "get",
+                type: "post",
                 success(res) {
                     console.log(res.data.records);
                     let tmp = res.data.records;

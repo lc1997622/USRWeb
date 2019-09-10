@@ -165,7 +165,7 @@
             //成果
             $.ajax({
                 url: "/achievement/getPages",
-                type: "get",
+                type: "post",
                 data: {
                     achievementFlag: 1
                 },
@@ -207,7 +207,7 @@
             //论文
             $.ajax({
                 url: "/paper/getPages",
-                type: "get",
+                type: "post",
                 data: {
                     paperFlag: 1
                 },
@@ -238,7 +238,7 @@
             //专利
             $.ajax({
                 url: "/patent/getPages",
-                type: "get",
+                type: "post",
                 success(res) {
                     console.log(res.data.records);
                     let tmp = res.data.records;
@@ -264,7 +264,7 @@
             //著作权
             $.ajax({
                 url: "/copyright/getPages",
-                type: "get",
+                type: "post",
                 success(res) {
                     console.log(res.data.records);
                     let tmp = res.data.records;

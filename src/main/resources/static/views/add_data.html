@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>新增成果</title>
+
+
+    <!-- === CSS === -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+
+</head>
+
+<body>
+<div id="vue">
+    <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="教学/科研" prop="achievementFlag">
+            <el-radio v-model="form.achievementFlag" label="0">教学</el-radio>
+            <el-radio v-model="form.achievementFlag" label="1">科研</el-radio>
+        </el-form-item>
+        <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="获奖日期" prop="year">
+            <el-input v-model="form.year"></el-input>
+        </el-form-item>
+
+        <el-form-item label="层次" prop="type">
+            <el-radio v-model="form.type" label="0">校级</el-radio>
+            <el-radio v-model="form.type" label="1">省级</el-radio>
+            <el-radio v-model="form.type" label="2">国家级</el-radio>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
+            <el-button @click="resetForm('form')">重置</el-button>
+        </el-form-item>
+    </el-form>
+
+</div>
+
+</body>
+<script src="../js/md5.js" type="text/javascript" charset="utf-8"></script>
+<!--  JS  -->
+<script src="../js/jquery-3.2.1.slim.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+
+<script>
+    var addDataVue = new Vue({
+        el: "#vue",
+        data: {
+            form: [
+                {
+                    year:'',
+                    name:'',
+                    type:'',
+                    achievementFlag: ''
+                }
+            ]
+        },
+        methods: {
+            onSubmit(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        $.ajax({
+                            url: "/achievement/insert",
+                            type: "post",
+                            data: {
+                                type: this.form.type,
+                                year: this.form.year,
+                                name: this.form.name,
+                                achievementFlag: this.form.achievementFlag
+
+                            },
+                            success(res) {
+                                console.log(res);
+                                alert('成果发布成功');
+                                window.parent.indexVue.activeIndex = "data_management.html";
+
+                            }
+
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+        },
+        mounted() {
+            window.parent.parent.scrollTo(0, 0);
+
+        }
+
+    })
+</script>
+</html>

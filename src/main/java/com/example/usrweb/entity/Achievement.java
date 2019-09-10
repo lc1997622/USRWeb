@@ -41,8 +41,8 @@ public class Achievement extends AbstractEntity<Achievement> {
 	private String name;
 	@ApiModelProperty(name = "type" , value = "层级。0：校级，1：省级，2：国家级")
 	private Integer type;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
 	@ApiModelProperty(name = "year" , value = "发表年份")
 	private Date year;
 

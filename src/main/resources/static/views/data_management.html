@@ -1,12 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>资料管理</title>
+
+
+    <!-- === CSS === -->
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/2.10.1/theme-chalk/index.css" >-->
+
 </head>
+
 <body>
-    <h5>资料管理</h5>
+<div id="vue">
+    <el-button type="primary" round @click="addData('add_data.html')">新增资料</el-button>
+    <hr>
+    <el-table
+            :data="dataList"
+            style="width: 100%">
+        <el-table-column
+                label="获奖年份"
+                width="180">
+            <template slot-scope="scope">
+                <p>{{ scope.row.year }}</p>
+            </template>
+        </el-table-column>
+        <!--<el-table-column-->
+        <!--label="姓名"-->
+        <!--width="180">-->
+        <!--<template slot-scope="scope">-->
+        <!--<p>{{ scope.row.name }}</p>-->
+        <!--</template>-->
+        <!--</el-table-column>-->
+        <el-table-column
+                label="名称"
+                width="180">
+            <template slot-scope="scope">
+                <p>{{ scope.row.name }}</p>
+            </template>
+        </el-table-column>
+        <el-table-column
+                label="层次"
+                width="180">
+            <template slot-scope="scope">
+                <p>{{ scope.row.type }}</p>
+            </template>
+        </el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+                <el-button
+                        size="mini"
+                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button
+                        size="mini"
+                        type="danger"
+                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+</div>
+
 </body>
+<script src="../js/md5.js" type="text/javascript" charset="utf-8"></script>
+<!--  JS  -->
+<script src="../js/jquery-3.2.1.slim.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
+<!--引入vue-->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="https://cdn.bootcss.com/element-ui/2.10.1/locale/zh-CN.min.js"></script>-->
+
+<script>
+    var dataVue = new Vue({
+        el: "#vue",
+        data: {
+            dataList:[]
+        },
+        methods: {
+            handleEdit(index, row) {
+                console.log(index, JSON.stringify(row));
+                window.parent.indexVue.dataFlag =  row.id;
+                window.parent.indexVue.activeIndex = "update_data.html";
+
+            },
+            handleDelete(index, row) {
+                console.log(index, row);
+
+                this.$confirm('确认删除该成果?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    $.ajax({
+                        url: "/achievement/deleteById",
+                        type: "post",
+                        data: {
+                            id: row.id
+                        },
+                        success(res) {
+                            console.log(res);
+                            if (res.code == 1000) {
+                                alert('删除失败');
+                            }
+                            if (res.code == 200) {
+                                alert('删除成功');
+                                dataVue.dataList.splice(index, 1);
+                            }
+                        },
+                        error(res) {
+                            console.log(res);
+                            alert('删除失败');
+                        }
+                    });
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+
+
+
+
+            },
+            addData(page) {
+                window.parent.indexVue.activeIndex = page;
+
+            }
+        },
+        mounted() {
+            $.ajax({
+                url: "/achievement/getPages",
+                type: "post",
+                success(res) {
+                    console.log(res);
+                    dataVue.dataList = res.data.records;
+                    for (var i=0; i<dataVue.dataList.length; i++) {
+                        switch (dataVue.dataList[i].type) {
+                            case 0:
+                                dataVue.dataList[i].type = "校级";
+                                break;
+                            case 1:
+                                dataVue.dataList[i].type = "省级";
+                                break;
+                            case 2:
+                                dataVue.dataList[i].type = "国家级";
+                                break;
+                            default:
+                                dataVue.dataList[i].type = "无记载";
+                                break;
+                        }
+                    }
+                },
+                error(res) {
+                    console.log(res);
+                }
+            })
+        }
+
+    })
+</script>
 </html>

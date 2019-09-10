@@ -41,7 +41,7 @@ public class AbstractController<S extends IService<T>,T>{
 	 * @author  LiChao
 	 * @time    2019年4月9日
 	 */
-	@GetMapping("/getById")
+	@GetMapping("/getById/{id}")
 	@ApiOperation(value = "获取对象", notes = "作者：LiChao")
 	@ApiImplicitParam(paramType="path", name = "id", value = "对象id", required = true, dataType = "Long")
 	public JsonResult<T> getUserById(@PathVariable("id")Long id){
