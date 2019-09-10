@@ -130,9 +130,12 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         queryWrapper.setEntity(student);
         IPage<Student> iPage = studentDao.selectPage(page, queryWrapper);
         studentList = iPage.getRecords();
-        studentList.forEach(System.out::println);
+        List<Student> students = null;
+        for (Student student1:studentList){
+            students.add(getStudentById(student1.getId()));
+        }
 
-        return studentList;
+        return students;
     }
 
     public String importStudent(String filePath, String fileName) throws IOException {

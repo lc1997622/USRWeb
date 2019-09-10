@@ -52,7 +52,9 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionDao, Contri
         for (String imagePath:imagePathList){
             // 在image表插入
             String [] path = imagePath.substring(2, imagePath.length()-2).split("/");
+            System.out.println("*********************************"+path);
             String path0 = parentPath + '/' + path[path.length-1];
+            System.out.println("=================================="+path0);
             Image image = new Image();
             image.setPath(path0);
             imageDao.insert(image);
