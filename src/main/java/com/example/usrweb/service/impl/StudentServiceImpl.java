@@ -57,10 +57,15 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
     @Autowired
     UserDao userDao;
 
-    public Student getStudentById(Long id){
-        Student student = studentDao.selectById(id);
-        Image image = imageDao.selectById(student.getImageId());
-        student.setImagePath(image.getPath());
+    public Student getStudentById(String id){
+        QueryWrapper<Student> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("student_id", id);
+        Student student = studentDao.selectOne(queryWrapper1);
+
+        if (student.getImageId()!=null){
+            Image image = imageDao.selectById(student.getImageId());
+            student.setImagePath(image.getPath());
+        }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", student.getStudentId());
         User user = userDao.selectOne(queryWrapper);
@@ -130,9 +135,12 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         queryWrapper.setEntity(student);
         IPage<Student> iPage = studentDao.selectPage(page, queryWrapper);
         studentList = iPage.getRecords();
-        studentList.forEach(System.out::println);
+        List<Student> students = null;
+        for (Student student1:studentList){
+            students.add(getStudentById(student1.getStudentId()));
+        }
 
-        return studentList;
+        return students;
     }
 
     public String importStudent(String filePath, String fileName) throws IOException {
@@ -190,6 +198,7 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
                 student.setSex(maps.get(cell4));
                 student.setTutor(cell5);
                 student.setComment(cell6);
+                student.setGraduationFlag(0);
 
                 studentDao.insert(student);
                 // user表

@@ -86,7 +86,7 @@
                     id: window.parent.childVue.contentId
                 },
                 success(res){
-                    console.log(res.datas);
+                    console.log(JSON.stringify(res.datas));
                     contentVue.news = res.datas;
                 }
             })

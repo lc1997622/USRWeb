@@ -87,7 +87,7 @@ public class TeacherController extends AbstractController<TeacherService,Teacher
 	@ApiOperation(value = "根据id查询老师信息", notes = "作者：ZhuDengji")
 	@GetMapping("/getTeacherById")
 	@DS("slave")
-	public Object getTeacherById(@RequestParam @ApiParam(value = "老师id") Long id){
+	public Object getTeacherById(@RequestParam @ApiParam(value = "老师id") String id){
 		Teacher teacher;
 		try {
 			teacher = teacherService.getTeacherById(id);
