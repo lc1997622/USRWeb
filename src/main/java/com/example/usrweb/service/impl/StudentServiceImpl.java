@@ -122,7 +122,7 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
             pageNum = 1;
         }
         if(pageSize == null){
-            pageSize = 10;
+            pageSize = 100;
         }
         QueryWrapper<Student> queryWrapper = new QueryWrapper<Student>();
         Page<Student> page = new Page<>(pageNum, pageSize);
@@ -222,6 +222,7 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         queryWrapper.eq("user_id", student.getStudentId());
         User user = userDao.selectOne(queryWrapper);
         userDao.deleteById(user);
+        studentDao.deleteById(id);
 
         return 1;
     }

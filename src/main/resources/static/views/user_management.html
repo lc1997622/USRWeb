@@ -83,30 +83,90 @@
             },
             handleDelete(index, row) {
                 console.log(index, row);
-                $.ajax({
-                    url: "/user/deleteById",
-                    type: "post",
-                    data: {
-                        id: row.id
-                    },
-                    success(res) {
-                        console.log(res);
-                        if (res.code == 1000) {
-                            userVue.$message.error('删除失败');
-                        }
-                        if (res.code == 200) {
-                            userVue.$message({
-                                message: '删除成功',
-                                type: 'success'
-                            });
-                            userVue.userList.splice(row, 1);
-                        }
-                    },
-                    error(res) {
-                        console.log(res);
-                        userVue.$message.error('删除失败');
-                    }
-                })
+                if (row.userFlag == "学生") {
+                    this.$confirm('确认删除该学生?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        $.ajax({
+                            url: "/student/deleteStudentById",
+                            type: "post",
+                            data: {
+                                id: row.userId
+                            },
+                            success(res) {
+                                console.log(res);
+                                if (res.code == 1000) {
+                                    alert('删除失败');
+                                }
+                                if (res.code == 200) {
+                                    userVue.$message({
+                                        message: '删除成功',
+                                        type: 'success'
+                                    });
+                                    userVue.userList.splice(row, 1);
+                                }
+                            },
+                            error(res) {
+                                console.log(res);
+                                alert('删除失败');
+                            }
+                        });
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+                }
+                else {
+                    this.$confirm('确认删除该老师?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        $.ajax({
+                            url: "/teacher/deleteTeacherById",
+                            type: "post",
+                            data: {
+                                id: row.userId
+                            },
+                            success(res) {
+                                console.log(res);
+                                if (res.code == 1000) {
+                                    alert('删除失败');
+                                }
+                                if (res.code == 200) {
+                                    userVue.$message({
+                                        message: '删除成功',
+                                        type: 'success'
+                                    });
+                                    userVue.userList.splice(row, 1);
+                                }
+                            },
+                            error(res) {
+                                console.log(res);
+                                alert('删除失败');
+                            }
+                        });
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+                }
+
+
             },
             addUser(page) {
                 window.parent.indexVue.activeIndex = page;

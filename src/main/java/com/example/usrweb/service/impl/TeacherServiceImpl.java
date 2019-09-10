@@ -122,6 +122,7 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
         queryWrapper.eq("user_id", teacher.getTeacherId());
         User user = userDao.selectOne(queryWrapper);
         userDao.deleteById(user);
+        teacherDao.deleteById(id);
 
         return 1;
     }
