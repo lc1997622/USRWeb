@@ -224,16 +224,20 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         return student;
     }
 
-    public Integer deleteStudentById(Long id){
+    public Integer deleteStudentById(String id){
         QueryWrapper<Student> queryWrapper1 = new QueryWrapper<>();
         queryWrapper1.eq("student_id", id);
         Student student = studentDao.selectOne(queryWrapper1);
-        imageDao.deleteById(student.getImageId());
+
+        if (student.getImageId()!=null){
+            imageDao.deleteById(student.getImageId());
+        }
+
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", student.getStudentId());
-        User user = userDao.selectOne(queryWrapper);
-        userDao.deleteById(user);
-        studentDao.deleteById(student.getId());
+        queryWrapper.eq("user_id", id);
+        userDao.delete(queryWrapper);
+
+        studentDao.delete(queryWrapper1);
 
         return 1;
     }

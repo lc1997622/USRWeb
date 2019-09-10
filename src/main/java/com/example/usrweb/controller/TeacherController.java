@@ -116,7 +116,7 @@ public class TeacherController extends AbstractController<TeacherService,Teacher
     @ApiOperation(value = "根据id删除老师信息", notes = "作者：ZhuDengji")
     @PostMapping("/deleteTeacherById")
     @DS("slave")
-    public Object deleteTeacherById(@RequestParam @ApiParam(value = "老师id") Long id){
+    public Object deleteTeacherById(@RequestParam @ApiParam(value = "老师id") String id){
         Integer i;
         try {
             i = teacherService.deleteTeacherById(id);

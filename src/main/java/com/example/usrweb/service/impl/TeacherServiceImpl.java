@@ -120,16 +120,20 @@ public class TeacherServiceImpl  extends ServiceImpl<TeacherDao, Teacher> implem
         return teacher;
     }
 
-    public Integer deleteTeacherById(Long id){
+    public Integer deleteTeacherById(String id){
         QueryWrapper<Teacher> queryWrapper1 = new QueryWrapper<>();
         queryWrapper1.eq("teacher_id", id);
         Teacher teacher = teacherDao.selectOne(queryWrapper1);
-        imageDao.deleteById(teacher.getImageId());
+
+        if (teacher.getImageId()!=null){
+            imageDao.deleteById(teacher.getImageId());
+        }
+
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", teacher.getTeacherId());
-        User user = userDao.selectOne(queryWrapper);
-        userDao.deleteById(user);
-        teacherDao.deleteById(teacher.getId());
+        queryWrapper.eq("user_id", id);
+        userDao.delete(queryWrapper);
+
+        teacherDao.delete(queryWrapper1);
 
         return 1;
     }

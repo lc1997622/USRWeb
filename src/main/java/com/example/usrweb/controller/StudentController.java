@@ -150,7 +150,7 @@ public class StudentController extends AbstractController<StudentService,Student
     @ApiOperation(value = "根据id删除学生信息", notes = "作者：ZhuDengji")
     @PostMapping("/deleteStudentById")
     @DS("slave")
-    public Object deleteStudentById(@RequestParam @ApiParam(value = "学生id") Long id){
+    public Object deleteStudentById(@RequestParam @ApiParam(value = "学生id") String id){
         Integer i;
         try {
             i = studentService.deleteStudentById(id);
