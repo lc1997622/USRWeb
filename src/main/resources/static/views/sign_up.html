@@ -57,14 +57,14 @@
                 </el-form-item>
                 <el-form-item label="性别" prop="sex">
                     <el-radio-group v-model="T_ruleForm.sex">
-                        <el-radio label="男" value=1></el-radio>
-                        <el-radio label="女" value=0></el-radio>
+                        <el-radio label="1">男</el-radio>
+                        <el-radio label="0">女</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="教师类别" prop="type">
                     <el-radio-group v-model="T_ruleForm.type">
-                        <el-radio label="专职" value=1></el-radio>
-                        <el-radio label="兼职" value=0></el-radio>
+                        <el-radio label="1" >专职</el-radio>
+                        <el-radio label="0" >兼职</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="国籍" prop="nationality">
@@ -92,6 +92,14 @@
                         <el-option label="设计与艺术学院" value=18></el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="老师类型" prop="userFlag">
+                    <el-radio-group v-model="T_ruleForm.userFlag">
+                        <el-radio label="4">资料管理员</el-radio>
+                        <el-radio label="3">办公室主任</el-radio>
+                        <el-radio label="2">老师</el-radio>
+                        <el-radio label="0">管理员</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="职称" prop="title">
                     <el-select v-model="T_ruleForm.title" placeholder="请选择类别">
                         <el-option label="正高" value=4></el-option>
@@ -103,9 +111,9 @@
                 </el-form-item>
                 <el-form-item label="导师资格" prop="tutorQualification">
                     <el-radio-group v-model="T_ruleForm.tutorQualification">
-                        <el-radio label="博导" value=2></el-radio>
-                        <el-radio label="硕导" value=1></el-radio>
-                        <el-radio label="无" value=0></el-radio>
+                        <el-radio label="2">博导</el-radio>
+                        <el-radio label="1">硕导</el-radio>
+                        <el-radio label="0">无</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="职务" prop="job">
@@ -163,17 +171,17 @@
                 </el-form-item>
                 <el-form-item label="性别" prop="sex">
                     <el-radio-group v-model="S_ruleForm.sex">
-                        <el-radio label="男" value=1></el-radio>
-                        <el-radio label="女" value=0></el-radio>
+                        <el-radio label="1">男</el-radio>
+                        <el-radio label="0">女</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="学生类别" prop="type">
                     <el-radio-group v-model="S_ruleForm.type">
-                        <el-radio label="本科" value=0></el-radio>
-                        <el-radio label="学术硕士" value=1></el-radio>
-                        <el-radio label="工程硕士" value=2></el-radio>
-                        <el-radio label="学术博士" value=3></el-radio>
-                        <el-radio label="工程博士" value=4></el-radio>
+                        <el-radio label="0">本科</el-radio>
+                        <el-radio label="1">学术硕士</el-radio>
+                        <el-radio label="2">工程硕士</el-radio>
+                        <el-radio label="3">学术博士</el-radio>
+                        <el-radio label="4">工程博士</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="国籍" prop="nationality">
@@ -211,8 +219,8 @@
                 </el-form-item>
                 <el-form-item label="学业状态" prop="graduationFlag">
                     <el-radio-group v-model="S_ruleForm.graduationFlag">
-                        <el-radio label="未毕业" value=0></el-radio>
-                        <el-radio label="已毕业" value=1></el-radio>
+                        <el-radio label="0">未毕业</el-radio>
+                        <el-radio label="1">已毕业</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="初次就业单位" prop="firstCompany">
@@ -279,7 +287,11 @@
                 mobilePhone: '',
                 officePhone: '',
                 comment: '',
-                imagePath: ''
+                imagePath: '',
+                userFlag: '',
+                password: '',
+                borrowTimes: '',
+                credit:''
             },
             S_ruleForm: {
                 studentld:'',
@@ -299,7 +311,10 @@
                 comment: '',
                 imagePath: '',
                 graduationFlag: '',
-                firstCompany:''
+                firstCompany:'',
+                password:'',
+                borrowTimes:'',
+                credit:''
             },
             T_rules: {
                 teacherld: [
@@ -459,13 +474,13 @@
                             type: "post",
                             data: {
                                 studentId: this.S_ruleForm.studentld,
-                                level: this.S_ruleForm.studentld[0],
-                                training: this.S_ruleForm.studentld[1],
+                                level: parseInt(this.S_ruleForm.studentld[0]),
+                                training: parseInt(this.S_ruleForm.studentld[1]),
                                 chineseName: this.S_ruleForm.chineseName,
                                 englishFirstname: this.S_ruleForm.englishFirstname,
                                 englishLastname: this.S_ruleForm.englishLastname,
-                                sex: this.S_ruleForm.sex,
-                                type: this.S_ruleForm.type,
+                                sex: parseInt(this.S_ruleForm.sex),
+                                type: parseInt(this.S_ruleForm.type),
                                 nationality: this.S_ruleForm.nationality,
                                 enrollmentTime: this.S_ruleForm.enrollmentTime,
                                 tutor: this.S_ruleForm.tutor,
@@ -476,7 +491,7 @@
                                 comment: this.S_ruleForm.comment,
                                 imagePath: this.S_ruleForm.imagePath,
                                 time: this.S_ruleForm.time,
-                                graduationFlag: this.S_ruleForm.graduationFlag,
+                                graduationFlag: parseInt(this.S_ruleForm.graduationFlag),
                                 firstCompany: this.S_ruleForm.firstCompany,
                             },
                             success(res) {
@@ -520,11 +535,11 @@
                                 chineseName: this.T_ruleForm.chineseName,
                                 englishFirstname: this.T_ruleForm.englishFirstname,
                                 englishLastname: this.T_ruleForm.englishLastname,
-                                sex: this.T_ruleForm.sex,
-                                type: this.T_ruleForm.type,
+                                sex: parseInt(this.T_ruleForm.sex),
+                                type: parseInt(this.T_ruleForm.type),
                                 nationality: this.T_ruleForm.nationality,
-                                departmentType: this.T_ruleForm.departmentType,
-                                title: this.T_ruleForm.title,
+                                departmentType:  this.T_ruleForm.type(this.T_ruleForm.departmentType),
+                                title: parseInt(this.T_ruleForm.title),
                                 tutorQualification: this.T_ruleForm.tutorQualification,
                                 labJob: this.T_ruleForm.labJob,
                                 instituteJob: this.T_ruleForm.instituteJob,
@@ -534,7 +549,8 @@
                                 mobliePhone: this.T_ruleForm.mobliePhone,
                                 officePhone: this.T_ruleForm.officePhone,
                                 comment: this.T_ruleForm.comment,
-                                imagePath: this.T_ruleForm.imagePath
+                                imagePath: this.T_ruleForm.imagePath,
+                                userFlag: parseInt(this.T_ruleForm.userFlag)
 
                             },
                             success(res) {
