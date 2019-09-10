@@ -39,13 +39,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**   
+/**
  * <p>自动生成工具：mybatis-dsc-generator</p> 
- * 
+ *
  * <p>说明： 学生服务实现层</P>
  * @version: V1.0
  * @author: LiChao
- * 
+ *
  */
 @Service
 public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implements StudentService  {
@@ -216,13 +216,15 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
     }
 
     public Integer deleteStudentById(Long id){
-        Student student = studentDao.selectById(id);
+        QueryWrapper<Student> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("student_id", id);
+        Student student = studentDao.selectOne(queryWrapper1);
         imageDao.deleteById(student.getImageId());
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", student.getStudentId());
         User user = userDao.selectOne(queryWrapper);
         userDao.deleteById(user);
-        studentDao.deleteById(id);
+        studentDao.deleteById(student.getId());
 
         return 1;
     }

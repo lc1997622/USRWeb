@@ -118,10 +118,7 @@
                             },
                             success(res) {
                                 console.log(res);
-                                addMessageVue.$message({
-                                    message: '新闻发布成功',
-                                    type: 'success'
-                                });
+                                alert('新闻发布成功');
                                 window.parent.indexVue.activeIndex = "news_management.html";
 
                             }

@@ -34,6 +34,7 @@
 
 </div>
 
+</body>
 
 <!-- === JS === -->
 <script src="../js/jquery-3.2.1.slim.min.js"></script>
@@ -80,7 +81,7 @@
             console.log(window.parent.childVue.contentId);
             $.ajax({
                 url: "/contribution/getContributionById",
-                type: "post",
+                type: "get",
                 data: {
                     id: window.parent.childVue.contentId
                 },
