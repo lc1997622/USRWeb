@@ -39,13 +39,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**   
+/**
  * <p>自动生成工具：mybatis-dsc-generator</p> 
- * 
+ *
  * <p>说明： 学生服务实现层</P>
  * @version: V1.0
  * @author: LiChao
- * 
+ *
  */
 @Service
 public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implements StudentService  {

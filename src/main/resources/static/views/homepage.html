@@ -195,7 +195,7 @@
             window.scrollTo(0, 0);
             $.ajax({
                 url: "/contribution/getContributionById",
-                type: "post",
+                type: "get",
                 data: {
                     id: 1
                 },
@@ -204,7 +204,7 @@
                     homepageVue.news[0] = res.datas;
                     $.ajax({
                         url: "/contribution/getContributionById",
-                        type: "post",
+                        type: "get",
                         data: {
                             id: 2
                         },
@@ -213,7 +213,7 @@
                             homepageVue.news[1] = res.datas;
                             $.ajax({
                                 url: "/contribution/getContributionById",
-                                type: "post",
+                                type: "get",
                                 data: {
                                     id: 3
                                 },

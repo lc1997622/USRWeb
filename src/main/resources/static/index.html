@@ -226,7 +226,7 @@
                     if (this.isSignIn == 1)
                         this.turnPage(key);
                     else
-                        this.signInLink();
+                        this.signInLink(key);
                 else {
                     console.log(key, keyPath);
                     this.currentPage = key;
@@ -318,7 +318,9 @@
             },
             signInLink() {
                 this.signInMethod = 2;
-                this.dialogFormVisible = true
+                this.dialogFormVisible = true;
+                this.turnPage(key);
+
             },
             cancelSignIn() {
                 this.signInMethod = 0;
