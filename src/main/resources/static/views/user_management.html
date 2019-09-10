@@ -110,7 +110,7 @@
                                 }
                                 if (res.code == 200) {
                                     alert('删除成功');
-                                    userVue.userList.splice(row, 1);
+                                    userVue.userList.splice(index, 1);
                                 }
                             },
                             error(res) {
@@ -148,7 +148,8 @@
                                 }
                                 if (res.code == 200) {
                                     alert('删除成功');
-                                    userVue.userList.splice(row, 1);
+                                    userVue.userList.splice(index, 1);
+
                                 }
                             },
                             error(res) {
