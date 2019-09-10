@@ -71,8 +71,8 @@
                     console.log(res.datas);
                     academicVue.activities = res.datas;
                     for (var i=0; i<academicVue.activities.length; i++) {
-                        if (academicVue.activities[i].title.length>20) {
-                            academicVue.activities[i].title = academicVue.activities[i].title.slice(0, 20)+"..."
+                        if (academicVue.activities[i].title.length>18) {
+                            academicVue.activities[i].title = academicVue.activities[i].title.slice(0, 18)+"..."
                         }
                     }
                 }

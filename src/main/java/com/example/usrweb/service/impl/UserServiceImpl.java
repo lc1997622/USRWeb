@@ -16,13 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.lang.reflect.Field;
 
-/**   
+/**
  * <p>自动生成工具：mybatis-dsc-generator</p> 
- * 
+ *
  * <p>说明： 用户服务实现层</P>
  * @version: V1.0
  * @author: LiChao
- * 
+ *
  */
 @Service
 public class UserServiceImpl  extends ServiceImpl<UserDao, User> implements UserService  {

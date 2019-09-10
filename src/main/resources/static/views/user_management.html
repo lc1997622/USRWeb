@@ -79,9 +79,34 @@
         methods: {
             handleEdit(index, row) {
                 console.log(index, row);
+
             },
             handleDelete(index, row) {
                 console.log(index, row);
+                $.ajax({
+                    url: "/user/deleteById",
+                    type: "post",
+                    data: {
+                        id: row.id
+                    },
+                    success(res) {
+                        console.log(res);
+                        if (res.code == 1000) {
+                            userVue.$message.error('删除失败');
+                        }
+                        if (res.code == 200) {
+                            userVue.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            userVue.userList.splice(row, 1);
+                        }
+                    },
+                    error(res) {
+                        console.log(res);
+                        userVue.$message.error('删除失败');
+                    }
+                })
             },
             addUser(page) {
                 window.parent.indexVue.activeIndex = page;
@@ -91,7 +116,7 @@
         mounted() {
             $.ajax({
                 url: "/user/getPages",
-                type: "get",
+                type: "post",
                 success(res) {
                     console.log(res);
                     userVue.userList = res.data.records;

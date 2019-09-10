@@ -7,7 +7,7 @@
     <title>注册-高校科研实验室账号</title>
 
     <!-- === CSS === -->
-    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootsaatrap.min.css">
+    <link rel="stylesheet" href="../bootstrap-4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900">
     <link rel="stylesheet" href="../css/sign_up.css">
@@ -42,7 +42,7 @@
         <el-radio v-model="user_type" label='0'>学生</el-radio>
         <br/><br>
         <div v-if="user_type=='1'">
-            <el-form :model="T_ruleForm" :rules="T_rules" ref="T_ruleForm" label-width="100px" class="demo-T_ruleForm">
+            <el-form :model="T_ruleForm" ref="T_ruleForm" label-width="100px" class="demo-T_ruleForm">
                 <el-form-item label="工号" prop="teacherld">
                     <el-input placeholder="请输入10位数字" v-model="T_ruleForm.teacherld"></el-input>
                 </el-form-item>
@@ -57,14 +57,14 @@
                 </el-form-item>
                 <el-form-item label="性别" prop="sex">
                     <el-radio-group v-model="T_ruleForm.sex">
-                        <el-radio label="男" value=1></el-radio>
-                        <el-radio label="女" value=0></el-radio>
+                        <el-radio label="1">男</el-radio>
+                        <el-radio label="0">女</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="教师类别" prop="type">
                     <el-radio-group v-model="T_ruleForm.type">
-                        <el-radio label="专职" value=1></el-radio>
-                        <el-radio label="兼职" value=0></el-radio>
+                        <el-radio label="1" >专职</el-radio>
+                        <el-radio label="0" >兼职</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="国籍" prop="nationality">
@@ -92,6 +92,14 @@
                         <el-option label="设计与艺术学院" value=18></el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="老师类型" prop="userFlag">
+                    <el-radio-group v-model="T_ruleForm.userFlag">
+                        <el-radio label="4">资料管理员</el-radio>
+                        <el-radio label="3">办公室主任</el-radio>
+                        <el-radio label="2">老师</el-radio>
+                        <el-radio label="0">管理员</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="职称" prop="title">
                     <el-select v-model="T_ruleForm.title" placeholder="请选择类别">
                         <el-option label="正高" value=4></el-option>
@@ -103,9 +111,9 @@
                 </el-form-item>
                 <el-form-item label="导师资格" prop="tutorQualification">
                     <el-radio-group v-model="T_ruleForm.tutorQualification">
-                        <el-radio label="博导" value=2></el-radio>
-                        <el-radio label="硕导" value=1></el-radio>
-                        <el-radio label="无" value=0></el-radio>
+                        <el-radio label="2">博导</el-radio>
+                        <el-radio label="1">硕导</el-radio>
+                        <el-radio label="0">无</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="职务" prop="job">
@@ -132,24 +140,23 @@
                 <el-form-item label="备注" prop="comment">
                     <el-input type="textarea" v-model="T_ruleForm.comment"></el-input>
                 </el-form-item>
-                <el-upload
-                        class="avatar-uploader"
-                        action="../images/photo"
-                        :show-file-list="true"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                    <img v-if="T_ruleForm.imagePath" :src="T_ruleForm.imagePath" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
+                <el-form-item label="头像" prop="imagePathListTeacher">
+                    <form id="img_form_teacher" action="/teacher/uploadImage" method="post" enctype="multipart/form-data">
+                        <div id="select_btn_teacher" class="btn btn-primary main-btn bg-main" @click="select_img_teacher">选择图片</div>
+                        <input type="file"  id="select_file_teacher" name="data" style="display: none" multiple>
+                        <a href="#"><input id="submit_btn_teacher" class="btn btn-primary " value="上传图片" @click="upload_img_teacher"></a>
+                    </form>
+                    {{T_ruleForm.imagePath}}
+
                 </el-form-item>
-                </el-form-item>
-                <el-button type="primary" @click="submitForm('T_ruleForm')">立即注册</el-button>
-                <el-button @click="resetForm('T_ruleForm')">重置</el-button>
+                <el-form-item>
+                    <el-button type="primary" @click="submitFormTeacher('T_ruleForm')">立即注册</el-button>
+                    <el-button @click="resetForm('T_ruleForm')">重置</el-button>
                 </el-form-item>
             </el-form>
         </div>
         <div v-else>
-            <el-form :model="S_ruleForm" :rules="S_rules" ref="S_ruleForm" label-width="100px" class="demo-S_ruleForm">
+            <el-form :model="S_ruleForm" ref="S_ruleForm" label-width="100px" class="demo-S_ruleForm">
                 <el-form-item label="学号" prop="studentld">
                     <el-input placeholder="请输入10位数字" v-model="S_ruleForm.studentld"></el-input>
                 </el-form-item>
@@ -164,17 +171,17 @@
                 </el-form-item>
                 <el-form-item label="性别" prop="sex">
                     <el-radio-group v-model="S_ruleForm.sex">
-                        <el-radio label="男" value=1></el-radio>
-                        <el-radio label="女" value=0></el-radio>
+                        <el-radio label="1">男</el-radio>
+                        <el-radio label="0">女</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="学生类别" prop="type">
                     <el-radio-group v-model="S_ruleForm.type">
-                        <el-radio label="本科" value=0></el-radio>
-                        <el-radio label="学术硕士" value=1></el-radio>
-                        <el-radio label="工程硕士" value=2></el-radio>
-                        <el-radio label="学术博士" value=3></el-radio>
-                        <el-radio label="工程博士" value=4></el-radio>
+                        <el-radio label="0">本科</el-radio>
+                        <el-radio label="1">学术硕士</el-radio>
+                        <el-radio label="2">工程硕士</el-radio>
+                        <el-radio label="3">学术博士</el-radio>
+                        <el-radio label="4">工程博士</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="国籍" prop="nationality">
@@ -212,24 +219,24 @@
                 </el-form-item>
                 <el-form-item label="学业状态" prop="graduationFlag">
                     <el-radio-group v-model="S_ruleForm.graduationFlag">
-                        <el-radio label="未毕业" value=0></el-radio>
-                        <el-radio label="已毕业" value=1></el-radio>
+                        <el-radio label="0">未毕业</el-radio>
+                        <el-radio label="1">已毕业</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="初次就业单位" prop="firstCompany">
                     <el-input v-model="S_ruleForm.firstCompany"></el-input>
                 </el-form-item>
-                <el-upload
-                        class="avatar-uploader"
-                        action="../images/photo"
-                        :show-file-list="true"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                    <img v-if="S_ruleForm.imagePath" :src="S_ruleForm.imagePath" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
+                <el-form-item label="头像" prop="imagePathListStudent">
+                    <form id="img_form_student" action="/student/uploadImage" method="post" enctype="multipart/form-data">
+                        <div id="select_btn_student" class="btn btn-primary main-btn bg-main" @click="select_img_student">选择图片</div>
+                        <input type="file"  id="select_file_student" name="data" style="display: none" multiple>
+                        <a href="#"><input id="submit_btn_student" class="btn btn-primary " value="上传图片" @click="upload_img_student"></a>
+                    </form>
+                    {{S_ruleForm.imagePath}}
+
+                </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('S_ruleForm')">立即注册</el-button>
+                    <el-button type="primary" @click="submitFormStudent('S_ruleForm')">立即注册</el-button>
                     <el-button @click="resetForm('S_ruleForm')">重置</el-button>
                 </el-form-item>
             </el-form>
@@ -258,6 +265,11 @@
         data: {
             user_type: '1',
             fileList:[],
+            dialogImageUrl: "",
+            dialogVisible:false,
+            img: [],
+            results: [],
+            imageUrl:[],
             T_ruleForm: {
                 teacherld:'',
                 chineseName: '',
@@ -275,7 +287,11 @@
                 mobilePhone: '',
                 officePhone: '',
                 comment: '',
-                imagePath: ''
+                imagePath: '',
+                userFlag: '',
+                password: '',
+                borrowTimes: '',
+                credit:''
             },
             S_ruleForm: {
                 studentld:'',
@@ -293,9 +309,12 @@
                 email: '',
                 mobilePhone: '',
                 comment: '',
-                imageUrl: '',
+                imagePath: '',
                 graduationFlag: '',
-                firstCompany:''
+                firstCompany:'',
+                password:'',
+                borrowTimes:'',
+                credit:''
             },
             T_rules: {
                 teacherld: [
@@ -427,34 +446,325 @@
                         alert('submit!');
                     } else {
                         console.log('error submit!!');
-                return false;
-            }
-            });
+                        return false;
+                    }
+                });
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
-            handleAvatarSuccess(res, file) {
-                console.log(res, file);
-                this.imageUrl = "../images/photo/" + file.name;
-                console.log(this.imageUrl)
-            },
-            beforeAvatarUpload(file) {
-                console.log(file);
-                const isJPG = file.type === 'image/jpeg';
-                const isLt5M = file.size / 1024 / 1024 < 5;
+            submitFormStudent(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var date = new Date();
+                        var myyear = date.getFullYear();
+                        var mymonth = date.getMonth()+1;
+                        var myweekday = date.getDate();
+                        if(mymonth < 10){
+                            mymonth = "0" + mymonth;
+                        }
+                        if(myweekday < 10){
+                            myweekday = "0" + myweekday;
+                        }
+                        this.S_ruleForm.time = myyear + "-" + mymonth + "-" + myweekday + " " +
+                            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                        console.log(JSON.stringify(this.S_ruleForm));
+                        $.ajax({
+                            url: "/student/insertStudent",
+                            type: "post",
+                            data: {
+                                studentId: this.S_ruleForm.studentld,
+                                level: parseInt(this.S_ruleForm.studentld[0]),
+                                training: parseInt(this.S_ruleForm.studentld[1]),
+                                chineseName: this.S_ruleForm.chineseName,
+                                englishFirstname: this.S_ruleForm.englishFirstname,
+                                englishLastname: this.S_ruleForm.englishLastname,
+                                sex: parseInt(this.S_ruleForm.sex),
+                                type: parseInt(this.S_ruleForm.type),
+                                nationality: this.S_ruleForm.nationality,
+                                enrollmentTime: this.S_ruleForm.enrollmentTime,
+                                tutor: this.S_ruleForm.tutor,
+                                viceTutor: this.S_ruleForm.viceTutor,
+                                birthday: this.S_ruleForm.birthday,
+                                email: this.S_ruleForm.email,
+                                mobliePhone: this.S_ruleForm.mobliePhone,
+                                comment: this.S_ruleForm.comment,
+                                imagePath: this.S_ruleForm.imagePath,
+                                time: this.S_ruleForm.time,
+                                graduationFlag: parseInt(this.S_ruleForm.graduationFlag),
+                                firstCompany: this.S_ruleForm.firstCompany,
+                            },
+                            success(res) {
+                                console.log(res);
+                                vue.$message({
+                                    message: '学生创建成功',
+                                    type: 'success'
+                                });
+                                window.parent.indexVue.activeIndex = "user_management.html";
 
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt5M) {
-                    this.$message.error('上传头像图片大小不能超过 5MB!');
-                }
-                return isJPG && isLt5M;
+                            }
+
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            submitFormTeacher(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var date = new Date();
+                        var myyear = date.getFullYear();
+                        var mymonth = date.getMonth()+1;
+                        var myweekday = date.getDate();
+                        if(mymonth < 10){
+                            mymonth = "0" + mymonth;
+                        }
+                        if(myweekday < 10){
+                            myweekday = "0" + myweekday;
+                        }
+                        this.T_ruleForm.time = myyear + "-" + mymonth + "-" + myweekday + " " +
+                            date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                        console.log(JSON.stringify(this.T_ruleForm));
+                        $.ajax({
+                            url: "/teacher/insertTeacher",
+                            type: "post",
+                            data: {
+                                teacherId: this.T_ruleForm.teacherId,
+                                chineseName: this.T_ruleForm.chineseName,
+                                englishFirstname: this.T_ruleForm.englishFirstname,
+                                englishLastname: this.T_ruleForm.englishLastname,
+                                sex: parseInt(this.T_ruleForm.sex),
+                                type: parseInt(this.T_ruleForm.type),
+                                nationality: this.T_ruleForm.nationality,
+                                title: parseInt(this.T_ruleForm.title),
+                                tutorQualification: this.T_ruleForm.tutorQualification,
+                                labJob: this.T_ruleForm.labJob,
+                                instituteJob: this.T_ruleForm.instituteJob,
+                                parttimeJob: this.T_ruleForm.parttimeJob,
+                                birthday: this.T_ruleForm.birthday,
+                                email: this.T_ruleForm.email,
+                                mobliePhone: this.T_ruleForm.mobliePhone,
+                                officePhone: this.T_ruleForm.officePhone,
+                                comment: this.T_ruleForm.comment,
+                                imagePath: this.T_ruleForm.imagePath,
+                                userFlag: parseInt(this.T_ruleForm.userFlag)
+
+                            },
+                            success(res) {
+                                console.log(res);
+                                vue.$message({
+                                    message: '老师创建成功',
+                                    type: 'success'
+                                });
+                                window.parent.indexVue.activeIndex = "user_management.html";
+
+                            }
+
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            select_img_student() {
+                console.log("select_img_student");
+
+            },
+            select_img_teacher() {
+                console.log("select_img_teacher");
+
+            },
+            upload_img_student() {
+                console.log("upload_img_student");
+
+                var imgs = document.getElementById("img_form_student");
+                console.log(imgs);
+
+                var form = new FormData(document.getElementById("img_form_student"));
+                // console.log(form.val())
+
+                vue.img = form.getAll("data");
+                console.log(vue.img);
+                console.log(form.get("data").webkitRelativePath);
+                var imageUrl = this.imageUrl;
+                $.ajax({
+                    //几个参数需要注意一下
+                    cache: false,
+                    processData:false,
+                    contentType:false,
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/student/uploadImage" ,
+                    // url: "http://10.108.17.116:9091/upload",
+                    data: form,
+                    success: function (res) {
+                        console.log(res);
+                        vue.$message({
+                            message: '上传成功',
+                            type: 'success'
+                        });
+                        vue.S_ruleForm.imagePath= vue.img[0].name;
+                    },
+                    error : function() {
+                        vue.$message.error('提交失败');
+                    }
+                });
+
+            },
+            upload_img_teacher() {
+                console.log("upload_img_teacher");
+
+                var imgs = document.getElementById("img_form_teacher");
+                console.log(imgs);
+
+                var form = new FormData(document.getElementById("img_form_teacher"));
+                // console.log(form.val())
+
+                vue.img = form.getAll("data");
+                console.log(vue.img);
+                console.log(form.get("data").webkitRelativePath);
+                var imageUrl = this.imageUrl;
+                $.ajax({
+                    //几个参数需要注意一下
+                    cache: false,
+                    processData:false,
+                    contentType:false,
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/teacher/uploadImage" ,
+                    // url: "http://10.108.17.116:9091/upload",
+                    data: form,
+                    success: function (res) {
+                        console.log(res);
+                        vue.$message({
+                            message: '上传成功',
+                            type: 'success'
+                        });
+                        vue.T_ruleForm.imagePath= vue.img[0].name;
+                    },
+                    error : function() {
+                        vue.$message.error('提交失败');
+                    }
+                });
+
             }
         },
         mounted(){
-        }
+            $(document).ready(function(){
+                $('#select_btn_student').click(function(){
+                    $('#select_btn_student').click();
+
+                    $('#select_btn_student').on("change", function () {
+                        vue.imageUrl=[];
+                        // var s = document.getElementById("select_file");
+                        var files = $("#select_file_student")[0].files;
+                        console.log(files);
+                        var n = 0;
+                        for(file of files){
+                            vue.imageUrl.push(null);
+                            if(file.flag!==0){
+                                file.flag=0;
+                                if(window.FileReader){
+                                    var reader = new FileReader();
+                                    reader.n = n+0;
+                                    n++;
+                                    reader.readAsDataURL(file);
+                                    reader.onloadend = function (e) {
+                                        console.log(this.n);
+                                        console.log(vue.imageUrl);
+                                        vue.$set(vue.imageUrl,this.n,e.target.result);
+                                        // vue.imageUrl[this.n].src=e.target.result;
+                                        // vue.imageUrl = new Array(vue.imageUrl);
+                                        // vue.imageUrl.push(e.target.result);
+                                        console.log(vue.imageUrl);
+                                        vue.$message({
+                                            message: '提交成功: ' + file.name,
+                                            type: 'success'
+                                        });
+                                    }
+                                }else{
+                                    vue.$message.error('无法读取文件');
+                                }
+                            }
+                            console.log(file);
+                            // console.log(file.files);
+
+                        }
+                        setTimeout(function () {
+
+                        },0)
+                        // s.a=22;
+                        // console.log(s)
+                        // console.log(document.getElementById("select_file"))
+                        // console.log($('#select_file'))
+                        // console.log(vue.path2 = $('#select_file')[0].baseURI)
+                        // console.log(vue.path2)
+                        // console.log(vue.filepath)
+
+                    })
+                });
+
+            });
+            $(document).ready(function(){
+                $('#select_btn_teacher').click(function(){
+                    $('#select_btn_teacher').click();
+
+                    $('#select_btn_teacher').on("change", function () {
+                        vue.imageUrl=[];
+                        // var s = document.getElementById("select_file");
+                        var files = $("#select_file_teacher")[0].files;
+                        console.log(files);
+                        var n = 0;
+                        for(file of files){
+                            vue.imageUrl.push(null);
+                            if(file.flag!==0){
+                                file.flag=0;
+                                if(window.FileReader){
+                                    var reader = new FileReader();
+                                    reader.n = n+0;
+                                    n++;
+                                    reader.readAsDataURL(file);
+                                    reader.onloadend = function (e) {
+                                        console.log(this.n);
+                                        console.log(vue.imageUrl);
+                                        vue.$set(vue.imageUrl,this.n,e.target.result);
+                                        // vue.imageUrl[this.n].src=e.target.result;
+                                        // vue.imageUrl = new Array(vue.imageUrl);
+                                        // vue.imageUrl.push(e.target.result);
+                                        console.log(vue.imageUrl);
+                                        vue.$message({
+                                            message: '提交成功: ' + file.name,
+                                            type: 'success'
+                                        });
+                                    }
+                                }else{
+                                    vue.$message.error('无法读取文件');
+                                }
+                            }
+                            console.log(file);
+                            // console.log(file.files);
+
+                        }
+                        setTimeout(function () {
+
+                        },0)
+                        // s.a=22;
+                        // console.log(s)
+                        // console.log(document.getElementById("select_file"))
+                        // console.log($('#select_file'))
+                        // console.log(vue.path2 = $('#select_file')[0].baseURI)
+                        // console.log(vue.path2)
+                        // console.log(vue.filepath)
+
+                    })
+                });
+
+            });
+        },
+
 
     })
 </script>
