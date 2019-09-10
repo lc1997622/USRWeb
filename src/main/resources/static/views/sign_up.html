@@ -23,19 +23,24 @@
     </div>
     <div>
         <h3>一、批量用户注册</h3>
-        <el-upload
-                class="upload-demo"
-                action="../../excel/user"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :before-remove="beforeRemove"
-                multiple
-                :limit="3"
-                :on-exceed="handleExceed"
-                :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">请您上传excel/csv文件，且不超过10mb</div>
-        </el-upload>
+        <!--<el-upload-->
+                <!--class="upload-demo"-->
+                <!--action="../../excel/user"-->
+                <!--:on-preview="handlePreview"-->
+                <!--:on-remove="handleRemove"-->
+                <!--:before-remove="beforeRemove"-->
+                <!--multiple-->
+                <!--:limit="3"-->
+                <!--:on-exceed="handleExceed"-->
+                <!--:file-list="fileList">-->
+            <!--<el-button size="small" type="primary">点击上传</el-button>-->
+            <!--<div slot="tip" class="el-upload__tip">请您上传excel/csv文件，且不超过10mb</div>-->
+        <!--</el-upload>-->
+        <form id="img_form_excel" action="/student/importStudent" method="post" enctype="multipart/form-data">
+            <div id="select_btn_excel" class="btn btn-primary main-btn bg-main" @click="select_excel">选 择 文 件</div>
+            <input type="file"  id="select_file_excel" name="data" style="display: none" multiple>
+            <input id="submit_btn_excel" class="btn btn-primary main-btn bg-main" value="提 交" @click="upload_excel">
+        </form>
         <h3>二、单个用户注册</h3>
         <br>
         <el-radio v-model="user_type" label='1'>教师</el-radio>
@@ -144,7 +149,7 @@
                     <form id="img_form_teacher" action="/teacher/uploadImage" method="post" enctype="multipart/form-data">
                         <div id="select_btn_teacher" class="btn btn-primary main-btn bg-main" @click="select_img_teacher">选择图片</div>
                         <input type="file"  id="select_file_teacher" name="data" style="display: none" multiple>
-                        <a href="#"><input id="submit_btn_teacher" class="btn btn-primary " value="上传图片" @click="upload_img_teacher"></a>
+                        <input id="submit_btn_teacher" class="btn btn-primary " value="上传图片" @click="upload_img_teacher">
                     </form>
                     {{T_ruleForm.imagePath}}
 
@@ -230,7 +235,7 @@
                     <form id="img_form_student" action="/student/uploadImage" method="post" enctype="multipart/form-data">
                         <div id="select_btn_student" class="btn btn-primary main-btn bg-main" @click="select_img_student">选择图片</div>
                         <input type="file"  id="select_file_student" name="data" style="display: none" multiple>
-                        <a href="#"><input id="submit_btn_student" class="btn btn-primary " value="上传图片" @click="upload_img_student"></a>
+                        <input id="submit_btn_student" class="btn btn-primary " value="上传图片" @click="upload_img_student">
                     </form>
                     {{S_ruleForm.imagePath}}
 
@@ -266,7 +271,7 @@
             user_type: '1',
             fileList:[],
             dialogImageUrl: "",
-            dialogVisible:false,
+            dialogVisible: false,
             img: [],
             results: [],
             imageUrl:[],
@@ -653,6 +658,66 @@
             }
         },
         mounted(){
+            $(document).ready(function(){
+                $('#select_btn_excel').click(function(){
+                    console.log(1);
+
+                    $('#select_file_excel').click();
+                    console.log(1);
+
+                    $('#select_file_excel').on("change", function () {
+                        console.log(1);
+
+                        vue.imageUrl=[];
+                        // var s = document.getElementById("select_file");
+                        var files = $("#select_file_excel")[0].files;
+                        console.log(files);
+                        var n = 0;
+                        for(file of files){
+                            vue.imageUrl.push(null);
+                            if(file.flag!==0){
+                                file.flag=0;
+                                if(window.FileReader){
+                                    var reader = new FileReader();
+                                    reader.n = n+0;
+                                    n++;
+                                    reader.readAsDataURL(file);
+                                    reader.onloadend = function (e) {
+                                        console.log(this.n);
+                                        console.log(vue.imageUrl);
+                                        vue.$set(vue.imageUrl,this.n,e.target.result);
+                                        // vue.imageUrl[this.n].src=e.target.result;
+                                        // vue.imageUrl = new Array(vue.imageUrl);
+                                        // vue.imageUrl.push(e.target.result);
+                                        console.log(vue.imageUrl);
+                                        vue.$message({
+                                            message: '提交成功: ' + file.name,
+                                            type: 'success'
+                                        });
+                                    }
+                                }else{
+                                    vue.$message.error('无法读取文件');
+                                }
+                            }
+                            console.log(file);
+                            // console.log(file.files);
+
+                        }
+                        setTimeout(function () {
+
+                        },0)
+                        // s.a=22;
+                        // console.log(s)
+                        // console.log(document.getElementById("select_file"))
+                        // console.log($('#select_file'))
+                        // console.log(vue.path2 = $('#select_file')[0].baseURI)
+                        // console.log(vue.path2)
+                        // console.log(vue.filepath)
+
+                    })
+                });
+
+            });
             $(document).ready(function(){
                 $('#select_btn_student').click(function(){
                     console.log(1);
