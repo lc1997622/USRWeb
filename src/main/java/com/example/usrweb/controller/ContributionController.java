@@ -59,7 +59,7 @@ public class ContributionController extends AbstractController<ContributionServi
 	}
 
 	@ApiOperation(value = "根据id查询稿件信息(新闻动态、通知通告、学术活动)", notes = "作者：ZhuDengji")
-	@PostMapping("/getContributionById")
+	@GetMapping("/getContributionById")
     @DS("slave")
 	public Object getContributionById(@RequestParam @ApiParam(value = "稿件id") Long id){
 		Contribution contribution;

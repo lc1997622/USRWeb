@@ -11,10 +11,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.csvreader.CsvReader;
 import com.example.usrweb.dao.ImageDao;
-import com.example.usrweb.entity.Book;
-import com.example.usrweb.entity.Image;
-import com.example.usrweb.entity.Paper;
-import com.example.usrweb.entity.Student;
+import com.example.usrweb.dao.UserDao;
+import com.example.usrweb.entity.*;
 import com.example.usrweb.dao.StudentDao;
 import com.example.usrweb.service.StudentService;
 import com.github.flying.cattle.mdg.aid.PageParam;
@@ -23,9 +21,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,35 +50,64 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
     StudentDao studentDao;
     @Autowired
     ImageDao imageDao;
+    @Autowired
+    UserDao userDao;
 
     public Student getStudentById(Long id){
-
         Student student = studentDao.selectById(id);
-        Long imgId = student.getImageId();
-        String imgPath = imageDao.selectById(imgId).getPath();
-        student.setImagePath(imgPath);
+        Image image = imageDao.selectById(student.getImageId());
+        student.setImagePath(image.getPath());
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", student.getStudentId());
+        User user = userDao.selectOne(queryWrapper);
+        student.setPassword(user.getPassword());
+        student.setBorrowTimes(user.getBorrowTimes());
+        student.setCredit(user.getCredit());
 
         return student;
     }
 
     public Integer insertStudent(Student student){
+        String imagePath = student.getImagePath();
+        String parentPath = "../images/student";
+        String [] path = imagePath.split("/");
+        String path0 = parentPath + '/' + path[path.length-1];
         Image image = new Image();
-        image.setPath(student.getImagePath());
+        image.setPath(path0);
         imageDao.insert(image);
         Long imagId = image.getId();
         student.setImageId(imagId);
         studentDao.insert(student);
+
+        // user表
+        String studentId = student.getStudentId();
+        User user = new User();
+        user.setUserId(studentId);
+        user.setPassword(DigestUtils.md5DigestAsHex(studentId.getBytes()));
+        user.setUserFlag(1);
+        userDao.insert(user);
+
         return 1;
     }
 
     public Student updateStudent(Student student){
+        // 更新图片表
         Image image = imageDao.selectById(student.getImageId());
-        if (image.getPath() != student.getImagePath()){
+        if (!image.getPath().equals(student.getImagePath())){
             Image image1 = new Image();
             image1.setPath(student.getImagePath());
             imageDao.insert(image1);
             student.setImageId(image1.getId());
         }
+        // 更新用户表
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", student.getStudentId());
+        User user = userDao.selectOne(queryWrapper);
+        user.setPassword(student.getPassword());
+        user.setBorrowTimes(student.getBorrowTimes());
+        user.setCredit(student.getCredit());
+        userDao.updateById(user);
+
         studentDao.updateById(student);
         return student;
     }
@@ -106,6 +135,7 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         // 创建Workbook工作薄对象，表示整个excel
         Workbook workbook = null;
 
+        System.out.println("----------------------------------------------------------------------"+fileName);
         if (fileName.endsWith("xls")){
             workbook = new HSSFWorkbook(multipartFile.getInputStream());
         }else{
@@ -154,6 +184,13 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
                 student.setComment(cell6);
 
                 studentDao.insert(student);
+                // user表
+                String studentId = student.getStudentId();
+                User user = new User();
+                user.setUserId(studentId);
+                user.setPassword(DigestUtils.md5DigestAsHex(studentId.getBytes()));
+                user.setUserFlag(1);
+                userDao.insert(user);
             }
         }
         return "success";
@@ -168,5 +205,16 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         student.setImagePath(imgPath);
 
         return student;
+    }
+
+    public Integer deleteStudentById(Long id){
+        Student student = studentDao.selectById(id);
+        imageDao.deleteById(student.getImageId());
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", student.getStudentId());
+        User user = userDao.selectOne(queryWrapper);
+        userDao.deleteById(user);
+
+        return 1;
     }
 }

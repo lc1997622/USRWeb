@@ -83,4 +83,13 @@ public class Student extends AbstractEntity<Student> {
 	private Integer graduationFlag;
 	@ApiModelProperty(name = "firstCompany" , value = "初次就业单位")
 	private String firstCompany;
+	@ApiModelProperty(name = "password",value = "密码")
+	@TableField(exist = false)
+	private String password;
+	@ApiModelProperty(name = "borrowTimes",value = "借书次数")
+	@TableField(exist = false)
+	private Integer borrowTimes;
+	@ApiModelProperty(name = "credit",value = "密码")
+	@TableField(exist = false)
+	private Integer credit;
 }

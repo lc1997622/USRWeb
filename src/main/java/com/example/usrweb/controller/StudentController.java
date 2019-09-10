@@ -86,7 +86,7 @@ public class StudentController extends AbstractController<StudentService,Student
 	}
 
 	@ApiOperation(value = "分页查询学生带参数", notes = "作者：ZhuDengji")
-	@PostMapping("/selectPageWP")
+	@GetMapping("/selectPageWP")
 	@DS("slave")
 	public Object selectPageWP(Student student, @RequestParam(required = false) @ApiParam(value = "页数") Integer pageNum, @RequestParam(required = false) @ApiParam(value = "每页大小") Integer pageSize){
 		List<Student> studentList;
@@ -100,9 +100,9 @@ public class StudentController extends AbstractController<StudentService,Student
 	}
 
 	@ApiOperation(value = "导入学生信息", notes = "作者：ZhuDengji")
-	@GetMapping("/importStudent")
+	@PostMapping("/importStudent")
 	@DS("slave")
-	public Object importStudent(@RequestParam @ApiParam(value = "文件") MultipartFile multipartFile){
+	public Object importStudent(@RequestParam("data") @ApiParam(value = "文件") MultipartFile multipartFile){
 		String result = null;
 		String parentPath = "E:/学习/软件工程专业实训/project/USRWeb/src/main/resources/static/images/excel";
 		try {
@@ -144,4 +144,18 @@ public class StudentController extends AbstractController<StudentService,Student
 		}
 		return ResponseFormat.retParam(200, result);
 	}
+
+    @ApiOperation(value = "根据id删除学生信息", notes = "作者：ZhuDengji")
+    @PostMapping("/deleteStudentById")
+    @DS("slave")
+    public Object deleteStudentById(@RequestParam @ApiParam(value = "学生id") Long id){
+        Integer i;
+        try {
+            i = studentService.deleteStudentById(id);
+        }catch (Exception e){
+            System.out.println(e);
+            return ResponseFormat.retParam(1000, null);
+        }
+        return ResponseFormat.retParam(200, i);
+    }
 }

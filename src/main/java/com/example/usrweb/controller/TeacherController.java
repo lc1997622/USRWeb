@@ -112,4 +112,18 @@ public class TeacherController extends AbstractController<TeacherService,Teacher
 		}
 		return ResponseFormat.retParam(200, result);
 	}
+
+    @ApiOperation(value = "根据id删除老师信息", notes = "作者：ZhuDengji")
+    @PostMapping("/deleteTeacherById")
+    @DS("slave")
+    public Object deleteTeacherById(@RequestParam @ApiParam(value = "老师id") Long id){
+        Integer i;
+        try {
+            i = teacherService.deleteTeacherById(id);
+        }catch (Exception e){
+            System.out.println(e);
+            return ResponseFormat.retParam(1000, null);
+        }
+        return ResponseFormat.retParam(200, i);
+    }
 }
