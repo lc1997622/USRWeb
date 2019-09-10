@@ -78,13 +78,13 @@
         },
         methods: {
             handleEdit(index, row) {
-                console.log(index, row);
+                console.log(index, JSON.stringify(row));
                 if (row.userFlag == "学生") {
-                    window.parent.indexVue.userFlag =  row.id;
+                    window.parent.indexVue.userFlag =  row.userId;
                     window.parent.indexVue.activeIndex = "update_student.html";
                 }
                 else {
-                    window.parent.indexVue.userFlag =  row.id;
+                    window.parent.indexVue.userFlag =  row.userId;
                     window.parent.indexVue.activeIndex = "update_teacher.html";
                 }
 

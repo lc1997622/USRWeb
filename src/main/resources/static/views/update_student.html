@@ -242,6 +242,19 @@
                 this.$refs[formName].resetFields();
             },
             submitFormStudent(formName) {
+                $.ajax({
+                    url: "/student/deleteStudentById",
+                    type: "post",
+                    data: {
+                        id: window.parent.indexVue.userFlag
+                    },
+                    success(res) {
+                        console.log(res);
+                    },
+                    error(res) {
+                        console.log(res);
+                    }
+                });
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var date = new Date();
@@ -350,7 +363,7 @@
                 },
                 success(res) {
                     console.log(res.datas);
-                    vue.form = res.datas;
+                    vue.S_ruleForm = res.datas;
                 }
             });
             $(document).ready(function(){

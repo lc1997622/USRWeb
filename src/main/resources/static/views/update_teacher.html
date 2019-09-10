@@ -266,6 +266,19 @@
                 this.$refs[formName].resetFields();
             },
             submitFormTeacher(formName) {
+                $.ajax({
+                    url: "/teacher/deleteTeacherById",
+                    type: "post",
+                    data: {
+                        id: window.parent.indexVue.userFlag
+                    },
+                    success(res) {
+                        console.log(res);
+                    },
+                    error(res) {
+                        console.log(res);
+                    }
+                });
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var date = new Date();
@@ -367,14 +380,14 @@
         },
         mounted(){
             $.ajax({
-                url: "/student/getStudentById",
+                url: "/teacher/getTeacherById",
                 type: "get",
                 data: {
                     id: window.parent.indexVue.userFlag
                 },
                 success(res) {
                     console.log(res.datas);
-                    vue.form = res.datas;
+                    vue.T_ruleForm = res.datas;
                 }
             });
             $(document).ready(function(){
