@@ -152,34 +152,34 @@
             activitiesList: [],
             news: [
                 {
-                    content: "9月5日，北京理工大学召开“双一流”建设中期评估会。中国高等教育学会会长、教育部原党组副书记、副部长杜玉波研究员，大连理工大学校长郭东明院士，南京理工大学王泽山院士，哈尔滨工业大学杜善义院士，中央军委科学技术委员会卢锡城院士，南开大学葛墨林院士，东北大学柴天佑院士，国家自然科学基金委员会数学物理科学部主任江松院士，北京理工大学方岱宁院士，中国高等教育学会副秘书长郝清杰研究员，教育部重大课题《世界一流大学和一流学科建设评价体系与推进战略研究》首席专家王战军研究员等各领域知名专家组成专家组，对学校“双一流”整体建设情况进行评估。全体校领导，校长助理，各专业学院院长、相关职能部门负责人参加了会议。会议由校长张军院士主持。",
-                    id: 1,
-                    imagePathList:["../images/news/20190725071257596813.jpg", "../images/news/20190808074613928858.jpg", "../images/news/20190808074710375903.jpg"],
-                    time: "1985-01-12 12:00:00",
-                    title: "北京理工大学召开“双一流”建设中期评估会",
+                    content: "6月25日，北京理工大学2019年毕业典礼暨学位授予仪式在中关村校区东操场和体育馆举行。2019年毕业的3279名本科生、3227名硕士研究生和341名博士研究生参加了毕业典礼并接受学位授予。北京理工大学校长、中国工程院院士张军在毕业典礼上寄语毕业生。",
+                    id: 64,
+                    imagePathList: ["../images/news/20190808074855137062.jpg"],
+                    time: "1958-02-12 15:00:00",
+                    title: "【北理毕业季】校长张军院士：在奋斗时代中远航\n",
                     type: 0,
                     userId: "6120162000",
                     userName: "王二哈"
                 },
                 {
                     content: "学校党委书记赵长禄、校长张军、副校长王晓锋、副校长李和章、党委副书记包丽颖和校长助理汪本聪等校领导来到迎新现场，与前来报到的新生及家长热情交流，亲切慰问迎新志愿者和工作人员，并走访学生宿舍，了解新生情况。此外，校领导还带队还检查了睿信书院、明德书院办公空间和求是书院社区空间的建设情况。",
-                    id: 2,
-                    imagePathList: ["../images/news/20190808074855137062.jpg"],
-                    time: "1958-02-12 15:00:00",
-                    title: "北京理工大学喜迎2019级本科新生入校",
-                    type: 0,
-                    userId: "6120162000",
-                    userName: "王二哈"
-                },
-                {
-                    content: "今年4月，北京延庆举办了国际园林界级别最高的世界园艺博览会，来自数十个国家的元首和嘉宾共900多名代表应邀出席了北京世园会开幕式，当晚的开幕盛典，夜空燃放了绚丽的迎宾焰火，令人倍感震撼，这其中包含了学校烟火技术团队成员的努力。",
-                    id: 3,
-                    imagePathList: ["../images/news/20190821171443229077.jpg"],
-                    time: "2019-09-07 21:21:48",
-                    title: "北京世界园艺博览会向北理工颁发荣誉证书",
+                    id: 63,
+                    imagePathList: ["../images/news/20190903091656743670.jpg"],
+                    time: "2019-09-11 22:12:47",
+                    title: "北京理工大学喜迎2019级本科新生入校\n",
                     type: 0,
                     userId: "1120162001",
                     userName: "吕小布"
+                },
+                {
+                    content: "一图读懂 | 报考北京理工大学十大理由！选择北京理工，共筑强国梦想！ 一图读懂 | 报考北京理工大学十大理由！选择北京理工，共筑强国梦想！ 一图读懂 | 报考北京理工大学十大理由！选择北京理工，共筑强国梦想！",
+                    id: 61,
+                    imagePathList:["../images/news/20190808074710375903.jpg"],
+                    time: "1985-01-12 12:00:00",
+                    title: "一图读懂 | 报考北京理工大学十大理由",
+                    type: 0,
+                    userId: "6120162000",
+                    userName: "王二哈"
                 }
             ]
         },
@@ -204,41 +204,6 @@
         },
         mounted(){
             window.scrollTo(0, 0);
-            $.ajax({
-                url: "/contribution/getContributionById",
-                type: "get",
-                data: {
-                    id: 1
-                },
-                success(res){
-                    console.log(res.datas);
-                    homepageVue.news[0] = res.datas;
-                    $.ajax({
-                        url: "/contribution/getContributionById",
-                        type: "get",
-                        data: {
-                            id: 2
-                        },
-                        success(res){
-                            console.log(res.datas);
-                            homepageVue.news[1] = res.datas;
-                            $.ajax({
-                                url: "/contribution/getContributionById",
-                                type: "get",
-                                data: {
-                                    id: 3
-                                },
-                                success(res){
-                                    console.log(res.datas);
-                                    homepageVue.news[2] = res.datas;
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-
-
             $.ajax({
                 url: "/contribution/getContributionInfo",
                 type: "get",

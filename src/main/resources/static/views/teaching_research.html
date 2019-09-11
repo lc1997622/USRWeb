@@ -118,7 +118,7 @@
             console.log("about us mounted");
             $.ajax({
                 url: "/course/getPages",
-                type: "get",
+                type: "post",
                 success(res) {
                     console.log("教学工作");
                     console.log(res.data.records);
@@ -130,7 +130,7 @@
                             type: '',
                             studentType: '',
                             courseTime: '',
-                            teacher: ''
+                            comment: ''
                         };
                         tmpTeaching.courseId = tmp[i].courseId;
                         tmpTeaching.name = tmp[i].name;
@@ -160,14 +160,14 @@
                                 break;
                         }
                         tmpTeaching.courseTime = tmp[i].courseTime;
-                        tmpTeaching.teacher = "";
+                        tmpTeaching.comment = tmp[i].comment;
 
                         childVue.teaching[i] = tmpTeaching;
                     }
                     console.log(childVue.teaching);
                     $.ajax({
                         url: "/project/getPages",
-                        type: "get",
+                        type: "post",
                         success(res){
                             console.log("研究工作");
                             console.log(res.data.records);
@@ -182,16 +182,16 @@
                                 tmpResearch.name = tmp[i].name;
                                 switch (tmp[i].type) {
                                     case 0:
-                                        tmpResearch.type = "性质1";
+                                        tmpResearch.type = "校级";
                                         break;
                                     case 1:
-                                        tmpResearch.type = "性质2";
+                                        tmpResearch.type = "市级";
                                         break;
                                     case 2:
-                                        tmpResearch.type = "性质3";
+                                        tmpResearch.type = "省级";
                                         break;
                                     case 3:
-                                        tmpResearch.type = "性质4";
+                                        tmpResearch.type = "国家级";
                                         break;
                                     default:
                                         tmpResearch.type = "无记载";

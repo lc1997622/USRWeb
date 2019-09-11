@@ -20,10 +20,7 @@
     <el-table
             :data="research"
             style="width: 100%">
-        <el-table-column
-                prop="teacher"
-                label="老师">
-        </el-table-column>
+
         <el-table-column
                 prop="id"
                 label="项目编号">
@@ -35,6 +32,9 @@
         <el-table-column
                 prop="type"
                 label="项目性质">
+            <template slot-scope="scope">
+                <el-tag type="success">{{scope.row.type}}</el-tag>
+            </template>
         </el-table-column>
 
     </el-table>

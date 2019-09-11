@@ -47,7 +47,7 @@
                 label="上课时间">
         </el-table-column>
         <el-table-column
-                prop="teacher"
+                prop="comment"
                 label="主讲教师">
         </el-table-column>
     </el-table>
@@ -89,8 +89,17 @@
         },
         mounted () {
             window.parent.scrollTo(0, 0);
-            this.$set(this.$data, 'teaching', window.parent.childVue.teaching);
 
+            this.$set(this.$data, 'teaching', window.parent.childVue.teaching);
+            // $.ajax({
+            //     url: "/course/getPages",
+            //     type: "post",
+            //     success(res) {
+            //         console.log(res.data.records);
+            //         teachingVue.teaching = res.data.records;
+            //
+            //     }
+            // })
             // teachingVue.teaching = window.parent.childVue.teaching;
         }
 
