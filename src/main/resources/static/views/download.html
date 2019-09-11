@@ -15,7 +15,7 @@
 <body class="download">
     <div id="downloadVueId">
         <el-table ref="filterTable" :data="documents" stripe height="500">
-            <el-table-column prop="type" label="资料种类" column-key="type" :filters="[{text:'开题资料',value:'开题资料'},
+            <el-table-column prop="type" label="资料种类" align="center" column-key="type" :filters="[{text:'开题资料',value:'开题资料'},
             {text:'中期资料',value:'中期资料'},
             {text:'答辩资料',value:'答辩资料'},
             {text:'学位论文',value:'学位论文'},
@@ -23,13 +23,24 @@
             {text:'会议资料',value:'会议资料'},
             {text:'上级资料',value:'上级资料'},
             {text:'其他资料',value:'其他资料'}]" :filter-method="filterHandler">
-
+            </el-table-column>
+            <el-table-column label="文件名" align="center">
+                <template slot-scope="scope">
+                    {{getFileNameByFilePath(scope.$index,scope.row)}}
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" align="center">
+                <template slot-scope="scope">
+                    <el-button size="mini" icon="el-icon-download" @click="downloadFile(scope.$index,scope.row)">
+                        下载
+                    </el-button>
+                </template>
             </el-table-column>
         </el-table>
     </div>
 </body>
 <!--jquery-->
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <!--引入vue组件库-->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- 引入element-ui组件库 -->
@@ -44,6 +55,25 @@
             this.getDocuments();
         },
         methods: {
+            getFileNameByFilePath(index, row) {
+                var filePath = row.path;
+                filePath=filePath.replace(/\\/g,'/');
+                var arr = filePath.split("/");
+                return arr[arr.length - 1];
+            },
+            downloadFile(index, row) {
+                var elemIF = document.createElement('iframe');
+                var filePath =row.path;
+                //filePath=filePath.replace(/\\/g,'\\\\');
+                filePath=filePath.replace(/\\/g,'/');
+                //var filePath ='C:\\Users\\lenovo\\Desktop\\666666\\123.txt';
+                //var filePath='C:/Users/lenovo/Desktop/666666/123.txt'
+                console.log(filePath);
+                elemIF.src = '/document/download?filePath='+filePath;
+                //elemIF.src = '/document/download?filePath=C%3A%5C%5CUsers%5C%5Clenovo%5C%5CDesktop%5C%5C666666%5C%5C123.txt';
+                elemIF.style.display = 'none';
+                document.body.appendChild(elemIF);
+            },
             getDocuments() {
                 var that = this;
                 $.ajax({
@@ -78,7 +108,7 @@
                         }
                     },
                     error(res) {
-                        console.log("获取所有资料：",res);
+                        console.log("获取所有资料：", res);
                     }
                 })
             },

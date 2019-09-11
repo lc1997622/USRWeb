@@ -42,3 +42,17 @@
     margin-top:15px;
     margin-bottom:15px;
 }
+.user_help {
+    width:80%;
+    text-align:center;
+}
+.data_management .p_left{
+    margin-left:150px;
+    margin-top:5px;
+    float: left;
+}
+.data_management .p_right{
+    margin-right:150px;
+    margin-top:5px;
+    float:right;
+}

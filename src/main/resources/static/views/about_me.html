@@ -177,10 +177,10 @@
                 } else if (that.selfInformation.userFlag == 1) {
                     that.selfInformation.identity = '学生';
                     $.ajax({
-                        url: '/student/getStudentByXuehao',
+                        url: '/student/getStudentById',
                         type: 'get',
                         data: {
-                            studentID: that.selfInformation.userId
+                            id: that.selfInformation.userId
                         },
                         success(res) {
                             console.log("获取学生信息成功：", res);
@@ -198,10 +198,10 @@
                     if (that.selfInformation.userFlag == 3) that.selfInformation.identity = '办公室主任';
                     else if (that.selfInformation.userFlag == 4) that.selfInformation.identity = '资料管理员'
                     $.ajax({
-                        url: '/teacher/getStudentByXuehao',
+                        url: '/teacher/getTeacherById',
                         type: 'get',
                         data: {
-                            teacherID: that.selfInformation.userId
+                            id: that.selfInformation.userId
                         },
                         success(res) {
                             console.log("获取教师信息成功：", res);
