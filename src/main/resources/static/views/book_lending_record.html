@@ -352,7 +352,7 @@
         }
     });
     window.onload = function () {
-        bookLendingRecordVue.userId = window.parent.parent.indexVue.form.username;
+        bookLendingRecordVue.userId = window.parent.parent.indexVue.user.userId;
         window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
     };
 </script>

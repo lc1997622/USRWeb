@@ -20,25 +20,25 @@
 				<el-row class="tac">
 					<el-col>
 						<el-menu class="el-menu-vertical-demo" default-active="activeIndex" @select="handleSelect">
-							<el-menu-item index="user_management.html">用户管理</el-menu-item>
-							<el-menu-item index="news_management.html">新闻列表</el-menu-item>
+							<el-menu-item index="user_management.html" v-if="user.userFlag==0" key="1">用户管理</el-menu-item>
+							<el-menu-item index="news_management.html" v-if="user.userFlag==0" key="2">新闻管理</el-menu-item>
 								<!--el-menu-item-- index="">新闻推送</!--el-menu-item-->
 								<!--el-menu-item-- index="">动态推送</!--el-menu-item-->
 
-							<el-submenu index="图书管理">
+							<el-submenu index="资料管理" v-if="user.userFlag==0||user.userFlag==4" key="3">
 								<template slot="title">资料管理</template>
 								<el-menu-item index="data_management.html">成果列表</el-menu-item>
 								<el-menu-item index="document_management.html">资料列表</el-menu-item>
 
 							</el-submenu>
 								<!--el-menu-item-- index=""></!--el-menu-item-->
-							<el-submenu index="图书管理">
+							<el-submenu index="图书管理" v-if="user.userFlag==0||user.userFlag==4" key="4">
 								<template slot="title">图书管理</template>
 								<el-menu-item index="book_management.html">图书列表</el-menu-item>
 								<el-menu-item index="book_lending_record.html">借阅记录</el-menu-item>
 							</el-submenu>
-							<el-menu-item index="check_in_out.html">签到/签出</el-menu-item>
-							<el-menu-item index="book_lending.html">图书借阅</el-menu-item>
+							<el-menu-item index="check_in_out.html" v-if="user.userFlag==0||user.userFlag==3" key="5">签到/签出</el-menu-item>
+							<el-menu-item index="book_lending.html" >图书借阅</el-menu-item>
 							<el-menu-item index="download.html">下载专区</el-menu-item>
 							<el-menu-item index="user_help.html">用户帮助</el-menu-item>
 							<el-menu-item index="about_me.html">我</el-menu-item>
@@ -79,7 +79,8 @@
 			bookArray: [],
 			userFLag: -1,
 			messageFlag: -1,
-			dataFlag: -1
+			dataFlag: -1,
+			user: {}
 		},
 		methods: {
 			handleSelect(key, keyPath) {
@@ -96,6 +97,12 @@
 				//document.getElementById("child-frame").contentWindow.childactiveIndex = key.slice(6);
 				//indexVue.activeIndex = key;
 			}
+		},
+		mounted() {
+		    console.log(window.parent.indexVue.user);
+            this.user = window.parent.indexVue.user;
+            console.log(this.user);
+
 		}
 	})
 </script>

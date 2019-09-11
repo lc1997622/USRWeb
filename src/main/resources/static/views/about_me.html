@@ -27,8 +27,7 @@
             <p class="p_right" v-else>女</p>
         </div>
         <div class="row">
-            <p class="p_left" v-if="selfInformation.userFlag == 1">学 号：</p>
-            <p class="p_left" v-if="selfInformation.userFlag > 1">职工号：</p>
+            <p class="p_left">编 号：</p>
             <p class="p_right">{{selfInformation.userId}}</p>
         </div>
         <div class="row">
@@ -157,8 +156,10 @@
                 });
             },
             getSelfInformation() {
+
                 var that = this;
-                that.selfInformation.userId = window.parent.parent.indexVue.form.username;
+                that.selfInformation.userId = window.parent.parent.indexVue.user.userId;
+                console.log("账号：",that.selfInformation.userId)
                 $.ajax({
                     url: '/user/getPages',
                     type: 'post',
@@ -172,9 +173,7 @@
                         that.selfInformation.userFlag = res.data.records[0].userFlag;
                     }
                 });
-                if (that.selfInformation.userFlag == 0) {
-                    that.selfInformation.identity = '管理员';
-                } else if (that.selfInformation.userFlag == 1) {
+                if (that.selfInformation.userFlag == 1) {
                     that.selfInformation.identity = '学生';
                     $.ajax({
                         url: '/student/getStudentById',
@@ -193,10 +192,11 @@
                             console.log("获取学生信息失败：", res);
                         }
                     })
-                } else if (that.selfInformation.userFlag >= 2) {
-                    that.selfInformation.identity = '老师';
+                } else {
                     if (that.selfInformation.userFlag == 3) that.selfInformation.identity = '办公室主任';
                     else if (that.selfInformation.userFlag == 4) that.selfInformation.identity = '资料管理员'
+                    else if (that.selfInformation.userFlag == 2) that.selfInformation.identity = '老师'
+                    else if (that.selfInformation.userFlag == 0) that.selfInformation.identity = '管理员'
                     $.ajax({
                         url: '/teacher/getTeacherById',
                         type: 'get',
