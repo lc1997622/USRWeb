@@ -36,8 +36,8 @@
                             <!--<title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/>-->
                         <!--</svg>-->
                     <!--</a>-->
-                    <el-button type="success" round @click="signInButton" v-if="!isSignIn">登录</el-button>
-                    <el-button type="success" round @click="signOutButton" v-if="isSignIn">登出</el-button>
+                    <el-button type="success" round @click="signInButton" v-if="!isSignIn" style="background-color: rgb(1,107,64)">登录</el-button>
+                    <el-button type="success" round @click="signOutButton" v-if="isSignIn" style="background-color: rgb(1,107,64)">登出</el-button>
 
                     <el-dialog title="登 录" :visible.sync="dialogFormVisible" width="30%"
                                center :destroy-on-close=true :close-on-click-modal=false @close="cancelSignIn" @closed="cancelSignIn">
@@ -49,7 +49,6 @@
                                 <el-input v-model="form.password" autocomplete="off" show-password></el-input>
                             </el-form-item>
                         </el-form>
-                        <p style="text-align: center">用户名：admin 密码：admin</p>
                         <div slot="footer" class="dialog-footer">
                             <el-button @click="cancelSignIn">取 消</el-button>
                             <el-button type="primary" @click="signIn">确 定</el-button>
@@ -73,7 +72,7 @@
             <!--</nav>-->
         <!--</div>-->
         <div id="nav">
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu :default-active="activeIndex" class="menu" mode="horizontal" @select="handleSelect">
                 <el-menu-item index="views/homepage.html">首页</el-menu-item>
                 <el-submenu index="views/about_us.html">
                     <template slot="title" >关于我们</template>
@@ -123,36 +122,33 @@
         </iframe>
 
 
+    </div>
+    <footer class="blog-footer" style="background-color: rgb(6,102,64);color: white">
+        <div class="container-fluid">
+            <div class="row">
+                <!--<div class="col-6">-->
+                <!--<p>友情链接:</p>-->
+                <!--<p>-->
+                <!--<a href="http://www.bit.edu.cn/m/index.htm" class="col-3">北京理工大学</a>-->
+                <!--<a href="http://cs.bit.edu.cn/" class="col-3">计算机学院</a>-->
+                <!--<a href="http://ss.bit.edu.cn/" class="col-3">软件学院</a>-->
+                <!--<a href="http://grd.bit.edu.cn/" class="col-3">研究生院</a>-->
+                <!--</p>-->
+                <!--</div>-->
+                <div class="col-12" >
+                    <p >All rights Reserved | 2019 &copy; 高校科研实验室</p>
+                    <p>京ICP备XXXXXXXX号　京公网安备XXXXXXXXXXXX号</p>
+                    <p style="color: white">
+                        <a href="#" style="color: white!important;">返回顶部</a>
+                    </p>
 
-
-        <footer class="blog-footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <!--<div class="col-6">-->
-                        <!--<p>友情链接:</p>-->
-                        <!--<p>-->
-                            <!--<a href="http://www.bit.edu.cn/m/index.htm" class="col-3">北京理工大学</a>-->
-                            <!--<a href="http://cs.bit.edu.cn/" class="col-3">计算机学院</a>-->
-                            <!--<a href="http://ss.bit.edu.cn/" class="col-3">软件学院</a>-->
-                            <!--<a href="http://grd.bit.edu.cn/" class="col-3">研究生院</a>-->
-                        <!--</p>-->
-                    <!--</div>-->
-                    <div class="col-12" >
-                        <p >All rights Reserved | 2019 &copy; 高校科研实验室</p>
-                        <p>京ICP备XXXXXXXX号　京公网安备XXXXXXXXXXXX号</p>
-                        <p>
-                            <a href="#">返回顶部</a>
-                        </p>
-
-                    </div>
                 </div>
-
-
             </div>
 
-        </footer>
 
-    </div>
+        </div>
+
+    </footer>
 </div>
 </body>
 <script src="js/md5.js"></script>
