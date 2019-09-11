@@ -85,7 +85,7 @@
         },
         methods: {
             handleEdit(index, row) {
-                console.log(index, JSON.stringify(row));
+                console.log(JSON.stringify(row));
                 window.parent.indexVue.dataFlag =  row.id;
                 window.parent.indexVue.activeIndex = "update_data.html";
 

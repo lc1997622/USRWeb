@@ -41,10 +41,10 @@ public class AbstractController<S extends IService<T>,T>{
 	 * @author  LiChao
 	 * @time    2019年4月9日
 	 */
-	@GetMapping("/getById/{id}")
+	@GetMapping("/getById")
 	@ApiOperation(value = "获取对象", notes = "作者：LiChao")
 	@ApiImplicitParam(paramType="path", name = "id", value = "对象id", required = true, dataType = "Long")
-	public JsonResult<T> getUserById(@PathVariable("id")Long id){
+	public JsonResult<T> getUserById(Long id){
 		T obj=baseService.getById(id);
 		if (null!=obj ) {
 			 result.success(obj);

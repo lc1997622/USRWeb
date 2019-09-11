@@ -62,11 +62,11 @@
         data: {
             form: [
                 {
-                    id:'',
+                    id:"",
                     year:'',
                     name:'',
                     type:'',
-                    achievementFlag: ''
+                    achievementFlag:""
                 }
             ]
         },
@@ -119,6 +119,8 @@
         mounted() {
             window.parent.parent.scrollTo(0, 0);
             console.log(window.parent.indexVue.dataFlag);
+            console.log(typeof(window.parent.indexVue.dataFlag));
+
             $.ajax({
                 url: "/achievement/getById",
                 type: "get",
