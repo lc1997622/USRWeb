@@ -15,40 +15,59 @@
 <body class="about_me">
     <div id="aboutMeVueId" class="info">
         <div class="block" align="center">
-            <el-avatar :size="150" :src="circleUrl"></el-avatar>
+            <el-avatar :size="150" :src="selfInformation.imagePath"></el-avatar>
         </div>
         <div class="row">
-            <p class="p_left">姓  名：</p>
+            <p class="p_left">姓 名：</p>
             <p class="p_right">{{selfInformation.name}}</p>
         </div>
         <div class="row">
-            <p class="p_left" v-if="selfInformation.identity==='学生'">学  号：</p>
-            <p class="p_left" v-if="selfInformation.identity==='教师'">职工号：</p>
-            <p class="p_right">{{selfInformation.id}}</p>
+            <p class="p_left">性 别：</p>
+            <p class="p_right" v-if="selfInformation.sex==1">男</p>
+            <p class="p_right" v-else>女</p>
         </div>
         <div class="row">
-            <p class="p_left">身  份：</p>
+            <p class="p_left" v-if="selfInformation.userFlag == 1">学 号：</p>
+            <p class="p_left" v-if="selfInformation.userFlag > 1">职工号：</p>
+            <p class="p_right">{{selfInformation.userId}}</p>
+        </div>
+        <div class="row">
+            <p class="p_left">身 份：</p>
             <p class="p_right">{{selfInformation.identity}}</p>
         </div>
-        <div v-if="selfInformation.bookLendingRecord.length===0" class="row">
+        <div class="row">
+            <p class="p_left">违约次数：</p>
+            <p class="p_right">{{selfInformation.credit}}次</p>
+        </div>
+        <div class="row" v-if="selfInformation.bookLendingRecord.length==0" key="1">
             <p class="p_left">借阅记录：</p>
             <p class="p_right">无</p>
         </div>
-        <div v-else class="row">
+        <div class="row" v-else key="2">
             <p class="p_left">借阅记录:</p>
-            <el-button  type="text" @click="bookLendingRecordDialogVisible=true">详情</el-button>
-            <el-dialog  :modal="false" width="80%" align="center" title="借阅记录" :visible.sync="bookLendingRecordDialogVisible" >
+            <el-button class="p_right" type="text" @click="bookLendingRecordDialogVisible=true">详情</el-button>
+            <el-dialog :modal="false" width="80%" align="center" title="借阅记录"
+                :visible.sync="bookLendingRecordDialogVisible">
                 <template>
                     <el-table :data="selfInformation.bookLendingRecord">
-                        <el-table-column property="bookName" label="书名"></el-table-column>
-                        <el-table-column v-if="selfInformation.bookLendingRecord.status==='借阅中'" property="lendingTime" label="申请/借阅时间"></el-table-column>
-                        <el-table-column v-else property="applyTime" label="申请/借阅时间"></el-table-column>
-                        <el-table-column property="status" label="状态"></el-table-column>
-                        <el-table-column property="restTime" label="剩余时间/天"></el-table-column>
-                        <el-table-column label="操作">
+                        <el-table-column prop="startTime" align="center" label="申请/借阅时间"></el-table-column>
+                        <el-table-column label="书名" align="center">
                             <template slot-scope="scope">
-                                <el-button size="mini" v-if="scope.row.status==='借阅中'" @click="handleReturn(scope.row.id)">还书</el-button>
-                                <el-button size="mini" v-if="scope.row.status==='申请中'" @click="handleCancelLending(scope.row.id)">取消申请</el-button>
+                                {{getBookNameByBookId(scope.$index,scope.row)}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="状态">
+                            <template slot-scope="scope">
+                                <p align="center" v-if="scope.row.flag==2">申请中</p>
+                                <p align="center" v-else-if="scope.row.flag==0">借阅中</p>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作" align="center">
+                            <template slot-scope="scope">
+                                <el-button size="mini" v-if="scope.row.flag==0"
+                                    @click="handleReturn(scope.$index,scope.row)">还书</el-button>
+                                <el-button size="mini" v-else-if="scope.row.flag==2"
+                                    @click="handleCancelLending(scope.$index,scope.row)">取消申请</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -57,44 +76,213 @@
         </div>
     </div>
 </body>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <!--引入vue组件库-->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- 引入element-ui组件库 -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-<!--jquery-->
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script>
     var aboutMeVue = new Vue({
         el: '#aboutMeVueId',
         data: {
             length: 10,
-            bookLendingRecordDialogVisible:false,
+            bookLendingRecordDialogVisible: false,
             selfInformation: {
-                name: '张三',//姓名
-                id: '1120190001',//学号、工号
-                identity:'学生',//学生、教师、图书管理员、资料管理员、系统管理员
-                bookLendingRecord:[
-                    {
-                        id:0,
-                        bookName:'书一',
-                        lendingTime:'2019-08-08',//成功借阅时间
-                        applyTime:'2019-06-06',//申请时间
-                        status:'申请中',//借阅中，申请中
-                        restTime:10
-                    }
-                ]
+                name: '管理员', //姓名
+                userId: '1120190001', //学号、工号
+                userFlag: 0, //0：管理员，1：学生，2：老师，3：办公室主任，4：资料管理员
+                credit: 0, //违规次数
+                identity: '管理员', //学生、教师、图书管理员、资料管理员、系统管理员
+                sex: 1, //1男0女
+                imageId: '',
+                imagePath: '',
+                bookLendingRecord: []
             }
         },
         methods: {
-            handleCancelLending(id){//取消借阅申请
-                alert("取消借阅申请");
+            getBookNameByBookId(index, row) {
+                var that = this;
+                var bookName = '';
+                $.ajax({
+                    url: '/book/getPages',
+                    type: 'post',
+                    data: {
+                        bookId: row.bookId
+                    },
+                    async: false,
+                    success(res) {
+                        bookName = res.data.records[0].name;
+                    },
+                    error(res) {
+                        console.log(res);
+                    }
+                });
+                return bookName;
             },
-            handleReturn(id){//还书
-                alert("还书");
+            getSelfBookLendingRecord() {
+                var that = this;
+                $.ajax({
+                    url: '/borrow/getPages',
+                    type: 'post',
+                    data: {
+                        userId: that.selfInformation.userId,
+                        flag: 2
+                    },
+                    async: false,
+                    success(res) {
+                        console.log("获取自身借阅申请记录成功：", res);
+                        that.selfInformation.bookLendingRecord = res.data.records;
+                    },
+                    error(res) {
+                        console.log("获取自身借阅申请记录失败：", res);
+                    }
+                });
+                $.ajax({
+                    url: '/borrow/getPages',
+                    type: 'post',
+                    data: {
+                        userId: that.selfInformation.userId,
+                        flag: 0
+                    },
+                    async: false,
+                    success(res) {
+                        console.log("获取自身当前借阅记录成功：", res);
+                        that.selfInformation.bookLendingRecord = that.selfInformation.bookLendingRecord
+                            .concat(res.data.records);
+                    },
+                    error(res) {
+                        console.log("获取自身当前借阅记录失败：", res);
+                    }
+                });
+            },
+            getSelfInformation() {
+                var that = this;
+                that.selfInformation.userId = window.parent.parent.indexVue.form.username;
+                $.ajax({
+                    url: '/user/getPages',
+                    type: 'post',
+                    data: {
+                        userId: that.selfInformation.userId,
+                    },
+                    async: false,
+                    success(res) {
+                        console.log("查看用户信息：", res);
+                        that.selfInformation.credit = res.data.records[0].credit;
+                        that.selfInformation.userFlag = res.data.records[0].userFlag;
+                    }
+                });
+                if (that.selfInformation.userFlag == 0) {
+                    that.selfInformation.identity = '管理员';
+                } else if (that.selfInformation.userFlag == 1) {
+                    that.selfInformation.identity = '学生';
+                    $.ajax({
+                        url: '/student/getStudentByXuehao',
+                        type: 'get',
+                        data: {
+                            studentID: that.selfInformation.userId
+                        },
+                        success(res) {
+                            console.log("获取学生信息成功：", res);
+                            that.selfInformation.name = res.datas.chineseName;
+                            that.selfInformation.sex = res.datas.sex;
+                            that.selfInformation.imageId = res.datas.imageId;
+                            that.selfInformation.imagePath = res.datas.imagePath;
+                        },
+                        error(err) {
+                            console.log("获取学生信息失败：", res);
+                        }
+                    })
+                } else if (that.selfInformation.userFlag >= 2) {
+                    that.selfInformation.identity = '老师';
+                    if (that.selfInformation.userFlag == 3) that.selfInformation.identity = '办公室主任';
+                    else if (that.selfInformation.userFlag == 4) that.selfInformation.identity = '资料管理员'
+                    $.ajax({
+                        url: '/teacher/getStudentByXuehao',
+                        type: 'get',
+                        data: {
+                            teacherID: that.selfInformation.userId
+                        },
+                        success(res) {
+                            console.log("获取教师信息成功：", res);
+                            that.selfInformation.name = res.datas.chineseName;
+                            that.selfInformation.sex = res.datas.sex;
+                            that.selfInformation.imageId = res.datas.imageId;
+                            that.selfInformation.imagePath = res.datas.imagePath;
+                        },
+                        error(err) {
+                            console.log("获取教师信息失败：", res);
+                        }
+                    })
+                }
+                // else if(that.selfInformation.userFlag==3){
+                //     that.selfInformation.identity='办公室主任';
+                // }
+                // else if(that.selfInformation.userFlag==4){
+                //     that.selfInformation.identity='资料管理员'
+                // }
+                that.getSelfBookLendingRecord();
+            },
+            handleCancelLending(index, row) { //取消借阅申请
+                if (confirm("是否取消该申请？")) {
+                    var that = this;
+                    $.ajax({
+                        url: '/borrow/deleteById',
+                        type: 'POST',
+                        data: {
+                            id: row.id
+                        },
+                        success(res) {
+                            that.getSelfBookLendingRecord();
+                            that.$message({
+                                message: '取消成功！',
+                                type: 'success'
+                            });
+                        },
+                        error(res) {
+                            that.$message({
+                                message: '取消失败！',
+                                type: 'error'
+                            });
+                        }
+                    })
+                } else {
+                    //什么也不干
+                }
+            },
+            handleReturn(index, row) { //还书
+                var that = this;
+                var currentDate = new Date();
+                var currentTime = currentDate.getFullYear() + '-' +
+                    (currentDate.getMonth() + 1) + '-' + currentDate.getDate() + ' ' +
+                    currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds();
+                $.ajax({
+                    url: '/borrow/update',
+                    type: 'POST',
+                    data: {
+                        id: row.id,
+                        endTime: currentTime,
+                        flag: 1
+                    },
+                    success(res) {
+                        that.getSelfBookLendingRecord();
+                        that.$message({
+                            message: '还书成功！',
+                            type: 'success'
+                        });
+                    },
+                    error(res) {
+                        that.$message({
+                            message: '还书失败！',
+                            type: 'error'
+                        });
+                    }
+                })
             }
         }
     });
     window.onload = function () {
+        aboutMeVue.getSelfInformation();
         window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
     };
 </script>

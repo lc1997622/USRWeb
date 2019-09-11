@@ -19,6 +19,7 @@
                         <el-popover trigger="hover" placement="top" @show="getBookGenreItem(scope.$index,scope.row)">
                             <div>
                                 <p>书名：{{scope.row.name}}</p>
+                                <p>图书编号：{{scope.row.bookId}}</p>
                                 <p>作者：{{scope.row.author}}</p>
                                 <p>图书类型：{{hoverShowBookCurrentGenreItem}}</p>
                                 <p>存放地点：{{scope.row.location}}</p>
@@ -44,7 +45,8 @@
             </el-table-column>
         </el-table>
         <div style="text-align: center;margin-top:30px;">
-            <el-pagination background layout="prev,pager,next" :page-size="pageSize" :total="getTotal()" @current-change="currentChange">
+            <el-pagination background layout="prev,pager,next" :page-size="pageSize" :total="getTotal()"
+                @current-change="currentChange">
             </el-pagination>
         </div>
     </div>
@@ -59,30 +61,31 @@
     var bookLendingVue = new Vue({
         el: '#bookLendingVueId',
         data: {
+            userId: '',
             bookArray: [],
             currentPage: 1,
             pageSize: 8,
             search: '',
-            hoverShowBookCurrentGenreItem:'',
+            hoverShowBookCurrentGenreItem: '',
             currentBookData: [] //使用搜索框匹配的图书数据
         },
         created() {
             this.getBookArray();
         },
         methods: {
-            getBookGenreItem(index, row){
+            getBookGenreItem(index, row) {
                 var that = this;
                 $.ajax({
-                    url:'/dictionaryItem/getPages',
+                    url: '/dictionaryItem/getPages',
                     type: 'post',
                     data: {
-                        dicValue:2,
-                        itemValue:row.genreItem
+                        dicValue: 2,
+                        itemValue: row.genreItem
                     },
                     success(res) {
-                        that.hoverShowBookCurrentGenreItem=res.data.records[0].itemName;
+                        that.hoverShowBookCurrentGenreItem = res.data.records[0].itemName;
                     },
-                    error(res){
+                    error(res) {
                         console.log(res);
                     }
                 })
@@ -95,11 +98,12 @@
                 $.ajax({
                     url: '/book/getPages',
                     type: 'post',
-                    data:{
-                        pageSize:100
+                    data: {
+                        pageSize: 100
                     },
                     async: false, //此处同步主要是为了给for循环留出时间，避免在调用onload时，计算页面高度出现问题
                     success(res) {
+                        console.log(res.data.records);
                         that.bookArray = res.data.records;
                         // for (var i = 0; i < that.bookArray.length; i++) {
                         //     that.bookArray[i].publicationYear = that.bookArray[i].publicationYear.split(
@@ -122,10 +126,85 @@
                 this.currentPage = currentPage;
             },
             handleLending(index, row) {
-                this.$message({
-                    message: '申请成功！',
-                    type: 'success'
+                var that = this;
+                var lending = false; //是否已经申请/借阅
+                $.ajax({
+                    url: '/borrow/getPages',
+                    type: 'POST',
+                    data: {
+                        userId: that.userId,
+                        bookId: row.bookId,
+                        flag: 2
+                    },
+                    async: false,
+                    success(res) {
+                        if (res.data.records.length != 0) {
+                            lending = true;
+                        }
+                    },
+                    error(res) {
+                        console.log(res);
+                    }
                 });
+                if (lending == true) {
+                    that.$message({
+                        message: '您已提交过借阅申请，请勿重复提交！',
+                        type: 'error'
+                    });
+                    return;
+                } else {
+                    $.ajax({
+                        url: '/borrow/getPages',
+                        type: 'POST',
+                        data: {
+                            userId: that.userId,
+                            bookId: row.bookId,
+                            flag: 0
+                        },
+                        async: false,
+                        success(res) {
+                            if (res.data.records.length != 0) {
+                                lending = true;
+                            }
+                        },
+                        error(res) {
+                            console.log(res);
+                        }
+                    });
+                    if (lending == true) {
+                        that.$message({
+                            message: '您已借阅此书，请勿重复借阅！',
+                            type: 'error'
+                        });
+                        return;
+                    }
+                }
+                var currentDate = new Date();
+                var currentTime = currentDate.getFullYear() + '-' +
+                    (currentDate.getMonth() + 1) + '-' + currentDate.getDate() + ' ' +
+                    currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds();
+                $.ajax({
+                    url: '/borrow/insert',
+                    type: 'POST',
+                    data: {
+                        userId: that.userId,
+                        bookId: row.bookId,
+                        startTime: currentTime,
+                        flag: '2'
+                    },
+                    success(res) {
+                        that.$message({
+                            message: '申请成功！',
+                            type: 'success'
+                        });
+                    },
+                    error(res) {
+                        that.$message({
+                            message: '申请失败！',
+                            type: 'error'
+                        });
+                    }
+                })
             }
         }
     });
@@ -133,6 +212,7 @@
         //bookLendingVue.getBookArray();
     });
     window.onload = function () {
+        bookLendingVue.userId = window.parent.parent.indexVue.form.username;
         window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
     };
     window.onpageshow = function () {

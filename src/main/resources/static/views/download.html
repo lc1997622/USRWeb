@@ -1,12 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <!-- 引入element-ui样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!--引入CSS样式-->
+    <link rel="stylesheet" href="../css/internal_system.css">
+    <title>下载专区</title>
 </head>
-<body>
-    <h5>下载专区</h5>
+
+<body class="download">
+    <div id="downloadVueId">
+        <el-table ref="filterTable" :data="documents" stripe height="500">
+            <el-table-column prop="type" label="资料种类" column-key="type" :filters="[{text:'开题资料',value:'开题资料'},
+            {text:'中期资料',value:'中期资料'},
+            {text:'答辩资料',value:'答辩资料'},
+            {text:'学位论文',value:'学位论文'},
+            {text:'专利资料',value:'专利资料'},
+            {text:'会议资料',value:'会议资料'},
+            {text:'上级资料',value:'上级资料'},
+            {text:'其他资料',value:'其他资料'}]" :filter-method="filterHandler">
+
+            </el-table-column>
+        </el-table>
+    </div>
 </body>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<!--引入vue组件库-->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- 引入element-ui组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    var downloadVue = new Vue({
+        el: '#downloadVueId',
+        data: {
+            documents: [],
+        },
+        created() {
+            this.getDocuments();
+        },
+        methods: {
+            getDocuments() {
+                var that = this;
+                $.ajax({
+                    url: '/document/getPages',
+                    type: 'POST',
+                    data: {
+                        pageSize: 1000,
+                    },
+                    success(res) {
+                        console.log("成功获取所有资料：", res);
+                        that.documents = res.data.records;
+                        for (var i = 0; i < that.documents.length; i++) {
+                            if (that.documents[i].type == 0) {
+                                that.documents[i].type = "其他资料";
+                            } else if (that.documents[i].type == 1) {
+                                that.documents[i].type = "开题资料";
+                            } else if (that.documents[i].type == 2) {
+                                that.documents[i].type = "中期资料";
+                            } else if (that.documents[i].type == 3) {
+                                that.documents[i].type = "答辩资料";
+                            } else if (that.documents[i].type == 4) {
+                                that.documents[i].type = "学位论文";
+                            } else if (that.documents[i].type == 5) {
+                                that.documents[i].type = "专利资料";
+                            } else if (that.documents[i].type == 6) {
+                                that.documents[i].type = "会议资料";
+                            } else if (that.documents[i].type == 7) {
+                                that.documents[i].type = "上级资料";
+                            } else if (that.documents[i].type == 8) {
+                                that.documents[i].type = "稿件内文件";
+                            }
+                        }
+                    },
+                    error(res) {
+                        console.log("获取所有资料：",res);
+                    }
+                })
+            },
+            filterHandler(value, row, column) {
+                const property = column['property'];
+                return row[property] === value;
+            },
+        }
+    });
+    window.onload = function () {
+        window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
+    };
+</script>
+
 </html>

@@ -1,14 +1,17 @@
-.check_in_out .table {
-    width: 80%;
-    height: 100%;
-    text-align: center;
-    margin: 10px auto;
-}
-
 .check_in_out .list_a {
     color: black;
 }
-
+.check_in_out  .p_left{
+    margin-left:150px;
+    margin-top:10px;
+    float: left;
+}
+.check_in_out .p_right{
+    margin-right:150px;
+    margin-top:0px;
+    width:200px;
+    float:right;
+}
 .about_me .info {
     margin:auto;
     width:50%;
@@ -34,4 +37,8 @@
     margin-right:150px;
     margin-top:5px;
     float:right;
+}
+.book_lending_record .radio{
+    margin-top:15px;
+    margin-bottom:15px;
 }

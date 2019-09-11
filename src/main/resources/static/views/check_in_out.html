@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -15,31 +15,60 @@
 </head>
 
 <body class="check_in_out">
-    <div id="app">
+    <div id="checkInOutVueId">
         <el-collapse v-model="activeNames" @change="handleChange">
-            <el-collapse-item title="签到/签出记录" name="self">
+            <el-collapse-item title="签到/签出记录表" name="self">
                 <div>
                     <template>
-                        <el-table class="table" :data="selfCheckInOutData" stripe border height="500">
+                        <el-table :data="selfCheckInOutData" stripe border height="500">
                             <el-table-column label="签到/签出记录表" align="center">
-                                <el-table-column prop="date" label="日期" align="center"></el-table-column>
-                                <el-table-column prop="checkIn" label="签到" align="center"></el-table-column>
-                                <el-table-column prop="checkOut" label="签出" align="center"></el-table-column>
-                                <el-table-column prop="status" label="状态" align="center"></el-table-column>
+                                <el-table-column label="日期" align="center">
+                                    <template slot-scope="scope">
+                                        {{getYearMouthDate(scope.$index,scope.row)}}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="签到" align="center">
+                                    <template slot-scope="scope">
+                                        {{getStartTime(scope.$index,scope.row)}}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="签出" align="center">
+                                    <template slot-scope="scope">
+                                        {{getEndTime(scope.$index,scope.row)}}
+                                    </template>
+                                </el-table-column>
                             </el-table-column>
                         </el-table>
                     </template>
                 </div>
             </el-collapse-item>
+
             <el-collapse-item title="查看学生签到/签出记录" name="students">
                 <div>
                     <template>
-                        <el-table class="table" :data="studentCheckInOutData" stripe border height="500">
-                            <el-table-column label="签到/签出记录表" align="center">
-                                <el-table-column prop="date" label="日期" align="center"></el-table-column>
-                                <el-table-column prop="checkIn" label="签到" align="center"></el-table-column>
-                                <el-table-column prop="checkOut" label="签出" align="center"></el-table-column>
-                                <el-table-column prop="status" label="状态" align="center"></el-table-column>
+                        <el-table :data="studentCheckInOutData" stripe border height="500">
+                            <el-table-column>
+                                <template slot="header">
+                                    <p class="p_left">签到/签出记录表</p>
+                                    <el-input class="p_right" size="mini" v-model="search"  placeholder="输入学号搜索"
+                                        @change="getCurrentStudentChenckInOutData"></el-input>
+                                </template>
+                                <el-table-column label="学号" prop="studentId" align="center"></el-table-column>
+                                <el-table-column label="日期" align="center">
+                                    <template slot-scope="scope">
+                                        {{getYearMouthDate(scope.$index,scope.row)}}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="签到" align="center">
+                                    <template slot-scope="scope">
+                                        {{getStartTime(scope.$index,scope.row)}}
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="签出" align="center">
+                                    <template slot-scope="scope">
+                                        {{getEndTime(scope.$index,scope.row)}}
+                                    </template>
+                                </el-table-column>
                             </el-table-column>
                         </el-table>
                     </template>
@@ -48,6 +77,8 @@
         </el-collapse>
     </div>
 </body>
+<!--jquery-->
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <!-- 引入bootstrap组件库 -->
 <script src="../bootstrap-4.3.1/js/bootstrap.min.js"></script>
 <!--引入vue组件库-->
@@ -55,238 +86,119 @@
 <!-- 引入element-ui组件库 -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script type="text/javascript">
-    new Vue
-        ({
-            el: '#app',
-            data: {
-                activeNames: [], //表示展开的列表名
-                studentCheckInOutData: [{
-                        date: '2019-08-31',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-30',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-29',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-28',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-27',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-26',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-25',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-24',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-23',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-22',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-20',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-19',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-18',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-17',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-16',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-15',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-14',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-13',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    }
-                ],
-                selfCheckInOutData: [{
-                        date: '2019-08-31',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-30',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-29',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-28',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-27',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-26',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-25',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-24',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-23',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-22',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-20',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-19',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-18',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-17',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-16',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-15',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-14',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    },
-                    {
-                        date: '2019-08-13',
-                        checkIn: '8:00',
-                        checkOut: '17:00',
-                        status: '1'
-                    }
-                ]
+    var checkInOutVue = new Vue({
+        el: '#checkInOutVueId',
+        data: {
+            search: '',
+            userId: '',
+            activeNames: [], //表示展开的列表名
+            studentCheckInOutData: [],
+            CurrentStudentChenckInOutData: [], //使用搜索框过滤后的学生签到签出数据
+            selfCheckInOutData: [],
+            students: [], //老师名下的学生
+        },
+        methods: {
+            getCurrentStudentChenckInOutData() {
+                this.currentStudentChenckInOutData = this.studentCheckInOutData.filter(data => !search || data
+                    .studentId.includes(search));
             },
-            methods: {
-                handleChange(val) //每点击一次折叠面板，就调用一次
-                {
-                    window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
-                    console.log(val);
+            getYearMouthDate(index, row) {
+                if(row.startTime==null) return "无";
+                else return row.startTime.split(" ")[0];
+                
+            },
+            getStartTime(index, row) {
+                if(row.startTime==null) return "无";
+                else return row.startTime.split(" ")[1]; 
+            },
+            getEndTime(index, row) {
+                if(row.endTime==null) return "无";
+                else return row.endTime.split(" ")[1];
+            },
+            handleChange(val) //每点击一次折叠面板，就调用一次
+            {
+                if (val.length > 0) {
+                    if (val[val.length - 1] == 'self') {
+                        this.getSelfCheckInOutData();
+                    } else if (val[val.length - 1] == 'student') {
+                        this.getStudentCheckInOutData();
+                        this.currentStudentChenckInOutData = this.studentCheckInOutData;
+                    }
                 }
-            }
-        })
+                //window.parent.setIframeHeight(window.parent.document.getElementById('child-frame')); 
+            },
+            getSelfCheckInOutData() {
+                var that = this;
+                $.ajax({
+                    url: '/attendance/getPages',
+                    type: 'post',
+                    data: {
+                        userId: that.userId,
+                        pageSize: 1000
+                    },
+                    success(res) {
+                        console.log("用户自身签到签出记录：",res);
+                        that.selfCheckInOutData = res.data.records;
+                    },
+                    error(res) {
+                        console.log(res);
+                    }
+                })
+            },
+            getStudentCheckInOutData() {
+                var that = this;
+                $.ajax({
+                    url: '/studentHasTeacher/getPages',
+                    type: 'post',
+                    data: {
+                        teacherId: that.userId,
+                        pageSize: 1000
+                    },
+                    async: false,
+                    success(res) {
+                        console.log("获取当前教师名下的所有学生，成功：", res);
+                        that.students = res.data.records;
+                    },
+                    error(res) {
+                        console.log("获取当前教师名下的所有学生，失败：", res);
+                    }
+                });
+                for (var i = 0; i < that.students.length; i++) {
+                    var studentId = that.students[i].studentId;
+                    $.ajax({
+                        url: '/attendance/getPages',
+                        type: 'post',
+                        data: {
+                            userId: studentId,
+                            pageSize: 1000
+                        },
+                        async: false,
+                        success(res) {
+                            for (var i = 0; i < res.data.records.length; i++) {
+
+                                var startTime = res.data.records[i].startTime;
+                                var endTime = res.data.records[i].endTime;
+
+                                that.studentCheckInOutData.push({
+                                    'studentId': studentId,
+                                    'startTime': startTime,
+                                    'endTime': endTime
+                                });
+                            }
+                        },
+                        error(res) {
+                            console.log(res);
+                        }
+                    })
+                }
+                console.log("名下所有学生的签到签出记录：", that.studentCheckInOutData);
+            },
+        }
+    });
+    window.onload = function () {
+        checkInOutVue.userId = window.parent.parent.indexVue.form.username;
+        window.parent.setIframeHeight(window.parent.document.getElementById('child-frame'));
+    };
 </script>
 
 </html>

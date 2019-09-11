@@ -18,7 +18,7 @@
             <el-table-column>
                 <template slot="header">
                     <p class="p_left">实验室图书清单</p>
-                    <el-button class="p_right" size="mini" type="primary" @click="addNewBookDialogVisibility=true"
+                    <el-button class="p_right" size="mini" type="primary" @click="initAddNewBookDialog()"
                         icon="el-icon-circle-plus-outline">添加</el-button>
                 </template>
                 <el-table-column label="书名" align="center">
@@ -26,6 +26,7 @@
                         <el-popover trigger="hover" placement="top" @show="getBookGenreItem(scope.$index,scope.row)">
                             <div>
                                 <p>书名：{{scope.row.name}}</p>
+                                <p>图书编号：{{scope.row.bookId}}</p>
                                 <p>作者：{{scope.row.author}}</p>
                                 <p>图书类型：{{hoverShowBookCurrentGenreItem}}</p>
                                 <p>存放地点：{{scope.row.location}}</p>
@@ -65,6 +66,9 @@
             :visible.sync="addNewBookDialogVisibility" :before-close="handleCloseAddNewBookDialog">
             <el-form :model="form" label-width="100px" :label-position="labelPosition" :rules="rules" ref="form"
                 class="demo-ruleForm">
+                <el-form-item label="图书编号" prop="bookId">
+                    <el-input v-model="form.bookId" readonly></el-input>
+                </el-form-item>
                 <el-form-item label="书名：" prop="bookName">
                     <el-input v-model="form.bookName"></el-input>
                 </el-form-item>
@@ -99,6 +103,9 @@
             :visible.sync="updateBookDialogVisibility" :before-close="handleCloseUpdateBookDialog">
             <el-form :model="form" label-width="100px" :label-position="labelPosition" :rules="rules" ref="form"
                 class="demo-ruleForm">
+                <el-form-item label="图书编号" prop="bookId">
+                    <el-input v-model="form.bookId" readonly></el-input>
+                </el-form-item>
                 <el-form-item label="书名：" prop="bookName">
                     <el-input v-model="form.bookName"></el-input>
                 </el-form-item>
@@ -145,13 +152,14 @@
             currentPage: 1,
             pageSize: 8, //每页条目数
             search: '',
-            hoverShowBookCurrentGenreItem:'',
+            hoverShowBookCurrentGenreItem: '',
             currentBookData: [], //使用搜索框匹配的图书数据
             addNewBookDialogVisibility: false, //添加新图书弹框
             updateBookDialogVisibility: false, //更新图书数据弹框
             labelPosition: 'right', //表单中label对齐方式
             form: {
-                id:'',
+                id: '',
+                bookId: '',
                 bookName: '',
                 author: '',
                 publicationYear: '',
@@ -186,19 +194,44 @@
             this.getBookArray();
         },
         methods: {
-            getBookGenreItem(index, row){
+            initAddNewBookDialog() {
+                //初始化添加新图书对话框
+                this.addNewBookDialogVisibility = true;
+                var currentYear = new Date().getFullYear();
+                if (this.bookArray.length == 0) this.form.bookId = currentYear + '001';
+                else {
+                    var lastBookId = this.bookArray[this.bookArray.length - 1].bookId;
+                    if (lastBookId.length == 0) {
+                        console.log("书的编号为空，出错！");
+                        return;
+                    }
+                    var lastBookIdYear = lastBookId.substring(0, 4);
+                    console.log(lastBookIdYear);
+                    if(lastBookIdYear<currentYear){
+                        this.form.bookId = currentYear + '001';
+                    }
+                    else if(lastBookIdYear==currentYear){
+                        this.form.bookId = lastBookId*1+1;
+                    }
+                    else{
+                        console.log("图书编号错误，编号前四位不符事实！");
+                        return;
+                    }
+                }
+            },
+            getBookGenreItem(index, row) {
                 var that = this;
                 $.ajax({
-                    url:'/dictionaryItem/getPages',
+                    url: '/dictionaryItem/getPages',
                     type: 'post',
                     data: {
-                        dicValue:2,
-                        itemValue:row.genreItem
+                        dicValue: 2,
+                        itemValue: row.genreItem
                     },
                     success(res) {
-                        that.hoverShowBookCurrentGenreItem=res.data.records[0].itemName;
+                        that.hoverShowBookCurrentGenreItem = res.data.records[0].itemName;
                     },
-                    error(res){
+                    error(res) {
                         console.log(res);
                     }
                 })
@@ -207,7 +240,8 @@
                 return this.currentBookData.length;
             },
             cleanFormData() {
-                this.form.id='',
+                this.form.id = '',
+                this.form.bookId = '',
                 this.form.bookName = '';
                 this.form.author = '';
                 this.form.publicationYear = '';
@@ -259,6 +293,7 @@
                             url: '/book/insert',
                             type: 'post',
                             data: {
+                                bookId:that.form.bookId,
                                 name: that.form.bookName,
                                 author: that.form.author,
                                 publicationYear: that.form.publicationYear,
@@ -300,11 +335,12 @@
                             url: '/book/update',
                             type: 'post',
                             data: {
-                                id:that.form.id,
+                                id: that.form.id,
+                                bookId: that.form.bookId,
                                 name: that.form.bookName,
                                 author: that.form.author,
                                 publicationYear: that.form.publicationYear,
-                                genreItem:that.form.genreItem,
+                                genreItem: that.form.genreItem,
                             },
                             success(res) {
                                 that.updateBookDialogVisibility = false;
@@ -334,8 +370,8 @@
                 $.ajax({
                     url: '/book/getPages',
                     type: 'post',
-                    data:{
-                        pageSize:100
+                    data: {
+                        pageSize: 100
                     },
                     async: false,
                     success(res) {
@@ -347,7 +383,8 @@
                 })
             },
             handleEdit(index, row) {
-                this.form.id=row.id;
+                this.form.id = row.id;
+                this.form.bookId=row.bookId;
                 this.form.bookName = row.name;
                 this.form.author = row.author;
                 this.form.publicationYear = row.publicationYear;
