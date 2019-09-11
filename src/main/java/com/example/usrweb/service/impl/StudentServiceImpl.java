@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,7 +136,7 @@ public class StudentServiceImpl  extends ServiceImpl<StudentDao, Student> implem
         queryWrapper.setEntity(student);
         IPage<Student> iPage = studentDao.selectPage(page, queryWrapper);
         studentList = iPage.getRecords();
-        List<Student> students = null;
+        List<Student> students = new ArrayList<>();
         for (Student student1:studentList){
             students.add(getStudentById(student1.getStudentId()));
         }
