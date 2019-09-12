@@ -104,7 +104,7 @@ public class StudentController extends AbstractController<StudentService,Student
 	@DS("slave")
 	public Object importStudent(@RequestParam("data") @ApiParam(value = "文件") MultipartFile multipartFile){
 		String result = null;
-		String parentPath = "C:/Users/Administrator/Desktop/软件工程专业实训2019/project/USRWeb/src/main/resources/static/images/excel/";
+		String parentPath = "C:/Users/Administrator/Desktop/project/file/excel/";
 		try {
 			if (userService.uploadFile(multipartFile, parentPath)){
 				String fileName = multipartFile.getOriginalFilename();
@@ -137,7 +137,7 @@ public class StudentController extends AbstractController<StudentService,Student
 	@DS("slave")
 	public Object uploadImage(@RequestParam("data") @ApiParam(value = "图片") MultipartFile multipartFile){
 		boolean result;
-		String parentPath = "C:/Users/Administrator/Desktop/软件工程专业实训2019/project/USRWeb/src/main/resources/static/images/student/";
+		String parentPath = "C:/Users/Administrator/Desktop/project/image/student";
 		try {
 			result = userService.uploadFile(multipartFile, parentPath);
 		}catch (Exception e){

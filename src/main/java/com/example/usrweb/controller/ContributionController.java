@@ -105,7 +105,7 @@ public class ContributionController extends AbstractController<ContributionServi
 	@DS("slave")
 	public Object uploadImage(@RequestParam("data") @ApiParam(value = "图片") MultipartFile multipartFile){
 		boolean result;
-		String parentPath = "C:/Users/Administrator/Desktop/软件工程专业实训2019/project/USRWeb/src/main/resources/static/images/news";
+		String parentPath = "C:/Users/Administrator/Desktop/project/image/news";
 		try {
 			result = userService.uploadFile(multipartFile, parentPath);
 		}catch (Exception e){

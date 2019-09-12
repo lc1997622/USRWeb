@@ -25,16 +25,16 @@
         <p>{{admissions.requirement}}</p>
         <hr>
         <h5>工作时间：</h5>
-        <p>{{admissions.requirement}}</p>
+        <p>{{admissions.workTime}}</p>
         <hr>
         <h5>其他要求：</h5>
-        <p>{{admissions.requirement}}</p>
+        <p>{{admissions.others}}</p>
         <hr>
         <h5>联系人：</h5>
-        <p>{{admissions.requirement}}</p>
+        <p>{{admissions.contact}}</p>
         <hr>
         <h5>联系方式：</h5>
-        <p>{{admissions.requirement}}</p>
+        <p>{{admissions.contactWay}}</p>
     </div>
 
 
@@ -86,7 +86,7 @@
             window.parent.scrollTo(0, 0);
             $.ajax({
                 url: "/recruit/getPages",
-                type: "get",
+                type: "post",
                 data: {
                     type: 0
                 },

@@ -101,7 +101,7 @@ public class DocumentController extends AbstractController<DocumentService,Docum
 		int size = (int) file.getSize();
 		System.out.println(fileName + "-->" + size);
 
-		String path = "/Users/apple/tempFIle";
+		String path = "C:/Users/Administrator/Desktop/project/file/document";
 		File dest = new File(path + "/" + fileName);
 		if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
 			dest.getParentFile().mkdir();

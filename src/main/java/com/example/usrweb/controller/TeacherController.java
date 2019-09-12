@@ -103,7 +103,7 @@ public class TeacherController extends AbstractController<TeacherService,Teacher
 	@DS("slave")
 	public Object uploadImage(@RequestParam("data") @ApiParam(value = "图片") MultipartFile multipartFile){
 		boolean result;
-		String parentPath = "C:/Users/Administrator/Desktop/软件工程专业实训2019/project/USRWeb/src/main/resources/static/images/teacher/";
+		String parentPath = "C:/Users/Administrator/Desktop/project/image/teacher";
 		try {
 			result = userService.uploadFile(multipartFile, parentPath);
 		}catch (Exception e){

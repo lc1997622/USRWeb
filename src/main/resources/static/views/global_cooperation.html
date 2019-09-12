@@ -151,7 +151,7 @@
             console.log("about us mounted");
             $.ajax({
                 url: "/international/getPages",
-                type: "get",
+                type: "post",
                 success(res) {
                     console.log(res.data.records);
                     childVue.cooperation = res.data.records;
